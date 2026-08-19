@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WorqDen - Login</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="register-page">
+
+<header class="main-header">
+
+    <div class="logo">WorqDen</div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="register.html">Sign up</a>
+    </nav>
+
+</header>
+
+
+<main class="register-wrapper">
+
+    <div class="register-card login-card">
+
+        <div class="register-heading">
+
+            <span class="form-badge">WELCOME BACK</span>
+
+            <h1>Login to WorqDen</h1>
+
+            <p>
+                Access your dashboard and manage your work opportunities.
+            </p>
+
+        </div>
+
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <p id="loginError" class="form-error hidden"></p>
+
+
+            <button
+                type="submit"
+                class="create-account-btn">
+
+                Login
+
+            </button>
+
+
+        </form>
+
+
+        <div class="login-link">
+
+            Don't have an account?
+
+            <a href="register.html">
+                Create one
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+document
+    .getElementById("loginForm")
+    .addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const errorBox =
+            document.getElementById("loginError");
+
+        errorBox.classList.add("hidden");
+        errorBox.textContent = "";
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({ email, password })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (response.ok) {
+
+                // Token aur user data save karte hain — password kabhi save nahi hota
+                localStorage.setItem(
+                    "worqdenToken",
+                    data.token
+                );
+
+                localStorage.setItem(
+                    "worqdenUser",
+                    JSON.stringify(data.user)
+                );
+
+
+                // userType ke hisaab se sahi dashboard pe bhejna hai
+                if (data.user.userType === "hotel") {
+
+                    window.location.href = "hotel-dashboard.html";
+
+                } else {
+
+                    window.location.href = "dashboard.html";
+
+                }
+
+            }
+
+            else {
+
+                errorBox.textContent =
+                    data.message ||
+                    "Login failed. Please try again.";
+
+                errorBox.classList.remove("hidden");
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            errorBox.textContent =
+                "Unable to connect to WorqDen server.";
+
+            errorBox.classList.remove("hidden");
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

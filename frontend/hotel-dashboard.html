@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WorqDen - Hotel Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="register-page">
+
+<header class="main-header">
+
+    <div class="logo">WorqDen</div>
+
+    <nav>
+        <span id="welcomeText" class="welcome-text"></span>
+        <a href="#" id="logoutBtn" class="logout-link">Logout</a>
+    </nav>
+
+</header>
+
+
+<main class="dashboard-wrapper">
+
+    <h1 class="dashboard-title">Hotel dashboard</h1>
+    <p class="dashboard-subtitle">Find and manage your workforce.</p>
+
+    <div class="dashboard-grid">
+
+        <a href="staff.html" class="dashboard-card">
+            <span class="dashboard-card-icon">🔍</span>
+            <h3>Find Staff</h3>
+            <p>Search workers by category, location and availability.</p>
+        </a>
+
+        <a href="profile.html" class="dashboard-card">
+            <span class="dashboard-card-icon">🏢</span>
+            <h3>My Profile</h3>
+            <p>View and update your organization details.</p>
+        </a>
+
+        <a href="requests.html" class="dashboard-card">
+            <span class="dashboard-card-icon">📋</span>
+            <h3>Hiring Requests</h3>
+            <p>Track the status of requests you've sent to workers.</p>
+        </a>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const userData =
+        JSON.parse(localStorage.getItem("worqdenUser") || "null");
+
+    if (!userData) {
+
+        window.location.href = "login.html";
+
+    }
+
+    else {
+
+        document.getElementById("welcomeText").textContent =
+            "Hi, " + (userData.organizationName || userData.name);
+
+    }
+
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener("click", function(event) {
+
+            event.preventDefault();
+
+            localStorage.removeItem("worqdenUser");
+            localStorage.removeItem("worqdenToken");
+
+            window.location.href = "login.html";
+
+        });
+
+</script>
+
+</body>
+</html>

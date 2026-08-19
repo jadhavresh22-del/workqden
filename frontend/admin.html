@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WorqDen - Admin</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="register-page">
+
+<header class="main-header">
+
+    <div class="logo">WorqDen <span class="admin-tag">Admin</span></div>
+
+    <nav>
+        <a href="#" id="logoutBtn" class="logout-link hidden">Logout</a>
+    </nav>
+
+</header>
+
+
+<main class="admin-wrapper">
+
+    <!-- LOGIN VIEW -->
+    <div id="adminLoginView" class="admin-login-card">
+
+        <span class="form-badge">RESTRICTED ACCESS</span>
+
+        <h1>Admin Login</h1>
+        <p>Enter the admin password to manage WorqDen.</p>
+
+        <form id="adminLoginForm">
+
+            <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter admin password" required>
+            </div>
+
+            <p id="adminLoginError" class="form-error hidden"></p>
+
+            <button type="submit" class="create-account-btn">Login</button>
+
+        </form>
+
+    </div>
+
+
+    <!-- DASHBOARD VIEW -->
+    <div id="adminDashboardView" class="hidden">
+
+        <h1 class="dashboard-title">Admin Dashboard</h1>
+        <p class="dashboard-subtitle">Manage users and monitor hiring activity.</p>
+
+        <div class="admin-stats">
+            <div class="admin-stat-card">
+                <span class="admin-stat-value" id="statTotalUsers">0</span>
+                <span class="admin-stat-label">Total Users</span>
+            </div>
+            <div class="admin-stat-card">
+                <span class="admin-stat-value" id="statWorkers">0</span>
+                <span class="admin-stat-label">Workers / Students</span>
+            </div>
+            <div class="admin-stat-card">
+                <span class="admin-stat-value" id="statHotels">0</span>
+                <span class="admin-stat-label">Hotels / Orgs</span>
+            </div>
+            <div class="admin-stat-card">
+                <span class="admin-stat-value" id="statRequests">0</span>
+                <span class="admin-stat-label">Hiring Requests</span>
+            </div>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="users">Users</button>
+            <button class="admin-tab" data-tab="requests">Hiring Requests</button>
+        </div>
+
+        <div id="adminUsersPanel" class="admin-panel">
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Email</th>
+                        <th>Location</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="adminUsersBody"></tbody>
+            </table>
+
+        </div>
+
+        <div id="adminRequestsPanel" class="admin-panel hidden">
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Hotel</th>
+                        <th>Worker</th>
+                        <th>Position</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="adminRequestsBody"></tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    let adminToken = sessionStorage.getItem("worqdenAdminToken");
+
+
+    function showDashboard() {
+
+        document.getElementById("adminLoginView").classList.add("hidden");
+        document.getElementById("adminDashboardView").classList.remove("hidden");
+        document.getElementById("logoutBtn").classList.remove("hidden");
+
+        loadUsers();
+        loadRequests();
+
+    }
+
+
+    if (adminToken) {
+
+        showDashboard();
+
+    }
+
+
+    document
+        .getElementById("adminLoginForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const errorBox = document.getElementById("adminLoginError");
+            errorBox.classList.add("hidden");
+
+            const password = document.getElementById("adminPassword").value;
+
+            try {
+
+                const response = await fetch("/api/admin/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    adminToken = data.token;
+                    sessionStorage.setItem("worqdenAdminToken", adminToken);
+                    showDashboard();
+
+                }
+
+                else {
+
+                    errorBox.textContent = data.message || "Login failed.";
+                    errorBox.classList.remove("hidden");
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+                errorBox.textContent = "Unable to connect to WorqDen server.";
+                errorBox.classList.remove("hidden");
+
+            }
+
+        });
+
+
+    async function loadUsers() {
+
+        try {
+
+            const response = await fetch("/api/admin/users", {
+                headers: { Authorization: "Bearer " + adminToken }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+
+                if (response.status === 401 || response.status === 403) {
+                    sessionStorage.removeItem("worqdenAdminToken");
+                    window.location.reload();
+                }
+
+                return;
+
+            }
+
+            const users = data.users;
+
+            document.getElementById("statTotalUsers").textContent = users.length;
+
+            document.getElementById("statWorkers").textContent =
+                users.filter((u) => u.userType === "staff" || u.userType === "student").length;
+
+            document.getElementById("statHotels").textContent =
+                users.filter((u) => u.userType === "hotel").length;
+
+            const typeLabels = { staff: "Worker", student: "Student", hotel: "Hotel" };
+
+            document.getElementById("adminUsersBody").innerHTML = users.map(function(u) {
+
+                return `
+                    <tr>
+                        <td>${u.userType === "hotel" ? (u.organizationName || u.name) : u.name}</td>
+                        <td><span class="admin-type-badge">${typeLabels[u.userType] || u.userType}</span></td>
+                        <td>${u.email}</td>
+                        <td>${[u.district, u.state].filter(Boolean).join(", ") || "—"}</td>
+                        <td><button class="admin-delete-btn" data-id="${u.id}">Delete</button></td>
+                    </tr>
+                `;
+
+            }).join("");
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    async function loadRequests() {
+
+        try {
+
+            const response = await fetch("/api/admin/requests", {
+                headers: { Authorization: "Bearer " + adminToken }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) return;
+
+            document.getElementById("statRequests").textContent = data.count;
+
+            document.getElementById("adminRequestsBody").innerHTML = data.requests.map(function(r) {
+
+                return `
+                    <tr>
+                        <td>${r.hotelName}</td>
+                        <td>${r.staffName}</td>
+                        <td>${r.position || "—"}</td>
+                        <td><span class="admin-status-badge admin-status-${r.status.toLowerCase()}">${r.status}</span></td>
+                    </tr>
+                `;
+
+            }).join("");
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    document.getElementById("adminUsersBody").addEventListener("click", async function(event) {
+
+        const btn = event.target.closest(".admin-delete-btn");
+
+        if (!btn) return;
+
+        if (!confirm("Delete this user permanently?")) return;
+
+        try {
+
+            const response = await fetch(`/api/admin/users/${btn.dataset.id}`, {
+                method: "DELETE",
+                headers: { Authorization: "Bearer " + adminToken }
+            });
+
+            if (response.ok) {
+
+                loadUsers();
+
+            }
+
+            else {
+
+                const data = await response.json();
+                alert(data.message || "Could not delete user.");
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+            alert("Unable to connect to WorqDen server.");
+
+        }
+
+    });
+
+
+    document.querySelectorAll(".admin-tab").forEach(function(tab) {
+
+        tab.addEventListener("click", function() {
+
+            document.querySelectorAll(".admin-tab").forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+
+            const target = tab.dataset.tab;
+
+            document.getElementById("adminUsersPanel").classList.toggle("hidden", target !== "users");
+            document.getElementById("adminRequestsPanel").classList.toggle("hidden", target !== "requests");
+
+        });
+
+    });
+
+
+    document.getElementById("logoutBtn").addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+        sessionStorage.removeItem("worqdenAdminToken");
+        window.location.reload();
+
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WorqDen - Requests</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="register-page">
+
+<header class="main-header">
+
+    <div class="logo">WorqDen</div>
+
+    <nav>
+        <a id="backLink" href="dashboard.html">Back to dashboard</a>
+        <a href="#" id="logoutBtn" class="logout-link">Logout</a>
+    </nav>
+
+</header>
+
+
+<main class="staff-wrapper">
+
+    <h1 id="requestsTitle" class="dashboard-title">Requests</h1>
+    <p id="requestsSubtitle" class="dashboard-subtitle"></p>
+
+    <div id="requestsList" class="requests-list"></div>
+
+</main>
+
+
+<script>
+
+    const userData =
+        JSON.parse(localStorage.getItem("worqdenUser") || "null");
+
+    if (!userData) {
+
+        window.location.href = "login.html";
+
+    }
+
+    const isHotel = userData.userType === "hotel";
+
+    document.getElementById("backLink").href =
+        isHotel ? "hotel-dashboard.html" : "dashboard.html";
+
+    document.getElementById("requestsTitle").textContent =
+        isHotel ? "Hiring Requests" : "My Requests";
+
+    document.getElementById("requestsSubtitle").textContent =
+        isHotel
+            ? "Track the status of requests you've sent to workers."
+            : "Requests from hotels and organizations wanting to hire you.";
+
+
+    function statusClass(status) {
+
+        if (status === "Accepted") return "request-status request-status-accepted";
+        if (status === "Rejected") return "request-status request-status-rejected";
+        return "request-status request-status-pending";
+
+    }
+
+
+    function requestCardHotel(r) {
+
+        return `
+            <div class="request-card">
+                <div class="request-card-main">
+                    <h3>${r.staffName}</h3>
+                    <p>${r.position || "Position not specified"}${r.date ? " • " + r.date : ""}</p>
+                </div>
+                <span class="${statusClass(r.status)}">${r.status}</span>
+            </div>
+        `;
+
+    }
+
+
+    function requestCardStaff(r) {
+
+        const actions = r.status === "Pending"
+            ? `
+                <div class="request-actions">
+                    <button class="request-accept-btn" data-id="${r.id}">Accept</button>
+                    <button class="request-reject-btn" data-id="${r.id}">Reject</button>
+                </div>
+              `
+            : `<span class="${statusClass(r.status)}">${r.status}</span>`;
+
+        return `
+            <div class="request-card">
+                <div class="request-card-main">
+                    <h3>${r.hotelName}</h3>
+                    <p>${r.position || "Position not specified"}${r.date ? " • " + r.date : ""}</p>
+                    ${r.message ? `<p class="request-message">"${r.message}"</p>` : ""}
+                </div>
+                ${actions}
+            </div>
+        `;
+
+    }
+
+
+    async function loadRequests() {
+
+        const listBox = document.getElementById("requestsList");
+
+        listBox.innerHTML = `<p class="staff-empty">Loading...</p>`;
+
+        try {
+
+            const url = isHotel
+                ? `/api/hiring-requests/hotel/${userData.id}`
+                : `/api/hiring-requests/staff/${userData.id}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (!response.ok) {
+
+                listBox.innerHTML = `<p class="staff-empty">${data.message || "Something went wrong."}</p>`;
+                return;
+
+            }
+
+            if (data.requests.length === 0) {
+
+                listBox.innerHTML = `<p class="staff-empty">No requests yet.</p>`;
+                return;
+
+            }
+
+            // Sabse naya request sabse upar
+            const sorted = data.requests.slice().reverse();
+
+            listBox.innerHTML = sorted
+                .map(isHotel ? requestCardHotel : requestCardStaff)
+                .join("");
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+            listBox.innerHTML = `<p class="staff-empty">Unable to connect to WorqDen server.</p>`;
+
+        }
+
+    }
+
+
+    document.getElementById("requestsList").addEventListener("click", async function(event) {
+
+        const acceptBtn = event.target.closest(".request-accept-btn");
+        const rejectBtn = event.target.closest(".request-reject-btn");
+
+        const btn = acceptBtn || rejectBtn;
+
+        if (!btn) return;
+
+        const action = acceptBtn ? "accept" : "reject";
+
+        try {
+
+            const response = await fetch(`/api/hiring-request/${btn.dataset.id}/${action}`, {
+                method: "PUT"
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+
+                loadRequests();
+
+            }
+
+            else {
+
+                alert(data.message || "Could not update request.");
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+            alert("Unable to connect to WorqDen server.");
+
+        }
+
+    });
+
+
+    loadRequests();
+
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener("click", function(event) {
+
+            event.preventDefault();
+
+            localStorage.removeItem("worqdenUser");
+            localStorage.removeItem("worqdenToken");
+
+            window.location.href = "login.html";
+
+        });
+
+</script>
+
+</body>
+</html>

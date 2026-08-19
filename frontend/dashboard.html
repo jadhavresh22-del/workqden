@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WorqDen - Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="register-page">
+
+<header class="main-header">
+
+    <div class="logo">WorqDen</div>
+
+    <nav>
+        <span id="welcomeText" class="welcome-text"></span>
+        <a href="#" id="logoutBtn" class="logout-link">Logout</a>
+    </nav>
+
+</header>
+
+
+<main class="dashboard-wrapper">
+
+    <h1 class="dashboard-title">Your dashboard</h1>
+    <p class="dashboard-subtitle">Manage your profile and hiring requests.</p>
+
+    <div class="dashboard-grid">
+
+        <a href="profile.html" class="dashboard-card">
+            <span class="dashboard-card-icon">🧑‍💼</span>
+            <h3>My Profile</h3>
+            <p>View and update your skills, availability and details.</p>
+        </a>
+
+        <a href="requests.html" class="dashboard-card">
+            <span class="dashboard-card-icon">📥</span>
+            <h3>My Requests</h3>
+            <p>See hiring requests sent to you and respond.</p>
+        </a>
+
+        <a href="profile.html" class="dashboard-card">
+            <span class="dashboard-card-icon">📄</span>
+            <h3>Availability</h3>
+            <p>Update whether you're currently available for work.</p>
+        </a>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const userData =
+        JSON.parse(localStorage.getItem("worqdenUser") || "null");
+
+    if (!userData) {
+
+        window.location.href = "login.html";
+
+    }
+
+    else {
+
+        document.getElementById("welcomeText").textContent =
+            "Hi, " + userData.name;
+
+    }
+
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener("click", function(event) {
+
+            event.preventDefault();
+
+            localStorage.removeItem("worqdenUser");
+            localStorage.removeItem("worqdenToken");
+
+            window.location.href = "login.html";
+
+        });
+
+</script>
+
+</body>
+</html>

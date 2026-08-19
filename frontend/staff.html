@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WorqDen - Find Staff</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="register-page">
+
+<header class="main-header">
+
+    <div class="logo">WorqDen</div>
+
+    <nav>
+        <a href="hotel-dashboard.html">Back to dashboard</a>
+        <a href="#" id="logoutBtn" class="logout-link">Logout</a>
+    </nav>
+
+</header>
+
+
+<main class="staff-wrapper">
+
+    <h1 class="dashboard-title">Find Staff</h1>
+    <p class="dashboard-subtitle">Search workers and students by category, location and availability.</p>
+
+
+    <div class="staff-filters">
+
+        <div class="form-group">
+
+            <label for="filterCategory">Category</label>
+
+            <select id="filterCategory">
+                <option value="">All categories</option>
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="filterSubcategory">Subcategory</label>
+
+            <select id="filterSubcategory">
+                <option value="">All subcategories</option>
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="filterState">State</label>
+
+            <select id="filterState">
+                <option value="">All states</option>
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="filterDistrict">District</label>
+
+            <select id="filterDistrict">
+                <option value="">All districts</option>
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="filterAvailability">Availability</label>
+
+            <select id="filterAvailability">
+                <option value="">Any</option>
+                <option value="Available now">Available now</option>
+                <option value="Part time">Part time</option>
+                <option value="Full time">Full time</option>
+                <option value="Weekends">Weekends</option>
+            </select>
+
+        </div>
+
+
+        <button id="searchBtn" class="create-account-btn staff-search-btn">
+            Search
+        </button>
+
+    </div>
+
+
+    <p id="staffResultCount" class="staff-result-count"></p>
+
+    <div id="staffResults" class="staff-results-grid"></div>
+
+
+    <div id="hireModalOverlay" class="hire-modal-overlay hidden">
+
+        <div class="hire-modal">
+
+            <h3 id="hireModalTitle">Hire worker</h3>
+
+            <div class="form-group">
+                <label for="hirePosition">Position</label>
+                <input type="text" id="hirePosition" placeholder="e.g. Waiter for wedding event">
+            </div>
+
+            <div class="form-group">
+                <label for="hireDate">Date</label>
+                <input type="date" id="hireDate">
+            </div>
+
+            <div class="form-group">
+                <label for="hireMessage">Message (optional)</label>
+                <textarea id="hireMessage" rows="3" placeholder="Any details for the worker"></textarea>
+            </div>
+
+            <div class="hire-modal-actions">
+                <button id="hireCancelBtn" class="hire-cancel-btn">Cancel</button>
+                <button id="hireConfirmBtn" class="create-account-btn hire-confirm-btn">Send Request</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const userData =
+        JSON.parse(localStorage.getItem("worqdenUser") || "null");
+
+    if (!userData) {
+
+        window.location.href = "login.html";
+
+    }
+
+
+    const categories = {
+
+        "Hospitality & Hotels": ["Waiter", "Chef", "Cook", "Kitchen Helper", "Housekeeping", "Receptionist", "Steward"],
+        "Events": ["Event Helper", "Catering Staff", "Event Coordinator", "Decoration Worker", "Photographer", "Videographer", "Sound Technician"],
+        "Home Services": ["Plumber", "Electrician", "Carpenter", "Painter", "Cleaner", "AC Technician", "Appliance Repair"],
+        "Construction": ["Mason", "Welder", "Carpenter", "Painter", "Electrician", "Plumber"],
+        "Transportation": ["Driver", "Delivery Partner", "Loader", "Travel Assistant", "Transport Helper"],
+        "Beauty & Personal Care": ["Hair Stylist", "Makeup Artist", "Beautician", "Mehendi Artist", "Nail Artist"],
+        "Education": ["Tutor", "Teaching Assistant", "Subject Expert", "Academic Support"],
+        "Office & Business": ["Data Entry", "Receptionist", "Office Assistant", "Sales Executive", "Customer Support"],
+        "Healthcare": ["Caretaker", "Nursing Assistant", "Home Care Worker", "Medical Support"],
+        "Technology": ["Web Developer", "Graphic Designer", "Video Editor", "IT Support", "Social Media Manager"],
+        "Retail": ["Store Assistant", "Cashier", "Sales Staff", "Stock Assistant"],
+        "Cleaning & Maintenance": ["House Cleaner", "Office Cleaner", "Gardener", "Maintenance Worker"],
+        "Security": ["Security Guard", "Event Security", "Night Guard"],
+        "Agriculture": ["Farm Worker", "Gardener", "Harvest Worker", "Livestock Assistant"]
+
+    };
+
+    const statesDistricts = {
+
+        "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Nellore", "Prakasam", "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"],
+
+        "Arunachal Pradesh": ["Papum Pare", "East Siang", "West Siang", "Lower Subansiri", "Upper Subansiri", "Tawang", "West Kameng", "East Kameng"],
+
+        "Assam": ["Kamrup", "Kamrup Metropolitan", "Dibrugarh", "Jorhat", "Nagaon", "Barpeta", "Cachar", "Sonitpur", "Tinsukia", "Golaghat"],
+
+        "Bihar": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Darbhanga", "Purnia", "Nalanda", "Rohtas", "Saran", "Vaishali", "West Champaran", "East Champaran"],
+
+        "Chhattisgarh": ["Raipur", "Bilaspur", "Durg", "Korba", "Raigarh", "Rajnandgaon", "Jagdalpur", "Ambikapur"],
+
+        "Goa": ["North Goa", "South Goa"],
+
+        "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh", "Gandhinagar", "Anand", "Kutch"],
+
+        "Haryana": ["Faridabad", "Gurugram", "Panipat", "Ambala", "Hisar", "Karnal", "Rohtak", "Sonipat", "Yamunanagar", "Panchkula"],
+
+        "Himachal Pradesh": ["Shimla", "Kangra", "Mandi", "Solan", "Una", "Hamirpur", "Bilaspur", "Kullu"],
+
+        "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Deoghar", "Hazaribagh", "Giridih"],
+
+        "Karnataka": ["Bengaluru Urban", "Bengaluru Rural", "Mysuru", "Mangaluru", "Hubli-Dharwad", "Belagavi", "Kalaburagi", "Ballari", "Shivamogga", "Tumakuru", "Davanagere", "Udupi"],
+
+        "Kerala": ["Thiruvananthapuram", "Kollam", "Ernakulam", "Kozhikode", "Thrissur", "Alappuzha", "Kannur", "Kottayam", "Palakkad", "Malappuram", "Wayanad", "Idukki"],
+
+        "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain", "Sagar", "Rewa", "Satna", "Dewas", "Ratlam"],
+
+        "Maharashtra": ["Mumbai City", "Mumbai Suburban", "Pune", "Nagpur", "Nashik", "Thane", "Aurangabad", "Solapur", "Kolhapur", "Amravati", "Nanded", "Sangli"],
+
+        "Manipur": ["Imphal East", "Imphal West", "Thoubal", "Bishnupur", "Churachandpur"],
+
+        "Meghalaya": ["East Khasi Hills", "West Khasi Hills", "Ri Bhoi", "West Garo Hills", "East Garo Hills"],
+
+        "Mizoram": ["Aizawl", "Lunglei", "Champhai", "Serchhip"],
+
+        "Nagaland": ["Kohima", "Dimapur", "Mokokchung", "Tuensang"],
+
+        "Odisha": ["Khordha", "Cuttack", "Puri", "Ganjam", "Sundargarh", "Sambalpur", "Balasore", "Mayurbhanj"],
+
+        "Punjab": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Hoshiarpur", "Ferozepur"],
+
+        "Rajasthan": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner", "Ajmer", "Alwar", "Bharatpur", "Sikar", "Bhilwara"],
+
+        "Sikkim": ["East Sikkim", "West Sikkim", "North Sikkim", "South Sikkim"],
+
+        "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tirunelveli", "Erode", "Vellore", "Thanjavur", "Tiruppur"],
+
+        "Telangana": ["Hyderabad", "Rangareddy", "Warangal", "Nizamabad", "Karimnagar", "Khammam", "Medak", "Nalgonda"],
+
+        "Tripura": ["West Tripura", "South Tripura", "North Tripura", "Dhalai"],
+
+        "Uttar Pradesh": ["Lucknow", "Kanpur", "Ghaziabad", "Agra", "Meerut", "Varanasi", "Prayagraj", "Bareilly", "Aligarh", "Moradabad", "Noida (Gautam Buddha Nagar)", "Gorakhpur"],
+
+        "Uttarakhand": ["Dehradun", "Haridwar", "Nainital", "Udham Singh Nagar", "Almora", "Pauri Garhwal"],
+
+        "West Bengal": ["Kolkata", "North 24 Parganas", "South 24 Parganas", "Howrah", "Hooghly", "Nadia", "Darjeeling", "Purba Bardhaman", "Malda"],
+
+        "Andaman and Nicobar Islands": ["South Andaman", "North and Middle Andaman", "Nicobar"],
+
+        "Chandigarh": ["Chandigarh"],
+
+        "Dadra and Nagar Haveli and Daman and Diu": ["Dadra and Nagar Haveli", "Daman", "Diu"],
+
+        "Delhi": ["New Delhi", "North Delhi", "South Delhi", "East Delhi", "West Delhi", "Central Delhi", "North East Delhi", "North West Delhi", "South East Delhi", "South West Delhi", "Shahdara"],
+
+        "Jammu and Kashmir": ["Srinagar", "Jammu", "Baramulla", "Anantnag", "Udhampur", "Kathua", "Pulwama"],
+
+        "Ladakh": ["Leh", "Kargil"],
+
+        "Lakshadweep": ["Lakshadweep"],
+
+        "Puducherry": ["Puducherry", "Karaikal", "Mahe", "Yanam"]
+
+    };
+
+
+    const categorySelect = document.getElementById("filterCategory");
+    const subcategorySelect = document.getElementById("filterSubcategory");
+    const stateSelect = document.getElementById("filterState");
+    const districtSelect = document.getElementById("filterDistrict");
+
+
+    Object.keys(categories).forEach(function(name) {
+
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        categorySelect.appendChild(option);
+
+    });
+
+    Object.keys(statesDistricts).forEach(function(name) {
+
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        stateSelect.appendChild(option);
+
+    });
+
+
+    categorySelect.addEventListener("change", function() {
+
+        subcategorySelect.innerHTML = '<option value="">All subcategories</option>';
+
+        const selected = categories[categorySelect.value] || [];
+
+        selected.forEach(function(name) {
+
+            const option = document.createElement("option");
+            option.value = name;
+            option.textContent = name;
+            subcategorySelect.appendChild(option);
+
+        });
+
+    });
+
+
+    stateSelect.addEventListener("change", function() {
+
+        districtSelect.innerHTML = '<option value="">All districts</option>';
+
+        const selected = statesDistricts[stateSelect.value] || [];
+
+        selected.forEach(function(name) {
+
+            const option = document.createElement("option");
+            option.value = name;
+            option.textContent = name;
+            districtSelect.appendChild(option);
+
+        });
+
+    });
+
+
+    function staffCard(staff) {
+
+        const initial = (staff.name || "?").charAt(0).toUpperCase();
+
+        return `
+            <div class="staff-card">
+                <div class="staff-card-top">
+                    <div class="staff-card-avatar">${initial}</div>
+                    <div>
+                        <h3>${staff.name}</h3>
+                        <span class="staff-card-role">${staff.subcategory || staff.category || "Worker"}</span>
+                    </div>
+                </div>
+                <div class="staff-card-tags">
+                    ${staff.experience ? `<span class="staff-tag">${staff.experience}</span>` : ""}
+                    ${staff.availability ? `<span class="staff-tag staff-tag-accent">${staff.availability}</span>` : ""}
+                </div>
+                <p class="staff-card-location">${[staff.district, staff.state].filter(Boolean).join(", ") || "Location not specified"}</p>
+                <button class="staff-hire-btn" data-staff-id="${staff.id}" data-staff-name="${staff.name}" data-staff-role="${staff.subcategory || staff.category || ""}">
+                    Hire
+                </button>
+            </div>
+        `;
+
+    }
+
+
+    async function searchStaff() {
+
+        const params = new URLSearchParams();
+
+        if (categorySelect.value) params.set("category", categorySelect.value);
+        if (subcategorySelect.value) params.set("subcategory", subcategorySelect.value);
+        if (stateSelect.value) params.set("state", stateSelect.value);
+        if (districtSelect.value) params.set("district", districtSelect.value);
+        if (document.getElementById("filterAvailability").value) {
+            params.set("availability", document.getElementById("filterAvailability").value);
+        }
+
+        const resultsBox = document.getElementById("staffResults");
+        const countText = document.getElementById("staffResultCount");
+
+        resultsBox.innerHTML = "";
+        countText.textContent = "Searching...";
+
+        try {
+
+            const response = await fetch(`/api/staff?${params.toString()}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+
+                countText.textContent = data.message || "Something went wrong.";
+                return;
+
+            }
+
+            countText.textContent = `${data.count} worker(s) found`;
+
+            if (data.count === 0) {
+
+                resultsBox.innerHTML = `<p class="staff-empty">No workers match these filters yet.</p>`;
+                return;
+
+            }
+
+            resultsBox.innerHTML = data.staff.map(staffCard).join("");
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+            countText.textContent = "Unable to connect to WorqDen server.";
+
+        }
+
+    }
+
+
+    document.getElementById("searchBtn").addEventListener("click", searchStaff);
+
+    // Page load par bhi ek baar sab dikha do (bina filter)
+    searchStaff();
+
+
+    // ===== HIRE MODAL LOGIC =====
+
+    let selectedStaffId = null;
+
+    const hireModalOverlay = document.getElementById("hireModalOverlay");
+    const hireModalTitle = document.getElementById("hireModalTitle");
+
+    document.getElementById("staffResults").addEventListener("click", function(event) {
+
+        const btn = event.target.closest(".staff-hire-btn");
+
+        if (!btn) return;
+
+        selectedStaffId = btn.dataset.staffId;
+
+        hireModalTitle.textContent = "Hire " + btn.dataset.staffName;
+        document.getElementById("hirePosition").value = btn.dataset.staffRole || "";
+        document.getElementById("hireDate").value = "";
+        document.getElementById("hireMessage").value = "";
+
+        hireModalOverlay.classList.remove("hidden");
+
+    });
+
+    document.getElementById("hireCancelBtn").addEventListener("click", function() {
+
+        hireModalOverlay.classList.add("hidden");
+        selectedStaffId = null;
+
+    });
+
+    document.getElementById("hireConfirmBtn").addEventListener("click", async function() {
+
+        if (!selectedStaffId) return;
+
+        try {
+
+            const response = await fetch("/api/hiring-request", {
+
+                method: "POST",
+
+                headers: { "Content-Type": "application/json" },
+
+                body: JSON.stringify({
+                    hotelId: userData.id,
+                    staffId: selectedStaffId,
+                    position: document.getElementById("hirePosition").value.trim(),
+                    date: document.getElementById("hireDate").value,
+                    message: document.getElementById("hireMessage").value.trim()
+                })
+
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+
+                alert("Hiring request sent!");
+                hireModalOverlay.classList.add("hidden");
+                selectedStaffId = null;
+
+            }
+
+            else {
+
+                alert(data.message || "Could not send request.");
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+            alert("Unable to connect to WorqDen server.");
+
+        }
+
+    });
+
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener("click", function(event) {
+
+            event.preventDefault();
+
+            localStorage.removeItem("worqdenUser");
+            localStorage.removeItem("worqdenToken");
+
+            window.location.href = "login.html";
+
+        });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WorqDen - My Profile</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="register-page">
+
+<header class="main-header">
+
+    <div class="logo">WorqDen</div>
+
+    <nav>
+        <a id="backLink" href="dashboard.html">Back to dashboard</a>
+        <a href="#" id="logoutBtn" class="logout-link">Logout</a>
+    </nav>
+
+</header>
+
+
+<main class="profile-wrapper">
+
+    <div id="profileCard" class="profile-card hidden">
+
+        <div class="profile-header">
+
+            <div class="profile-avatar" id="profileAvatar"></div>
+
+            <div>
+                <h1 id="profileName"></h1>
+                <span id="profileTypeBadge" class="profile-type-badge"></span>
+            </div>
+
+        </div>
+
+
+        <div class="profile-grid" id="profileGrid">
+            <!-- Filled dynamically by JS -->
+        </div>
+
+
+        <div id="profileAbout" class="profile-about"></div>
+
+    </div>
+
+
+    <p id="profileLoading" class="profile-loading">Loading your profile...</p>
+
+</main>
+
+
+<script>
+
+    const userData =
+        JSON.parse(localStorage.getItem("worqdenUser") || "null");
+
+    if (!userData) {
+
+        window.location.href = "login.html";
+
+    }
+
+
+    function fieldRow(label, value) {
+
+        if (!value) return "";
+
+        return `
+            <div class="profile-field">
+                <span class="profile-field-label">${label}</span>
+                <span class="profile-field-value">${value}</span>
+            </div>
+        `;
+
+    }
+
+
+    async function loadProfile() {
+
+        try {
+
+            const response =
+                await fetch(`/api/profile/${encodeURIComponent(userData.email)}`);
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+
+                document.getElementById("profileLoading").textContent =
+                    data.message || "Could not load profile.";
+
+                return;
+
+            }
+
+            const user = data.user;
+
+            document.getElementById("backLink").href =
+                user.userType === "hotel" ? "hotel-dashboard.html" : "dashboard.html";
+
+            document.getElementById("profileName").textContent =
+                user.userType === "hotel" ? (user.organizationName || user.name) : user.name;
+
+            document.getElementById("profileAvatar").textContent =
+                (user.name || "?").charAt(0).toUpperCase();
+
+            const typeLabels = {
+                staff: "Worker / Professional",
+                student: "Student",
+                hotel: "Hotel / Organization"
+            };
+
+            document.getElementById("profileTypeBadge").textContent =
+                typeLabels[user.userType] || user.userType;
+
+
+            let gridHTML = "";
+
+            if (user.userType === "hotel") {
+
+                gridHTML += fieldRow("Organization Type", user.organizationType);
+                gridHTML += fieldRow("Contact Person", user.name);
+
+            } else {
+
+                gridHTML += fieldRow("Category", user.category);
+                gridHTML += fieldRow("Subcategory", user.subcategory);
+                gridHTML += fieldRow("Experience", user.experience);
+                gridHTML += fieldRow("Availability", user.availability);
+
+                if (user.skills && user.skills.length) {
+
+                    gridHTML += fieldRow("Skills", user.skills.join(", "));
+
+                }
+
+            }
+
+            gridHTML += fieldRow("Email", user.email);
+            gridHTML += fieldRow("Phone", user.phone);
+            gridHTML += fieldRow("State", user.state);
+            gridHTML += fieldRow("District", user.district);
+
+            document.getElementById("profileGrid").innerHTML = gridHTML;
+
+            document.getElementById("profileAbout").textContent =
+                user.about || "No description added yet.";
+
+            document.getElementById("profileLoading").classList.add("hidden");
+            document.getElementById("profileCard").classList.remove("hidden");
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            document.getElementById("profileLoading").textContent =
+                "Unable to connect to WorqDen server.";
+
+        }
+
+    }
+
+
+    loadProfile();
+
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener("click", function(event) {
+
+            event.preventDefault();
+
+            localStorage.removeItem("worqdenUser");
+            localStorage.removeItem("worqdenToken");
+
+            window.location.href = "login.html";
+
+        });
+
+</script>
+
+</body>
+</html>
