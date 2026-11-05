@@ -1,221 +1,597 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>WorqDen - Requests</title>
-
+    <title>WorqDen — My Requests & Applications</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+<body class="dashboard-layout-body">
 
-<body class="register-page">
+    <!-- Left Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <a href="dashboard.html" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg class="logo-svg-mark" viewBox="0 0 64 64" width="30" height="30" style="flex-shrink:0;">
+                    <defs>
+                        <linearGradient id="wqLogoReq" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#F97316"/>
+                            <stop offset="100%" stop-color="#10B981"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="64" height="64" rx="16" fill="#0F172A"/>
+                    <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoReq)" stroke-width="2.5"/>
+                    <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                </svg>
+                <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--primary-navy, #0F172A);">Worq<span style="color: #F97316;">Den</span></span>
+            </a>
+        </div>
 
-<header class="main-header">
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" id="sidebarDashLink" class="sidebar-link">
+                <span class="sidebar-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="hotels.html" id="sidebarBrowseLink" class="sidebar-link">
+                <span class="sidebar-icon">🏨</span>
+                <span>Find Hotels</span>
+            </a>
+            <a href="requests.html" class="sidebar-link active">
+                <span class="sidebar-icon">📥</span>
+                <span>My Requests</span>
+            </a>
+            <a href="profile.html" class="sidebar-link">
+                <span class="sidebar-icon">👤</span>
+                <span>My Profile</span>
+            </a>
+        </nav>
 
-    <div class="logo">WorqDen</div>
-
-    <nav>
-        <a id="backLink" href="dashboard.html">Back to dashboard</a>
-        <a href="#" id="logoutBtn" class="logout-link">Logout</a>
-    </nav>
-
-</header>
-
-
-<main class="staff-wrapper">
-
-    <h1 id="requestsTitle" class="dashboard-title">Requests</h1>
-    <p id="requestsSubtitle" class="dashboard-subtitle"></p>
-
-    <div id="requestsList" class="requests-list"></div>
-
-</main>
-
-
-<script>
-
-    const userData =
-        JSON.parse(localStorage.getItem("worqdenUser") || "null");
-
-    if (!userData) {
-
-        window.location.href = "login.html";
-
-    }
-
-    const isHotel = userData.userType === "hotel";
-
-    document.getElementById("backLink").href =
-        isHotel ? "hotel-dashboard.html" : "dashboard.html";
-
-    document.getElementById("requestsTitle").textContent =
-        isHotel ? "Hiring Requests" : "My Requests";
-
-    document.getElementById("requestsSubtitle").textContent =
-        isHotel
-            ? "Track the status of requests you've sent to workers."
-            : "Requests from hotels and organizations wanting to hire you.";
-
-
-    function statusClass(status) {
-
-        if (status === "Accepted") return "request-status request-status-accepted";
-        if (status === "Rejected") return "request-status request-status-rejected";
-        return "request-status request-status-pending";
-
-    }
-
-
-    function requestCardHotel(r) {
-
-        return `
-            <div class="request-card">
-                <div class="request-card-main">
-                    <h3>${r.staffName}</h3>
-                    <p>${r.position || "Position not specified"}${r.date ? " • " + r.date : ""}</p>
+        <div class="sidebar-footer">
+            <div class="user-mini-card">
+                <div class="user-avatar-small" id="sidebarAvatar">
+                    <span id="sidebarInitial">👤</span>
+                    <img id="sidebarAvatarImg" class="hidden" alt="Avatar">
                 </div>
-                <span class="${statusClass(r.status)}">${r.status}</span>
+                <div class="user-mini-info">
+                    <strong id="sidebarUserName">User</strong>
+                    <span id="sidebarUserRole" class="mini-role-tag">Member</span>
+                </div>
             </div>
-        `;
+            <button type="button" class="btn-logout" onclick="handleLogout()">
+                <span>🚪 Logout</span>
+            </button>
+        </div>
+    </aside>
 
-    }
-
-
-    function requestCardStaff(r) {
-
-        const actions = r.status === "Pending"
-            ? `
-                <div class="request-actions">
-                    <button class="request-accept-btn" data-id="${r.id}">Accept</button>
-                    <button class="request-reject-btn" data-id="${r.id}">Reject</button>
-                </div>
-              `
-            : `<span class="${statusClass(r.status)}">${r.status}</span>`;
-
-        return `
-            <div class="request-card">
-                <div class="request-card-main">
-                    <h3>${r.hotelName}</h3>
-                    <p>${r.position || "Position not specified"}${r.date ? " • " + r.date : ""}</p>
-                    ${r.message ? `<p class="request-message">"${r.message}"</p>` : ""}
-                </div>
-                ${actions}
+    <!-- Main Content Area -->
+    <main class="dashboard-main-content">
+        <!-- Top Navigation Header Strip -->
+        <header class="dashboard-topbar">
+            <div class="topbar-search">
+                <span style="font-size: 14px;">🔍</span>
+                <input type="text" id="reqSearchInput" placeholder="Filter requests by position, hotel, or status..." onkeyup="filterRequestsLive()">
             </div>
-        `;
+            <div class="topbar-actions">
+                <a href="profile.html" class="topbar-user-profile">
+                    <div class="avatar-circle-sm" id="topbarAvatarBox">
+                        <span id="topbarInitial">👤</span>
+                        <img id="topbarAvatarImg" class="hidden" alt="Avatar">
+                    </div>
+                    <span id="topbarName" class="topbar-user-name">User</span>
+                </a>
+            </div>
+        </header>
 
-    }
+        <div class="dashboard-scrollable-body">
+            <!-- Screen 7: Header & Filter Tabs -->
+            <section class="requests-header-section">
+                <div>
+                    <h1 class="dash-section-title" style="font-size: 26px;">My Requests & Applications</h1>
+                    <p class="dash-section-subtitle">Track your sent job applications and incoming direct hiring invitations.</p>
+                </div>
 
+                <!-- Tabs (Screen 7) -->
+                <div class="request-filter-tabs">
+                    <button type="button" class="req-tab-btn active" onclick="switchTab('all')">
+                        <span>All (<span id="countAll">0</span>)</span>
+                    </button>
+                    <button type="button" class="req-tab-btn" onclick="switchTab('pending')">
+                        <span>Pending (<span id="countPending">0</span>)</span>
+                    </button>
+                    <button type="button" class="req-tab-btn" onclick="switchTab('accepted')">
+                        <span>Accepted (<span id="countAccepted">0</span>)</span>
+                    </button>
+                    <button type="button" class="req-tab-btn" onclick="switchTab('rejected')">
+                        <span>Rejected (<span id="countRejected">0</span>)</span>
+                    </button>
+                    <button type="button" class="req-tab-btn" onclick="switchTab('cancelled')">
+                        <span>Cancelled (<span id="countCancelled">0</span>)</span>
+                    </button>
+                </div>
+            </section>
 
-    async function loadRequests() {
+            <!-- Screen 7: Requests Grid / List -->
+            <div id="requestsGridContainer" class="requests-cards-grid">
+                <div class="loading-spinner-box">Loading requests... ⏳</div>
+            </div>
+        </div>
+    </main>
 
-        const listBox = document.getElementById("requestsList");
+    <!-- ==========================================
+         SCREEN 11: REQUEST CONFIRMATION / DETAIL MODAL
+         ========================================== -->
+    <div id="requestDetailModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDetailModal()">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Request Details</h3>
+                <button type="button" class="modal-close-btn" onclick="closeDetailModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Status Icon Header -->
+                <div class="detail-status-banner" id="modalDetailBanner">
+                    <div class="status-icon-circle" id="modalStatusIcon">✓</div>
+                    <div>
+                        <h4 id="modalStatusTitle" style="margin: 0; font-size: 18px;">Request Accepted!</h4>
+                        <span id="modalStatusSubtitle" style="font-size: 13px; opacity: 0.9;">Your application has been approved by the employer.</span>
+                    </div>
+                </div>
 
-        listBox.innerHTML = `<p class="staff-empty">Loading...</p>`;
+                <!-- Request Info Table -->
+                <div class="detail-info-grid" style="margin: 20px 0;">
+                    <div class="detail-info-item">
+                        <span class="lbl">Role / Position:</span>
+                        <strong id="modalDetailPosition">-</strong>
+                    </div>
+                    <div class="detail-info-item" id="modalDetailPayShiftBox" style="display:none;">
+                        <span class="lbl">Compensation & Shift:</span>
+                        <strong id="modalDetailPayShift" style="color: #059669;">-</strong>
+                    </div>
+                    <div class="detail-info-item">
+                        <span class="lbl">Employer / Hotel:</span>
+                        <strong id="modalDetailHotel">-</strong>
+                    </div>
+                    <div class="detail-info-item">
+                        <span class="lbl">Candidate:</span>
+                        <span id="modalDetailWorker">-</span>
+                    </div>
+                    <div class="detail-info-item">
+                        <span class="lbl">Applied Date:</span>
+                        <span id="modalDetailDate">-</span>
+                    </div>
+                </div>
 
-        try {
+                <!-- Screen 11: Message Feedback Card -->
+                <div class="hotel-feedback-card" id="modalFeedbackBox">
+                    <label class="feedback-lbl">💬 Message / Instructions</label>
+                    <p id="modalDetailMessage" class="feedback-text">
+                        "We are pleased to inform you that your request has been accepted. Please report to the reception desk on Saturday at 9:00 AM with your ID proof."
+                    </p>
+                </div>
 
-            const url = isHotel
-                ? `/api/hiring-requests/hotel/${userData.id}`
-                : `/api/hiring-requests/staff/${userData.id}`;
+                <!-- Hotel Actions (Accept/Reject if pending) -->
+                <div id="hotelActionButtonsRow" class="hidden" style="margin-top: 18px; display: flex; gap: 10px;">
+                    <button type="button" class="btn btn-success btn-block" onclick="updateCurrentModalStatus('accepted')">
+                        <span>✓ Accept Candidate</span>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-block" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="updateCurrentModalStatus('rejected')">
+                        <span>✕ Reject</span>
+                    </button>
+                </div>
 
-            const response = await fetch(url);
-            const data = await response.json();
+                <!-- Universal Cancel Action (if pending) -->
+                <div id="cancelActionRow" class="hidden" style="margin-top: 12px;">
+                    <button type="button" class="btn btn-danger-soft btn-block" onclick="handleCancelCurrentModal()">
+                        <span>🚫 Cancel / Withdraw Request</span>
+                    </button>
+                </div>
 
-            if (!response.ok) {
+                <div class="modal-actions-row" style="margin-top: 16px;">
+                    <button type="button" class="btn btn-outline btn-block" onclick="closeDetailModal()">Close Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                listBox.innerHTML = `<p class="staff-empty">${data.message || "Something went wrong."}</p>`;
+    <script>
+        let currentUser = null;
+        let allRequestsList = [];
+        let activeTab = 'all';
+        let currentModalReqId = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            currentUser = JSON.parse(localStorage.getItem('worqdenUser') || 'null');
+            if (!currentUser) {
+                window.location.href = 'login.html';
                 return;
-
             }
 
-            if (data.requests.length === 0) {
-
-                listBox.innerHTML = `<p class="staff-empty">No requests yet.</p>`;
-                return;
-
-            }
-
-            // Sabse naya request sabse upar
-            const sorted = data.requests.slice().reverse();
-
-            listBox.innerHTML = sorted
-                .map(isHotel ? requestCardHotel : requestCardStaff)
-                .join("");
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-            listBox.innerHTML = `<p class="staff-empty">Unable to connect to WorqDen server.</p>`;
-
-        }
-
-    }
-
-
-    document.getElementById("requestsList").addEventListener("click", async function(event) {
-
-        const acceptBtn = event.target.closest(".request-accept-btn");
-        const rejectBtn = event.target.closest(".request-reject-btn");
-
-        const btn = acceptBtn || rejectBtn;
-
-        if (!btn) return;
-
-        const action = acceptBtn ? "accept" : "reject";
-
-        try {
-
-            const response = await fetch(`/api/hiring-request/${btn.dataset.id}/${action}`, {
-                method: "PUT"
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-
-                loadRequests();
-
-            }
-
-            else {
-
-                alert(data.message || "Could not update request.");
-
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-            alert("Unable to connect to WorqDen server.");
-
-        }
-
-    });
-
-
-    loadRequests();
-
-
-    document
-        .getElementById("logoutBtn")
-        .addEventListener("click", function(event) {
-
-            event.preventDefault();
-
-            localStorage.removeItem("worqdenUser");
-            localStorage.removeItem("worqdenToken");
-
-            window.location.href = "login.html";
-
+            setupUserUI();
+            loadRequests();
         });
 
-</script>
+        function setupUserUI() {
+            document.getElementById('sidebarUserName').textContent = currentUser.organizationName || currentUser.name || 'User';
+            document.getElementById('topbarName').textContent = currentUser.organizationName || currentUser.name || 'User';
 
+            const isHotel = currentUser.userType === 'hotel';
+            document.getElementById('sidebarUserRole').textContent = isHotel ? 'Hotel Partner' : (currentUser.subcategory || currentUser.category || 'Worker');
+
+            if (isHotel) {
+                document.getElementById('sidebarDashLink').href = 'hotel-dashboard.html';
+                document.getElementById('sidebarBrowseLink').href = 'staff.html';
+                document.getElementById('sidebarBrowseLink').innerHTML = '<span class="sidebar-icon">👥</span><span>Find Staff</span>';
+            }
+
+            const sImg = document.getElementById('sidebarAvatarImg');
+            const tImg = document.getElementById('topbarAvatarImg');
+            const sInit = document.getElementById('sidebarInitial');
+            const tInit = document.getElementById('topbarInitial');
+            const initChar = ((currentUser.organizationName || currentUser.name || 'U').charAt(0)).toUpperCase();
+
+            sInit.textContent = initChar;
+            tInit.textContent = initChar;
+
+            if (currentUser.profileImage && currentUser.profileImage.trim()) {
+                sImg.src = currentUser.profileImage;
+                sImg.classList.remove('hidden');
+                sInit.classList.add('hidden');
+                sImg.onerror = function() {
+                    this.classList.add('hidden');
+                    sInit.classList.remove('hidden');
+                };
+
+                tImg.src = currentUser.profileImage;
+                tImg.classList.remove('hidden');
+                tInit.classList.add('hidden');
+                tImg.onerror = function() {
+                    this.classList.add('hidden');
+                    tInit.classList.remove('hidden');
+                };
+            } else {
+                sImg.classList.add('hidden');
+                sInit.classList.remove('hidden');
+                tImg.classList.add('hidden');
+                tInit.classList.remove('hidden');
+            }
+        }
+
+        async function loadRequests() {
+            const container = document.getElementById('requestsGridContainer');
+            container.innerHTML = '<div class="loading-spinner-box">Loading your requests... ⏳</div>';
+
+            try {
+                const param = currentUser.userType === 'hotel' ? `hotelId=${currentUser.id}` : `userId=${currentUser.id}`;
+                const res = await fetch(`/api/requests?${param}`);
+                const data = await res.json();
+
+                allRequestsList = data.requests || [];
+                updateCounts();
+                renderRequests();
+
+                // Check if url has ?id= to open specific modal
+                const urlParams = new URLSearchParams(window.location.search);
+                const reqId = urlParams.get('id');
+                if (reqId) {
+                    const found = allRequestsList.find(r => String(r.id) === String(reqId));
+                    if (found) openDetailModal(found);
+                }
+            } catch (err) {
+                container.innerHTML = '<div class="empty-state-card">Unable to load requests. Please try again.</div>';
+            }
+        }
+
+        function updateCounts() {
+            const pending = allRequestsList.filter(r => r.status === 'pending').length;
+            const accepted = allRequestsList.filter(r => r.status === 'accepted').length;
+            const rejected = allRequestsList.filter(r => r.status === 'rejected').length;
+            const cancelled = allRequestsList.filter(r => r.status === 'cancelled' || r.status === 'withdrawn').length;
+
+            document.getElementById('countAll').textContent = allRequestsList.length;
+            document.getElementById('countPending').textContent = pending;
+            document.getElementById('countAccepted').textContent = accepted;
+            document.getElementById('countRejected').textContent = rejected;
+            document.getElementById('countCancelled').textContent = cancelled;
+        }
+
+        function switchTab(tab) {
+            activeTab = tab;
+            const btns = document.querySelectorAll('.req-tab-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            renderRequests();
+        }
+
+        function getStatusDetails(status) {
+            const s = (status || 'pending').toLowerCase();
+            if (s === 'accepted') {
+                return { pillClass: 'status-accepted', text: '🟢 Accepted', label: 'Accepted' };
+            } else if (s === 'rejected') {
+                return { pillClass: 'status-rejected', text: '🔴 Rejected', label: 'Rejected' };
+            } else if (s === 'cancelled' || s === 'withdrawn') {
+                return { pillClass: 'status-cancelled', text: '⚪ Cancelled', label: 'Cancelled' };
+            } else {
+                return { pillClass: 'status-pending', text: '🟡 Pending', label: 'Pending' };
+            }
+        }
+
+        function renderRequests() {
+            const container = document.getElementById('requestsGridContainer');
+            let list = allRequestsList;
+
+            if (activeTab !== 'all') {
+                if (activeTab === 'cancelled') {
+                    list = list.filter(r => r.status === 'cancelled' || r.status === 'withdrawn');
+                } else {
+                    list = list.filter(r => r.status === activeTab);
+                }
+            }
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state-card" style="grid-column: 1/-1;">
+                        <span style="font-size: 36px;">📥</span>
+                        <h3 style="text-transform: capitalize;">No ${activeTab === 'all' ? '' : activeTab} Requests</h3>
+                        <p>No hiring requests found in this category.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = list.map(req => {
+                const isHotel = currentUser.userType === 'hotel';
+                const otherName = isHotel ? (req.workerName || 'Candidate') : (req.hotelName || 'Hotel Partner');
+                const otherLoc = isHotel ? (req.workerDistrict || req.workerState || 'India') : (req.hotelDistrict || req.hotelState || 'India');
+                const stat = getStatusDetails(req.status);
+                const isPending = req.status === 'pending';
+                const dateStr = new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                const reqJson = JSON.stringify(req).replace(/"/g, '&quot;');
+
+                return `
+                    <div class="request-item-card" id="req-card-${req.id}">
+                        <div class="req-card-header">
+                            <div class="avatar-circle-sm" style="background:#EFF6FF; color:#2563EB;">
+                                ${isHotel ? '👤' : '🏨'}
+                            </div>
+                            <div class="req-card-title-box">
+                                <h4>${otherName}</h4>
+                                <span class="req-loc">📍 ${otherLoc}</span>
+                            </div>
+                            <span class="status-pill ${stat.pillClass}">${stat.text}</span>
+                        </div>
+
+                        <div class="req-card-body">
+                            <div class="req-role-tag">
+                                Role: <strong>${req.jobTitle || req.position || 'General Staff'}</strong>
+                                ${req.salary ? `<span style="display:inline-block; margin-left:4px; color:#059669; font-weight:700; font-size:12px;">(₹${req.salary} • ${req.shift || 'Shift'})</span>` : ''}
+                            </div>
+                            <div class="req-date">Applied: ${dateStr}</div>
+                            ${req.message ? `<p class="req-snippet">"${req.message.slice(0, 75)}${req.message.length > 75 ? '...' : ''}"</p>` : ''}
+                        </div>
+
+                        <div class="req-card-footer" style="display: flex; gap: 8px;">
+                            <button type="button" class="btn btn-outline btn-sm" style="flex: 1;" onclick="openDetailModalFromId('${req.id}')">
+                                <span>View Details &rarr;</span>
+                            </button>
+                            ${isPending ? `
+                                <button type="button" class="btn btn-danger-soft btn-sm" onclick="handleCancelRequest('${req.id}', event)" title="Cancel / Withdraw this request">
+                                    <span>🚫 Cancel</span>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterRequestsLive() {
+            const query = document.getElementById('reqSearchInput').value.toLowerCase().trim();
+            const container = document.getElementById('requestsGridContainer');
+            if (!query) {
+                renderRequests();
+                return;
+            }
+            const filtered = allRequestsList.filter(r => 
+                (r.hotelName || '').toLowerCase().includes(query) ||
+                (r.workerName || '').toLowerCase().includes(query) ||
+                (r.position || '').toLowerCase().includes(query) ||
+                (r.jobTitle || '').toLowerCase().includes(query) ||
+                (r.status || '').toLowerCase().includes(query)
+            );
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state-card">No requests matching "${query}".</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(req => {
+                const isHotel = currentUser.userType === 'hotel';
+                const otherName = isHotel ? req.workerName : req.hotelName;
+                const stat = getStatusDetails(req.status);
+                const isPending = req.status === 'pending';
+                const dateStr = new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+                return `
+                    <div class="request-item-card" id="req-card-${req.id}">
+                        <div class="req-card-header">
+                            <div class="avatar-circle-sm">${isHotel ? '👤' : '🏨'}</div>
+                            <div class="req-card-title-box">
+                                <h4>${otherName}</h4>
+                            </div>
+                            <span class="status-pill ${stat.pillClass}">${stat.text}</span>
+                        </div>
+                        <div class="req-card-body">
+                            <div class="req-role-tag">
+                                Role: <strong>${req.jobTitle || req.position || 'General Staff'}</strong>
+                                ${req.salary ? `<span style="display:inline-block; margin-left:4px; color:#059669; font-weight:700; font-size:12px;">(₹${req.salary} • ${req.shift || 'Shift'})</span>` : ''}
+                            </div>
+                            <div class="req-date">Applied: ${dateStr}</div>
+                        </div>
+                        <div class="req-card-footer" style="display: flex; gap: 8px;">
+                            <button type="button" class="btn btn-outline btn-sm" style="flex: 1;" onclick="openDetailModalFromId('${req.id}')">
+                                <span>View Details &rarr;</span>
+                            </button>
+                            ${isPending ? `
+                                <button type="button" class="btn btn-danger-soft btn-sm" onclick="handleCancelRequest('${req.id}', event)">
+                                    <span>🚫 Cancel</span>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openDetailModalFromId(reqId) {
+            const req = allRequestsList.find(r => String(r.id) === String(reqId));
+            if (req) openDetailModal(req);
+        }
+
+        // Screen 11: Detail Confirmation Modal
+        function openDetailModal(req) {
+            currentModalReqId = req.id;
+            const banner = document.getElementById('modalDetailBanner');
+            const icon = document.getElementById('modalStatusIcon');
+            const title = document.getElementById('modalStatusTitle');
+            const sub = document.getElementById('modalStatusSubtitle');
+
+            const status = (req.status || 'pending').toLowerCase();
+
+            if (status === 'accepted') {
+                banner.className = 'detail-status-banner status-accepted-banner';
+                icon.textContent = '✓';
+                title.textContent = 'Request Accepted! 🎉';
+                sub.textContent = 'This hiring request has been confirmed by both parties.';
+            } else if (status === 'rejected') {
+                banner.className = 'detail-status-banner status-rejected-banner';
+                icon.textContent = '✕';
+                title.textContent = 'Request Declined';
+                sub.textContent = 'This request is not moving forward at this time.';
+            } else if (status === 'cancelled' || status === 'withdrawn') {
+                banner.className = 'detail-status-banner status-cancelled-banner';
+                icon.textContent = '🚫';
+                title.textContent = 'Request Cancelled';
+                sub.textContent = 'This hiring request was cancelled and is no longer active.';
+            } else {
+                banner.className = 'detail-status-banner status-pending-banner';
+                icon.textContent = '⏳';
+                title.textContent = 'Application Pending Review';
+                sub.textContent = 'Waiting for response from the employer.';
+            }
+
+            document.getElementById('modalDetailPosition').textContent = req.jobTitle || req.position || 'Hospitality Staff';
+            
+            const payBox = document.getElementById('modalDetailPayShiftBox');
+            if (req.salary || req.shift) {
+                payBox.style.display = 'block';
+                document.getElementById('modalDetailPayShift').textContent = `₹${req.salary || 'Standard'} • ${req.shift || 'Shift'}`;
+            } else {
+                payBox.style.display = 'none';
+            }
+
+            document.getElementById('modalDetailHotel').textContent = req.hotelName || 'Partner Venue';
+            document.getElementById('modalDetailWorker').textContent = req.workerName || 'Candidate';
+            document.getElementById('modalDetailDate').textContent = new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            const msg = req.message || (status === 'accepted' ? 'We are pleased to inform you that your request has been accepted. Please report to the venue on the scheduled shift.' : (status === 'cancelled' ? 'This request was cancelled by the sender.' : 'No custom message provided.'));
+            document.getElementById('modalDetailMessage').textContent = `"${msg}"`;
+
+            // If hotel and pending, show accept/reject buttons
+            const hotelActions = document.getElementById('hotelActionButtonsRow');
+            if (currentUser.userType === 'hotel' && status === 'pending') {
+                hotelActions.classList.remove('hidden');
+            } else {
+                hotelActions.classList.add('hidden');
+            }
+
+            // If pending, show Cancel Action row
+            const cancelRow = document.getElementById('cancelActionRow');
+            if (status === 'pending') {
+                cancelRow.classList.remove('hidden');
+            } else {
+                cancelRow.classList.add('hidden');
+            }
+
+            document.getElementById('requestDetailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('requestDetailModal').classList.add('hidden');
+        }
+
+        async function updateCurrentModalStatus(newStatus) {
+            if (!currentModalReqId) return;
+            try {
+                const res = await fetch(`/api/requests/${currentModalReqId}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(`Status updated to ${newStatus.toUpperCase()}! ✅`);
+                    closeDetailModal();
+                    loadRequests();
+                } else {
+                    alert(data.message || 'Failed to update.');
+                }
+            } catch (err) {
+                alert('Connection error.');
+            }
+        }
+
+        async function handleCancelCurrentModal() {
+            if (!currentModalReqId) return;
+            if (!confirm('Are you sure you want to cancel this request? This cannot be undone.')) return;
+
+            try {
+                const res = await fetch(`/api/requests/${currentModalReqId}/cancel`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Request has been cancelled successfully! 🚫');
+                    closeDetailModal();
+                    loadRequests();
+                } else {
+                    alert(data.message || 'Failed to cancel request.');
+                }
+            } catch (err) {
+                alert('Connection error while cancelling request.');
+            }
+        }
+
+        async function handleCancelRequest(reqId, event) {
+            if (event) event.stopPropagation();
+            if (!confirm('Are you sure you want to cancel / withdraw this hiring request?')) return;
+
+            try {
+                const res = await fetch(`/api/requests/${reqId}/cancel`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Request cancelled successfully! 🚫');
+                    loadRequests();
+                } else {
+                    alert(data.message || 'Failed to cancel request.');
+                }
+            } catch (err) {
+                alert('Connection error while cancelling request.');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('worqdenUser');
+            localStorage.removeItem('worqdenToken');
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>

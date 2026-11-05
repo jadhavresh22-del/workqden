@@ -1,358 +1,804 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>WorqDen - Admin</title>
-
+    <title>WorqDen — Admin Management Portal</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+<body class="admin-layout-body">
 
-<body class="register-page">
-
-<header class="main-header">
-
-    <div class="logo">WorqDen <span class="admin-tag">Admin</span></div>
-
-    <nav>
-        <a href="#" id="logoutBtn" class="logout-link hidden">Logout</a>
-    </nav>
-
-</header>
-
-
-<main class="admin-wrapper">
-
-    <!-- LOGIN VIEW -->
-    <div id="adminLoginView" class="admin-login-card">
-
-        <span class="form-badge">RESTRICTED ACCESS</span>
-
-        <h1>Admin Login</h1>
-        <p>Enter the admin password to manage WorqDen.</p>
-
-        <form id="adminLoginForm">
-
-            <div class="form-group">
-                <label for="adminPassword">Password</label>
-                <input type="password" id="adminPassword" placeholder="Enter admin password" required>
+    <!-- Screen 12: Dark Navy Admin Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <div class="admin-brand-box" style="display:flex; align-items:center; gap: 10px;">
+                <svg class="logo-svg-mark" viewBox="0 0 64 64" width="34" height="34" style="flex-shrink:0;">
+                    <defs>
+                        <linearGradient id="wqLogoAdmin" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#F97316"/>
+                            <stop offset="100%" stop-color="#10B981"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="64" height="64" rx="16" fill="#0F172A"/>
+                    <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoAdmin)" stroke-width="2.5"/>
+                    <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                </svg>
+                <div>
+                    <h3 class="admin-brand-title" style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin: 0;">Worq<span style="color: #F97316;">Den</span></h3>
+                    <span class="admin-badge-sub" style="font-size: 11px; color: #94A3B8; font-weight: 600;">Admin Console</span>
+                </div>
             </div>
+        </div>
 
-            <p id="adminLoginError" class="form-error hidden"></p>
+        <nav class="admin-nav-menu">
+            <button type="button" class="admin-nav-link active" onclick="switchAdminView('all')">
+                <span class="nav-ico">📊</span>
+                <span>All Users</span>
+            </button>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('student')">
+                <span class="nav-ico">🎓</span>
+                <span>Students</span>
+            </button>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('staff')">
+                <span class="nav-ico">👷</span>
+                <span>Staff & Workers</span>
+            </button>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('hotel')">
+                <span class="nav-ico">🏨</span>
+                <span>Hotels & Venues</span>
+            </button>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('jobs')">
+                <span class="nav-ico">💼</span>
+                <span>Job Postings</span>
+            </button>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('requests')">
+                <span class="nav-ico">📥</span>
+                <span>All Requests</span>
+            </button>
+        </nav>
 
-            <button type="submit" class="create-account-btn">Login</button>
+        <div class="admin-sidebar-footer">
+            <a href="index.html" class="admin-nav-link" style="color: #94A3B8;">
+                <span class="nav-ico">🌐</span>
+                <span>View Public Site</span>
+            </a>
+            <button type="button" class="btn-logout-admin" onclick="handleAdminLogout()">
+                <span>🚪 Admin Logout</span>
+            </button>
+        </div>
+    </aside>
 
-        </form>
+    <!-- Admin Main Body -->
+    <main class="admin-main-wrapper">
+        <!-- Topbar -->
+        <header class="admin-topbar">
+            <div>
+                <h1 class="admin-page-heading" id="adminPageHeading">Admin Dashboard — System Overview</h1>
+            </div>
+            <div class="admin-topbar-right">
+                <span class="admin-auth-indicator">🟢 Administrator Session (Verified)</span>
+            </div>
+        </header>
 
+        <div class="admin-content-scroll">
+            <!-- Screen 12: Admin Metric Cards -->
+            <section class="admin-metrics-grid">
+                <div class="admin-stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-lbl">Total Registered Users</span>
+                        <div class="stat-icon-wrap" style="background:#EFF6FF; color:#2563EB;">👥</div>
+                    </div>
+                    <div class="stat-val" id="statTotalUsers">0</div>
+                    <span class="stat-sub">Live in MySQL database</span>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-lbl">Students</span>
+                        <div class="stat-icon-wrap" style="background:#EFF6FF; color:#3B82F6;">🎓</div>
+                    </div>
+                    <div class="stat-val" id="statStudents">0</div>
+                    <span class="stat-sub">Flexible gig learners</span>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-lbl">Staff & Workers</span>
+                        <div class="stat-icon-wrap" style="background:#DCFCE7; color:#10B981;">👷</div>
+                    </div>
+                    <div class="stat-val" id="statStaff">0</div>
+                    <span class="stat-sub">Hospitality talent</span>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-lbl">Hotels & Venues</span>
+                        <div class="stat-icon-wrap" style="background:#FFF7ED; color:#EA580C;">🏨</div>
+                    </div>
+                    <div class="stat-val" id="statHotels">0</div>
+                    <span class="stat-sub">Partner properties</span>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-lbl">Active Job Postings</span>
+                        <div class="stat-icon-wrap" style="background:#FEF3C7; color:#D97706;">💼</div>
+                    </div>
+                    <div class="stat-val" id="statJobs">0</div>
+                    <span class="stat-sub">Live shift vacancies</span>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-lbl">Total Requests</span>
+                        <div class="stat-icon-wrap" style="background:#F1F5F9; color:#475569;">📥</div>
+                    </div>
+                    <div class="stat-val" id="statRequests">0</div>
+                    <span class="stat-sub">Hiring applications</span>
+                </div>
+            </section>
+
+            <!-- Admin Table Controls -->
+            <section class="admin-table-section">
+                <div class="admin-table-header-row">
+                    <div class="admin-search-box">
+                        <span>🔍</span>
+                        <input type="text" id="adminTableSearch" placeholder="Search by name, email, phone, or location..." onkeyup="filterAdminTableLive()">
+                    </div>
+                    <div class="admin-actions-group">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="loadAdminData()">🔄 Refresh SQL Data</button>
+                    </div>
+                </div>
+
+                <div id="adminActionAlert" class="form-success-banner hidden" style="margin-bottom: 16px;"></div>
+
+                <!-- Users Data Table (Screen 12) -->
+                <div class="admin-table-container" id="usersTableSection">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>User Profile</th>
+                                <th>Account Role</th>
+                                <th>Category / Type</th>
+                                <th>District & State</th>
+                                <th>Phone (Verified)</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminUsersTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                                    Loading platform users... ⏳
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Requests Data Table (when Requests tab active) -->
+                <div class="admin-table-container hidden" id="requestsTableSection">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Employer / Hotel</th>
+                                <th>Candidate</th>
+                                <th>Role</th>
+                                <th>Applied Date</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminRequestsTableBody">
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                                    Loading platform requests... ⏳
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Jobs Data Table (when Jobs tab active) -->
+                <div class="admin-table-container hidden" id="jobsTableSection">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Job Title & Category</th>
+                                <th>Hotel / Venue</th>
+                                <th>Location</th>
+                                <th>Compensation & Shift</th>
+                                <th>Work Date</th>
+                                <th>Vacancies & Applicants</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminJobsTableBody">
+                            <tr>
+                                <td colspan="8" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                                    Loading job postings... ⏳
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ==========================================
+         SCREEN 13: DELETE USER CONFIRMATION MODAL
+         ========================================== -->
+    <div id="deleteConfirmModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDeleteModal()">
+        <div class="modal-dialog modal-sm" style="max-width: 440px; text-align: center;">
+            <div class="modal-body" style="padding: 32px 24px;">
+                <div class="delete-icon-circle">
+                    <span>🗑️</span>
+                </div>
+
+                <h3 class="delete-modal-title">Delete Account Permanently?</h3>
+                <p class="delete-modal-subtitle">
+                    Are you sure you want to delete <strong id="deleteTargetUserName">User</strong>? This will permanently erase their record from the MySQL database along with associated shift applications. <strong>This action cannot be undone.</strong>
+                </p>
+
+                <div class="delete-modal-actions" style="margin-top: 24px; display: flex; gap: 12px;">
+                    <button type="button" class="btn btn-outline btn-block" onclick="closeDeleteModal()">
+                        Cancel
+                    </button>
+                    <button type="button" id="confirmDeleteBtn" class="btn btn-danger btn-block" onclick="executeDeleteUser()">
+                        <span>Delete Permanently</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
-
-    <!-- DASHBOARD VIEW -->
-    <div id="adminDashboardView" class="hidden">
-
-        <h1 class="dashboard-title">Admin Dashboard</h1>
-        <p class="dashboard-subtitle">Manage users and monitor hiring activity.</p>
-
-        <div class="admin-stats">
-            <div class="admin-stat-card">
-                <span class="admin-stat-value" id="statTotalUsers">0</span>
-                <span class="admin-stat-label">Total Users</span>
-            </div>
-            <div class="admin-stat-card">
-                <span class="admin-stat-value" id="statWorkers">0</span>
-                <span class="admin-stat-label">Workers / Students</span>
-            </div>
-            <div class="admin-stat-card">
-                <span class="admin-stat-value" id="statHotels">0</span>
-                <span class="admin-stat-label">Hotels / Orgs</span>
-            </div>
-            <div class="admin-stat-card">
-                <span class="admin-stat-value" id="statRequests">0</span>
-                <span class="admin-stat-label">Hiring Requests</span>
+    <!-- Delete Request Confirmation Modal -->
+    <div id="deleteReqModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDeleteReqModal()">
+        <div class="modal-dialog modal-sm" style="max-width: 440px; text-align: center;">
+            <div class="modal-body" style="padding: 32px 24px;">
+                <div class="delete-icon-circle">
+                    <span>🗑️</span>
+                </div>
+                <h3 class="delete-modal-title">Delete Hiring Request?</h3>
+                <p class="delete-modal-subtitle" id="deleteReqSubtitle">
+                    Permanently remove this hiring application from the database.
+                </p>
+                <div class="delete-modal-actions" style="margin-top: 24px; display: flex; gap: 12px;">
+                    <button type="button" class="btn btn-outline btn-block" onclick="closeDeleteReqModal()">Cancel</button>
+                    <button type="button" id="confirmDeleteReqBtn" class="btn btn-danger btn-block" onclick="executeDeleteRequest()">Delete Request</button>
+                </div>
             </div>
         </div>
-
-        <div class="admin-tabs">
-            <button class="admin-tab active" data-tab="users">Users</button>
-            <button class="admin-tab" data-tab="requests">Hiring Requests</button>
-        </div>
-
-        <div id="adminUsersPanel" class="admin-panel">
-
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Email</th>
-                        <th>Location</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="adminUsersBody"></tbody>
-            </table>
-
-        </div>
-
-        <div id="adminRequestsPanel" class="admin-panel hidden">
-
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Hotel</th>
-                        <th>Worker</th>
-                        <th>Position</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="adminRequestsBody"></tbody>
-            </table>
-
-        </div>
-
     </div>
 
-</main>
+    <!-- Delete Job Confirmation Modal -->
+    <div id="deleteJobModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDeleteJobModal()">
+        <div class="modal-dialog modal-sm" style="max-width: 440px; text-align: center;">
+            <div class="modal-body" style="padding: 32px 24px;">
+                <div class="delete-icon-circle">
+                    <span>🗑️</span>
+                </div>
+                <h3 class="delete-modal-title">Delete Job Posting?</h3>
+                <p class="delete-modal-subtitle" id="deleteJobSubtitle">
+                    Permanently remove this job opening from the MySQL database along with all candidate applications.
+                </p>
+                <div class="delete-modal-actions" style="margin-top: 24px; display: flex; gap: 12px;">
+                    <button type="button" class="btn btn-outline btn-block" onclick="closeDeleteJobModal()">Cancel</button>
+                    <button type="button" id="confirmDeleteJobBtn" class="btn btn-danger btn-block" onclick="executeDeleteJob()">Delete Posting</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Admin Authentication Modal (if session not present) -->
+    <div id="adminAuthModal" class="modal-backdrop hidden">
+        <div class="modal-dialog modal-sm" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 style="display:flex; align-items:center; gap: 8px;">🛡️ Administrator Access</h3>
+            </div>
+            <div class="modal-body">
+                <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label for="adminPassInput">Admin Secret Password</label>
+                        <input type="password" id="adminPassInput" class="form-input" placeholder="Enter password (default: worqden123)" required autofocus>
+                    </div>
+                    <div id="adminAuthError" class="form-error-banner hidden"></div>
+                    <button type="submit" class="btn btn-orange btn-block btn-lg" style="margin-top: 10px;">
+                        <span>Unlock Admin Console &rarr;</span>
+                    </button>
+                    <div style="text-align: center; margin-top: 14px;">
+                        <a href="index.html" style="font-size: 12.5px; color: var(--text-muted);">Return to Public Homepage</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-<script>
+    <script>
+        let allUsersList = [];
+        let allRequestsList = [];
+        let allJobsList = [];
+        let currentFilter = 'all';
+        let deleteTargetId = null;
+        let deleteTargetReqId = null;
+        let deleteTargetJobId = null;
 
-    let adminToken = sessionStorage.getItem("worqdenAdminToken");
+        window.addEventListener('DOMContentLoaded', () => {
+            const adminToken = localStorage.getItem('worqdenAdminToken');
+            if (!adminToken) {
+                document.getElementById('adminAuthModal').classList.remove('hidden');
+            } else {
+                loadAdminData();
+            }
+        });
 
-
-    function showDashboard() {
-
-        document.getElementById("adminLoginView").classList.add("hidden");
-        document.getElementById("adminDashboardView").classList.remove("hidden");
-        document.getElementById("logoutBtn").classList.remove("hidden");
-
-        loadUsers();
-        loadRequests();
-
-    }
-
-
-    if (adminToken) {
-
-        showDashboard();
-
-    }
-
-
-    document
-        .getElementById("adminLoginForm")
-        .addEventListener("submit", async function(event) {
-
-            event.preventDefault();
-
-            const errorBox = document.getElementById("adminLoginError");
-            errorBox.classList.add("hidden");
-
-            const password = document.getElementById("adminPassword").value;
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+            const password = document.getElementById('adminPassInput').value;
+            const errBox = document.getElementById('adminAuthError');
+            errBox.classList.add('hidden');
 
             try {
-
-                const response = await fetch("/api/admin/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ password })
                 });
+                const data = await res.json();
 
-                const data = await response.json();
+                if (res.ok && data.token) {
+                    localStorage.setItem('worqdenAdminToken', data.token);
+                    document.getElementById('adminAuthModal').classList.add('hidden');
+                    loadAdminData();
+                } else {
+                    errBox.textContent = data.message || 'Invalid admin password.';
+                    errBox.classList.remove('hidden');
+                }
+            } catch (err) {
+                errBox.textContent = 'Connection error.';
+                errBox.classList.remove('hidden');
+            }
+        }
 
-                if (response.ok) {
+        async function loadAdminData() {
+            const adminToken = localStorage.getItem('worqdenAdminToken');
+            if (!adminToken) return;
 
-                    adminToken = data.token;
-                    sessionStorage.setItem("worqdenAdminToken", adminToken);
-                    showDashboard();
-
+            try {
+                // Load users
+                const uRes = await fetch('/api/admin/users', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                
+                if (uRes.status === 401 || uRes.status === 403) {
+                    localStorage.removeItem('worqdenAdminToken');
+                    document.getElementById('adminAuthModal').classList.remove('hidden');
+                    return;
                 }
 
-                else {
+                const uData = await uRes.json();
+                allUsersList = uData.users || [];
 
-                    errorBox.textContent = data.message || "Login failed.";
-                    errorBox.classList.remove("hidden");
+                // Load requests
+                const rRes = await fetch('/api/admin/requests', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const rData = await rRes.json();
+                allRequestsList = rData.requests || [];
 
+                // Load jobs
+                const jRes = await fetch('/api/admin/jobs', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const jData = await jRes.json();
+                allJobsList = jData.jobs || [];
+
+                updateMetrics();
+                if (currentFilter === 'jobs') {
+                    renderJobsTable();
+                } else if (currentFilter === 'requests') {
+                    renderRequestsTable();
+                } else {
+                    renderUsersTable();
                 }
+            } catch (err) {
+                console.error('Error loading admin data:', err);
+            }
+        }
 
+        function updateMetrics() {
+            const students = allUsersList.filter(u => u.userType === 'student').length;
+            const staff = allUsersList.filter(u => u.userType === 'staff').length;
+            const hotels = allUsersList.filter(u => u.userType === 'hotel').length;
+
+            document.getElementById('statTotalUsers').textContent = allUsersList.length;
+            document.getElementById('statStudents').textContent = students;
+            document.getElementById('statStaff').textContent = staff;
+            document.getElementById('statHotels').textContent = hotels;
+            document.getElementById('statJobs').textContent = allJobsList.length;
+            document.getElementById('statRequests').textContent = allRequestsList.length;
+        }
+
+        function switchAdminView(view) {
+            currentFilter = view;
+            const navLinks = document.querySelectorAll('.admin-nav-link');
+            navLinks.forEach(l => l.classList.remove('active'));
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
             }
 
-            catch (error) {
+            const usersSec = document.getElementById('usersTableSection');
+            const reqsSec = document.getElementById('requestsTableSection');
+            const jobsSec = document.getElementById('jobsTableSection');
 
-                console.error(error);
-                errorBox.textContent = "Unable to connect to WorqDen server.";
-                errorBox.classList.remove("hidden");
+            usersSec.classList.add('hidden');
+            reqsSec.classList.add('hidden');
+            jobsSec.classList.add('hidden');
 
+            if (view === 'requests') {
+                reqsSec.classList.remove('hidden');
+                document.getElementById('adminPageHeading').textContent = 'Admin Console — All Hiring Requests';
+                renderRequestsTable();
+            } else if (view === 'jobs') {
+                jobsSec.classList.remove('hidden');
+                document.getElementById('adminPageHeading').textContent = 'Admin Console — All Job Postings & Shift Openings';
+                renderJobsTable();
+            } else {
+                usersSec.classList.remove('hidden');
+                const titles = {
+                    'all': 'Admin Dashboard — All Registered Users',
+                    'student': 'Admin Dashboard — Students',
+                    'staff': 'Admin Dashboard — Staff & Workers',
+                    'hotel': 'Admin Dashboard — Hotels & Venues'
+                };
+                document.getElementById('adminPageHeading').textContent = titles[view] || 'Admin Dashboard';
+                renderUsersTable();
+            }
+        }
+
+        function renderUsersTable(customList = null) {
+            const tbody = document.getElementById('adminUsersTableBody');
+            let list = customList !== null ? customList : allUsersList;
+
+            if (customList === null && currentFilter !== 'all' && currentFilter !== 'requests' && currentFilter !== 'jobs') {
+                list = list.filter(u => u.userType === currentFilter);
             }
 
-        });
-
-
-    async function loadUsers() {
-
-        try {
-
-            const response = await fetch("/api/admin/users", {
-                headers: { Authorization: "Bearer " + adminToken }
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-
-                if (response.status === 401 || response.status === 403) {
-                    sessionStorage.removeItem("worqdenAdminToken");
-                    window.location.reload();
-                }
-
+            if (list.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                            No users found in this category.
+                        </td>
+                    </tr>
+                `;
                 return;
-
             }
 
-            const users = data.users;
-
-            document.getElementById("statTotalUsers").textContent = users.length;
-
-            document.getElementById("statWorkers").textContent =
-                users.filter((u) => u.userType === "staff" || u.userType === "student").length;
-
-            document.getElementById("statHotels").textContent =
-                users.filter((u) => u.userType === "hotel").length;
-
-            const typeLabels = { staff: "Worker", student: "Student", hotel: "Hotel" };
-
-            document.getElementById("adminUsersBody").innerHTML = users.map(function(u) {
+            tbody.innerHTML = list.map(u => {
+                const roleBadgeClass = u.userType === 'hotel' ? 'badge-hotel' : (u.userType === 'student' ? 'badge-student' : 'badge-staff');
+                const roleLabel = u.userType === 'hotel' ? '🏨 Hotel' : (u.userType === 'student' ? '🎓 Student' : '👷 Staff');
+                const catText = u.userType === 'hotel' ? (u.hotelType || u.organizationType || 'Venue') : (u.subcategory || u.category || 'Worker');
+                const locText = `${u.district || ''}${u.district && u.state ? ', ' : ''}${u.state || 'India'}`;
 
                 return `
-                    <tr>
-                        <td>${u.userType === "hotel" ? (u.organizationName || u.name) : u.name}</td>
-                        <td><span class="admin-type-badge">${typeLabels[u.userType] || u.userType}</span></td>
-                        <td>${u.email}</td>
-                        <td>${[u.district, u.state].filter(Boolean).join(", ") || "—"}</td>
-                        <td><button class="admin-delete-btn" data-id="${u.id}">Delete</button></td>
+                    <tr id="user-row-${u.id}">
+                        <td>
+                            <div style="display:flex; align-items:center; gap: 10px;">
+                                <div class="avatar-circle-sm" style="background: ${u.userType === 'hotel' ? '#FFF7ED' : '#EFF6FF'}; color: ${u.userType === 'hotel' ? '#EA580C' : '#2563EB'};">
+                                    ${u.userType === 'hotel' ? '🏨' : '👤'}
+                                </div>
+                                <div>
+                                    <strong>${u.organizationName || u.name}</strong>
+                                    <div style="font-size: 12px; color: var(--text-muted);">${u.email}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="role-badge ${roleBadgeClass}">${roleLabel}</span></td>
+                        <td><strong>${catText}</strong></td>
+                        <td>📍 ${locText}</td>
+                        <td>🛡️ +91 ${u.phone || '-'}</td>
+                        <td><span class="status-pill status-accepted">Active Verified</span></td>
+                        <td style="text-align: right;">
+                            <button type="button" class="btn btn-outline btn-sm" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="openDeleteModal('${u.id}', '${escapeQuotes(u.organizationName || u.name)}')">
+                                <span>🗑️ Delete</span>
+                            </button>
+                        </td>
                     </tr>
                 `;
-
-            }).join("");
-
+            }).join('');
         }
 
-        catch (error) {
+        function renderRequestsTable(customList = null) {
+            const tbody = document.getElementById('adminRequestsTableBody');
+            const list = customList !== null ? customList : allRequestsList;
 
-            console.error(error);
+            if (list.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                            No hiring applications found in database.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
 
-        }
-
-    }
-
-
-    async function loadRequests() {
-
-        try {
-
-            const response = await fetch("/api/admin/requests", {
-                headers: { Authorization: "Bearer " + adminToken }
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) return;
-
-            document.getElementById("statRequests").textContent = data.count;
-
-            document.getElementById("adminRequestsBody").innerHTML = data.requests.map(function(r) {
+            tbody.innerHTML = list.map(r => {
+                const statusClass = r.status === 'accepted' ? 'status-accepted' : (r.status === 'rejected' ? 'status-rejected' : (r.status === 'cancelled' || r.status === 'withdrawn' ? 'status-cancelled' : 'status-pending'));
+                const statusText = r.status === 'accepted' ? '🟢 Accepted' : (r.status === 'rejected' ? '🔴 Rejected' : (r.status === 'cancelled' || r.status === 'withdrawn' ? '⚪ Cancelled' : '🟡 Pending'));
+                const dateStr = new Date(r.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
                 return `
-                    <tr>
-                        <td>${r.hotelName}</td>
-                        <td>${r.staffName}</td>
-                        <td>${r.position || "—"}</td>
-                        <td><span class="admin-status-badge admin-status-${r.status.toLowerCase()}">${r.status}</span></td>
+                    <tr id="req-row-${r.id}">
+                        <td><strong>${r.hotelName || 'Hotel'}</strong></td>
+                        <td><strong>${r.workerName || 'Worker'}</strong></td>
+                        <td>
+                            <strong>${r.jobTitle || r.position || 'Staff'}</strong>
+                            ${r.salary ? `<div style="font-size: 11px; color: #059669; font-weight: 600;">₹${r.salary} • ${r.shift || 'Shift'}</div>` : ''}
+                        </td>
+                        <td>${dateStr}</td>
+                        <td><span class="status-pill ${statusClass}">${statusText}</span></td>
+                        <td style="text-align: right;">
+                            <button type="button" class="btn btn-outline btn-sm" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="openDeleteReqModal('${r.id}', '${escapeQuotes(r.hotelName || 'Hotel')}', '${escapeQuotes(r.workerName || 'Worker')}')">
+                                <span>🗑️ Delete</span>
+                            </button>
+                        </td>
                     </tr>
                 `;
-
-            }).join("");
-
+            }).join('');
         }
 
-        catch (error) {
+        function renderJobsTable(customList = null) {
+            const tbody = document.getElementById('adminJobsTableBody');
+            const list = customList !== null ? customList : allJobsList;
 
-            console.error(error);
-
-        }
-
-    }
-
-
-    document.getElementById("adminUsersBody").addEventListener("click", async function(event) {
-
-        const btn = event.target.closest(".admin-delete-btn");
-
-        if (!btn) return;
-
-        if (!confirm("Delete this user permanently?")) return;
-
-        try {
-
-            const response = await fetch(`/api/admin/users/${btn.dataset.id}`, {
-                method: "DELETE",
-                headers: { Authorization: "Bearer " + adminToken }
-            });
-
-            if (response.ok) {
-
-                loadUsers();
-
+            if (list.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                            No job postings found in MySQL database.
+                        </td>
+                    </tr>
+                `;
+                return;
             }
 
-            else {
+            tbody.innerHTML = list.map(j => {
+                const locText = `${j.hotelDistrict ? j.hotelDistrict + ', ' : ''}${j.hotelState || 'India'}`;
+                const applicants = j.applicantsCount || 0;
 
-                const data = await response.json();
-                alert(data.message || "Could not delete user.");
+                return `
+                    <tr id="job-row-${j.id}">
+                        <td>
+                            <strong>${j.title}</strong>
+                            <div style="font-size: 12px; color: var(--text-muted);">${j.category || 'Hospitality'} ${j.subcategory ? '• ' + j.subcategory : ''}</div>
+                        </td>
+                        <td><strong>${j.hotelName || 'Venue Partner'}</strong></td>
+                        <td>📍 ${locText}</td>
+                        <td>
+                            <strong style="color: #059669;">₹${j.salary || '-'}</strong> ${j.salaryType || ''}
+                            <div style="font-size: 11.5px; color: var(--text-muted);">${j.shift || 'Flexible'} Shift</div>
+                        </td>
+                        <td>${j.workDate || 'Immediate'}</td>
+                        <td>
+                            <strong>${applicants} applied</strong>
+                            <div style="font-size: 11.5px; color: var(--text-muted);">${j.vacancies || 1} vacancy left</div>
+                        </td>
+                        <td><span class="status-pill status-accepted">Active Shift</span></td>
+                        <td style="text-align: right;">
+                            <button type="button" class="btn btn-outline btn-sm" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="openDeleteJobModal('${j.id}', '${escapeQuotes(j.title)}', '${escapeQuotes(j.hotelName || 'Venue')}')">
+                                <span>🗑️ Delete</span>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
 
+        function filterAdminTableLive() {
+            const query = document.getElementById('adminTableSearch').value.toLowerCase().trim();
+
+            if (currentFilter === 'jobs') {
+                if (!query) {
+                    renderJobsTable();
+                    return;
+                }
+                const filtered = allJobsList.filter(j =>
+                    (j.title || '').toLowerCase().includes(query) ||
+                    (j.category || '').toLowerCase().includes(query) ||
+                    (j.hotelName || '').toLowerCase().includes(query) ||
+                    (j.hotelDistrict || '').toLowerCase().includes(query) ||
+                    (j.hotelState || '').toLowerCase().includes(query)
+                );
+                renderJobsTable(filtered);
+            } else if (currentFilter === 'requests') {
+                if (!query) {
+                    renderRequestsTable();
+                    return;
+                }
+                const filtered = allRequestsList.filter(r =>
+                    (r.hotelName || '').toLowerCase().includes(query) ||
+                    (r.workerName || '').toLowerCase().includes(query) ||
+                    (r.position || '').toLowerCase().includes(query) ||
+                    (r.jobTitle || '').toLowerCase().includes(query) ||
+                    (r.status || '').toLowerCase().includes(query)
+                );
+                renderRequestsTable(filtered);
+            } else {
+                if (!query) {
+                    renderUsersTable();
+                    return;
+                }
+                const filtered = allUsersList.filter(u =>
+                    (u.name || '').toLowerCase().includes(query) ||
+                    (u.organizationName || '').toLowerCase().includes(query) ||
+                    (u.email || '').toLowerCase().includes(query) ||
+                    (u.phone || '').toLowerCase().includes(query) ||
+                    (u.district || '').toLowerCase().includes(query) ||
+                    (u.state || '').toLowerCase().includes(query)
+                );
+                renderUsersTable(filtered);
             }
-
         }
 
-        catch (error) {
-
-            console.error(error);
-            alert("Unable to connect to WorqDen server.");
-
+        function escapeQuotes(str) {
+            return (str || '').replace(/'/g, "\\'");
         }
 
-    });
+        // Screen 13: Delete User Handlers
+        function openDeleteModal(userId, userName) {
+            deleteTargetId = userId;
+            document.getElementById('deleteTargetUserName').textContent = userName;
+            document.getElementById('deleteConfirmModal').classList.remove('hidden');
+        }
 
+        function closeDeleteModal() {
+            document.getElementById('deleteConfirmModal').classList.add('hidden');
+            deleteTargetId = null;
+        }
 
-    document.querySelectorAll(".admin-tab").forEach(function(tab) {
+        async function executeDeleteUser() {
+            if (!deleteTargetId) return;
+            const adminToken = localStorage.getItem('worqdenAdminToken');
+            const btn = document.getElementById('confirmDeleteBtn');
+            btn.disabled = true;
+            btn.textContent = 'Deleting from Database... ⏳';
 
-        tab.addEventListener("click", function() {
+            try {
+                const res = await fetch(`/api/admin/users/${deleteTargetId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const data = await res.json();
 
-            document.querySelectorAll(".admin-tab").forEach((t) => t.classList.remove("active"));
-            tab.classList.add("active");
+                if (res.ok) {
+                    allUsersList = allUsersList.filter(u => String(u.id) !== String(deleteTargetId));
+                    updateMetrics();
+                    renderUsersTable();
+                    closeDeleteModal();
 
-            const target = tab.dataset.tab;
+                    showAlertBanner(`✓ User record #${deleteTargetId} permanently deleted from MySQL!`);
+                    loadAdminData(); // Sync fresh from DB
+                } else {
+                    alert(data.message || 'Failed to delete user.');
+                }
+            } catch (err) {
+                alert('Connection error while attempting to delete.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Delete Permanently';
+            }
+        }
 
-            document.getElementById("adminUsersPanel").classList.toggle("hidden", target !== "users");
-            document.getElementById("adminRequestsPanel").classList.toggle("hidden", target !== "requests");
+        // Delete Request Handlers
+        function openDeleteReqModal(reqId, hotelName, workerName) {
+            deleteTargetReqId = reqId;
+            document.getElementById('deleteReqSubtitle').textContent = `Permanently remove application between ${hotelName} and ${workerName}.`;
+            document.getElementById('deleteReqModal').classList.remove('hidden');
+        }
 
-        });
+        function closeDeleteReqModal() {
+            document.getElementById('deleteReqModal').classList.add('hidden');
+            deleteTargetReqId = null;
+        }
 
-    });
+        async function executeDeleteRequest() {
+            if (!deleteTargetReqId) return;
+            const adminToken = localStorage.getItem('worqdenAdminToken');
+            const btn = document.getElementById('confirmDeleteReqBtn');
+            btn.disabled = true;
+            btn.textContent = 'Deleting...';
 
+            try {
+                const res = await fetch(`/api/admin/requests/${deleteTargetReqId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const data = await res.json();
 
-    document.getElementById("logoutBtn").addEventListener("click", function(event) {
+                if (res.ok) {
+                    allRequestsList = allRequestsList.filter(r => String(r.id) !== String(deleteTargetReqId));
+                    updateMetrics();
+                    renderRequestsTable();
+                    closeDeleteReqModal();
+                    showAlertBanner(`✓ Hiring request #${deleteTargetReqId} permanently deleted from MySQL!`);
+                    loadAdminData();
+                } else {
+                    alert(data.message || 'Failed to delete request.');
+                }
+            } catch (err) {
+                alert('Connection error.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Delete Request';
+            }
+        }
 
-        event.preventDefault();
+        // Delete Job Handlers
+        function openDeleteJobModal(jobId, jobTitle, hotelName) {
+            deleteTargetJobId = jobId;
+            document.getElementById('deleteJobSubtitle').textContent = `Permanently remove "${jobTitle}" posted by ${hotelName} from MySQL.`;
+            document.getElementById('deleteJobModal').classList.remove('hidden');
+        }
 
-        sessionStorage.removeItem("worqdenAdminToken");
-        window.location.reload();
+        function closeDeleteJobModal() {
+            document.getElementById('deleteJobModal').classList.add('hidden');
+            deleteTargetJobId = null;
+        }
 
-    });
+        async function executeDeleteJob() {
+            if (!deleteTargetJobId) return;
+            const adminToken = localStorage.getItem('worqdenAdminToken');
+            const btn = document.getElementById('confirmDeleteJobBtn');
+            btn.disabled = true;
+            btn.textContent = 'Deleting Job...';
 
-</script>
+            try {
+                const res = await fetch(`/api/admin/jobs/${deleteTargetJobId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const data = await res.json();
 
+                if (res.ok) {
+                    allJobsList = allJobsList.filter(j => String(j.id) !== String(deleteTargetJobId));
+                    updateMetrics();
+                    renderJobsTable();
+                    closeDeleteJobModal();
+                    showAlertBanner(`✓ Job posting #${deleteTargetJobId} and its applications permanently removed!`);
+                    loadAdminData();
+                } else {
+                    alert(data.message || 'Failed to delete job posting.');
+                }
+            } catch (err) {
+                alert('Connection error while deleting job.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Delete Posting';
+            }
+        }
+
+        function showAlertBanner(msg) {
+            const alertBox = document.getElementById('adminActionAlert');
+            alertBox.textContent = msg;
+            alertBox.classList.remove('hidden');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 4000);
+        }
+
+        function handleAdminLogout() {
+            localStorage.removeItem('worqdenAdminToken');
+            location.reload();
+        }
+    </script>
 </body>
 </html>

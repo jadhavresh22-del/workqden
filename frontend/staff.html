@@ -1,491 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>WorqDen - Find Staff</title>
-
+    <title>WorqDen — Find Workers & Hospitality Staff</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="data.js"></script>
 </head>
+<body class="dashboard-layout-body">
 
-<body class="register-page">
-
-<header class="main-header">
-
-    <div class="logo">WorqDen</div>
-
-    <nav>
-        <a href="hotel-dashboard.html">Back to dashboard</a>
-        <a href="#" id="logoutBtn" class="logout-link">Logout</a>
-    </nav>
-
-</header>
-
-
-<main class="staff-wrapper">
-
-    <h1 class="dashboard-title">Find Staff</h1>
-    <p class="dashboard-subtitle">Search workers and students by category, location and availability.</p>
-
-
-    <div class="staff-filters">
-
-        <div class="form-group">
-
-            <label for="filterCategory">Category</label>
-
-            <select id="filterCategory">
-                <option value="">All categories</option>
-            </select>
-
+    <!-- Left Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <a href="hotel-dashboard.html" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg class="logo-svg-mark" viewBox="0 0 64 64" width="30" height="30" style="flex-shrink:0;">
+                    <defs>
+                        <linearGradient id="wqLogoStaff" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#F97316"/>
+                            <stop offset="100%" stop-color="#10B981"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="64" height="64" rx="16" fill="#0F172A"/>
+                    <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoStaff)" stroke-width="2.5"/>
+                    <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                </svg>
+                <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--primary-navy, #0F172A);">Worq<span style="color: #F97316;">Den</span></span>
+            </a>
         </div>
 
+        <nav class="sidebar-menu">
+            <a href="hotel-dashboard.html" class="sidebar-link">
+                <span class="sidebar-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="staff.html" class="sidebar-link active">
+                <span class="sidebar-icon">👥</span>
+                <span>Find Staff</span>
+            </a>
+            <a href="requests.html" class="sidebar-link">
+                <span class="sidebar-icon">📥</span>
+                <span>Incoming Requests</span>
+            </a>
+            <a href="profile.html" class="sidebar-link">
+                <span class="sidebar-icon">🏨</span>
+                <span>Hotel Profile</span>
+            </a>
+        </nav>
 
-        <div class="form-group">
-
-            <label for="filterSubcategory">Subcategory</label>
-
-            <select id="filterSubcategory">
-                <option value="">All subcategories</option>
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="filterState">State</label>
-
-            <select id="filterState">
-                <option value="">All states</option>
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="filterDistrict">District</label>
-
-            <select id="filterDistrict">
-                <option value="">All districts</option>
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="filterAvailability">Availability</label>
-
-            <select id="filterAvailability">
-                <option value="">Any</option>
-                <option value="Available now">Available now</option>
-                <option value="Part time">Part time</option>
-                <option value="Full time">Full time</option>
-                <option value="Weekends">Weekends</option>
-            </select>
-
-        </div>
-
-
-        <button id="searchBtn" class="create-account-btn staff-search-btn">
-            Search
-        </button>
-
-    </div>
-
-
-    <p id="staffResultCount" class="staff-result-count"></p>
-
-    <div id="staffResults" class="staff-results-grid"></div>
-
-
-    <div id="hireModalOverlay" class="hire-modal-overlay hidden">
-
-        <div class="hire-modal">
-
-            <h3 id="hireModalTitle">Hire worker</h3>
-
-            <div class="form-group">
-                <label for="hirePosition">Position</label>
-                <input type="text" id="hirePosition" placeholder="e.g. Waiter for wedding event">
+        <div class="sidebar-footer">
+            <div class="user-mini-card">
+                <div class="user-avatar-small" id="sidebarAvatar">
+                    <span id="sidebarInitial">🏨</span>
+                    <img id="sidebarAvatarImg" class="hidden" alt="Avatar">
+                </div>
+                <div class="user-mini-info">
+                    <strong id="sidebarUserName">Hotel</strong>
+                    <span class="mini-role-tag" style="background:#FEF3C7; color:#B45309;">Employer</span>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="hireDate">Date</label>
-                <input type="date" id="hireDate">
-            </div>
-
-            <div class="form-group">
-                <label for="hireMessage">Message (optional)</label>
-                <textarea id="hireMessage" rows="3" placeholder="Any details for the worker"></textarea>
-            </div>
-
-            <div class="hire-modal-actions">
-                <button id="hireCancelBtn" class="hire-cancel-btn">Cancel</button>
-                <button id="hireConfirmBtn" class="create-account-btn hire-confirm-btn">Send Request</button>
-            </div>
-
+            <button type="button" class="btn-logout" onclick="handleLogout()">
+                <span>🚪 Logout</span>
+            </button>
         </div>
-
-    </div>
-
-</main>
-
-
-<script>
-
-    const userData =
-        JSON.parse(localStorage.getItem("worqdenUser") || "null");
-
-    if (!userData) {
-
-        window.location.href = "login.html";
-
-    }
-
-
-    const categories = {
-
-        "Hospitality & Hotels": ["Waiter", "Chef", "Cook", "Kitchen Helper", "Housekeeping", "Receptionist", "Steward"],
-        "Events": ["Event Helper", "Catering Staff", "Event Coordinator", "Decoration Worker", "Photographer", "Videographer", "Sound Technician"],
-        "Home Services": ["Plumber", "Electrician", "Carpenter", "Painter", "Cleaner", "AC Technician", "Appliance Repair"],
-        "Construction": ["Mason", "Welder", "Carpenter", "Painter", "Electrician", "Plumber"],
-        "Transportation": ["Driver", "Delivery Partner", "Loader", "Travel Assistant", "Transport Helper"],
-        "Beauty & Personal Care": ["Hair Stylist", "Makeup Artist", "Beautician", "Mehendi Artist", "Nail Artist"],
-        "Education": ["Tutor", "Teaching Assistant", "Subject Expert", "Academic Support"],
-        "Office & Business": ["Data Entry", "Receptionist", "Office Assistant", "Sales Executive", "Customer Support"],
-        "Healthcare": ["Caretaker", "Nursing Assistant", "Home Care Worker", "Medical Support"],
-        "Technology": ["Web Developer", "Graphic Designer", "Video Editor", "IT Support", "Social Media Manager"],
-        "Retail": ["Store Assistant", "Cashier", "Sales Staff", "Stock Assistant"],
-        "Cleaning & Maintenance": ["House Cleaner", "Office Cleaner", "Gardener", "Maintenance Worker"],
-        "Security": ["Security Guard", "Event Security", "Night Guard"],
-        "Agriculture": ["Farm Worker", "Gardener", "Harvest Worker", "Livestock Assistant"]
-
-    };
-
-    const statesDistricts = {
-
-        "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Nellore", "Prakasam", "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"],
-
-        "Arunachal Pradesh": ["Papum Pare", "East Siang", "West Siang", "Lower Subansiri", "Upper Subansiri", "Tawang", "West Kameng", "East Kameng"],
-
-        "Assam": ["Kamrup", "Kamrup Metropolitan", "Dibrugarh", "Jorhat", "Nagaon", "Barpeta", "Cachar", "Sonitpur", "Tinsukia", "Golaghat"],
-
-        "Bihar": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Darbhanga", "Purnia", "Nalanda", "Rohtas", "Saran", "Vaishali", "West Champaran", "East Champaran"],
-
-        "Chhattisgarh": ["Raipur", "Bilaspur", "Durg", "Korba", "Raigarh", "Rajnandgaon", "Jagdalpur", "Ambikapur"],
-
-        "Goa": ["North Goa", "South Goa"],
-
-        "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh", "Gandhinagar", "Anand", "Kutch"],
-
-        "Haryana": ["Faridabad", "Gurugram", "Panipat", "Ambala", "Hisar", "Karnal", "Rohtak", "Sonipat", "Yamunanagar", "Panchkula"],
-
-        "Himachal Pradesh": ["Shimla", "Kangra", "Mandi", "Solan", "Una", "Hamirpur", "Bilaspur", "Kullu"],
-
-        "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Deoghar", "Hazaribagh", "Giridih"],
-
-        "Karnataka": ["Bengaluru Urban", "Bengaluru Rural", "Mysuru", "Mangaluru", "Hubli-Dharwad", "Belagavi", "Kalaburagi", "Ballari", "Shivamogga", "Tumakuru", "Davanagere", "Udupi"],
-
-        "Kerala": ["Thiruvananthapuram", "Kollam", "Ernakulam", "Kozhikode", "Thrissur", "Alappuzha", "Kannur", "Kottayam", "Palakkad", "Malappuram", "Wayanad", "Idukki"],
-
-        "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain", "Sagar", "Rewa", "Satna", "Dewas", "Ratlam"],
-
-        "Maharashtra": ["Mumbai City", "Mumbai Suburban", "Pune", "Nagpur", "Nashik", "Thane", "Aurangabad", "Solapur", "Kolhapur", "Amravati", "Nanded", "Sangli"],
-
-        "Manipur": ["Imphal East", "Imphal West", "Thoubal", "Bishnupur", "Churachandpur"],
-
-        "Meghalaya": ["East Khasi Hills", "West Khasi Hills", "Ri Bhoi", "West Garo Hills", "East Garo Hills"],
-
-        "Mizoram": ["Aizawl", "Lunglei", "Champhai", "Serchhip"],
-
-        "Nagaland": ["Kohima", "Dimapur", "Mokokchung", "Tuensang"],
-
-        "Odisha": ["Khordha", "Cuttack", "Puri", "Ganjam", "Sundargarh", "Sambalpur", "Balasore", "Mayurbhanj"],
-
-        "Punjab": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Hoshiarpur", "Ferozepur"],
-
-        "Rajasthan": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner", "Ajmer", "Alwar", "Bharatpur", "Sikar", "Bhilwara"],
-
-        "Sikkim": ["East Sikkim", "West Sikkim", "North Sikkim", "South Sikkim"],
-
-        "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tirunelveli", "Erode", "Vellore", "Thanjavur", "Tiruppur"],
-
-        "Telangana": ["Hyderabad", "Rangareddy", "Warangal", "Nizamabad", "Karimnagar", "Khammam", "Medak", "Nalgonda"],
-
-        "Tripura": ["West Tripura", "South Tripura", "North Tripura", "Dhalai"],
-
-        "Uttar Pradesh": ["Lucknow", "Kanpur", "Ghaziabad", "Agra", "Meerut", "Varanasi", "Prayagraj", "Bareilly", "Aligarh", "Moradabad", "Noida (Gautam Buddha Nagar)", "Gorakhpur"],
-
-        "Uttarakhand": ["Dehradun", "Haridwar", "Nainital", "Udham Singh Nagar", "Almora", "Pauri Garhwal"],
-
-        "West Bengal": ["Kolkata", "North 24 Parganas", "South 24 Parganas", "Howrah", "Hooghly", "Nadia", "Darjeeling", "Purba Bardhaman", "Malda"],
-
-        "Andaman and Nicobar Islands": ["South Andaman", "North and Middle Andaman", "Nicobar"],
-
-        "Chandigarh": ["Chandigarh"],
-
-        "Dadra and Nagar Haveli and Daman and Diu": ["Dadra and Nagar Haveli", "Daman", "Diu"],
-
-        "Delhi": ["New Delhi", "North Delhi", "South Delhi", "East Delhi", "West Delhi", "Central Delhi", "North East Delhi", "North West Delhi", "South East Delhi", "South West Delhi", "Shahdara"],
-
-        "Jammu and Kashmir": ["Srinagar", "Jammu", "Baramulla", "Anantnag", "Udhampur", "Kathua", "Pulwama"],
-
-        "Ladakh": ["Leh", "Kargil"],
-
-        "Lakshadweep": ["Lakshadweep"],
-
-        "Puducherry": ["Puducherry", "Karaikal", "Mahe", "Yanam"]
-
-    };
-
-
-    const categorySelect = document.getElementById("filterCategory");
-    const subcategorySelect = document.getElementById("filterSubcategory");
-    const stateSelect = document.getElementById("filterState");
-    const districtSelect = document.getElementById("filterDistrict");
-
-
-    Object.keys(categories).forEach(function(name) {
-
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        categorySelect.appendChild(option);
-
-    });
-
-    Object.keys(statesDistricts).forEach(function(name) {
-
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        stateSelect.appendChild(option);
-
-    });
-
-
-    categorySelect.addEventListener("change", function() {
-
-        subcategorySelect.innerHTML = '<option value="">All subcategories</option>';
-
-        const selected = categories[categorySelect.value] || [];
-
-        selected.forEach(function(name) {
-
-            const option = document.createElement("option");
-            option.value = name;
-            option.textContent = name;
-            subcategorySelect.appendChild(option);
-
-        });
-
-    });
-
-
-    stateSelect.addEventListener("change", function() {
-
-        districtSelect.innerHTML = '<option value="">All districts</option>';
-
-        const selected = statesDistricts[stateSelect.value] || [];
-
-        selected.forEach(function(name) {
-
-            const option = document.createElement("option");
-            option.value = name;
-            option.textContent = name;
-            districtSelect.appendChild(option);
-
-        });
-
-    });
-
-
-    function staffCard(staff) {
-
-        const initial = (staff.name || "?").charAt(0).toUpperCase();
-
-        return `
-            <div class="staff-card">
-                <div class="staff-card-top">
-                    <div class="staff-card-avatar">${initial}</div>
-                    <div>
-                        <h3>${staff.name}</h3>
-                        <span class="staff-card-role">${staff.subcategory || staff.category || "Worker"}</span>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-main-content">
+        <header class="dashboard-topbar">
+            <div class="topbar-search">
+                <span style="font-size: 14px;">🔍</span>
+                <input type="text" id="topSearchInput" placeholder="Search workers by name, skills, or district..." onkeyup="filterStaffLive()">
+            </div>
+            <div class="topbar-actions">
+                <a href="requests.html" class="topbar-icon-btn" title="View Requests"><span>🔔</span></a>
+                <a href="profile.html" class="topbar-user-profile">
+                    <div class="avatar-circle-sm" id="topbarAvatarBox">
+                        <span id="topbarInitial">🏨</span>
+                        <img id="topbarAvatarImg" class="hidden" alt="Avatar">
+                    </div>
+                    <span id="topbarName" class="topbar-user-name">Hotel</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="dashboard-scrollable-body">
+            <!-- Filter Bar Card -->
+            <section class="filter-bar-card" style="margin-top: 0;">
+                <div class="filter-bar-header">
+                    <h3>Find Verified Hospitality Staff & Students</h3>
+                    <p>Filter candidates across all 786 districts by state, skill category, and live availability.</p>
+                </div>
+                <div class="filter-controls-row">
+                    <div class="filter-group">
+                        <label for="filterState">State / UT</label>
+                        <select id="filterState" class="form-select" onchange="onStateFilterChange()">
+                            <option value="">All States (36)</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filterDistrict">District</label>
+                        <select id="filterDistrict" class="form-select">
+                            <option value="">All Districts (786)</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filterCategory">Work Category</label>
+                        <select id="filterCategory" class="form-select">
+                            <option value="">All Categories (14)</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-action-btn-col">
+                        <button type="button" class="btn btn-primary" onclick="searchStaff()" style="height: 42px; width: 100%;">
+                            <span>Filter Staff</span>
+                        </button>
                     </div>
                 </div>
-                <div class="staff-card-tags">
-                    ${staff.experience ? `<span class="staff-tag">${staff.experience}</span>` : ""}
-                    ${staff.availability ? `<span class="staff-tag staff-tag-accent">${staff.availability}</span>` : ""}
+            </section>
+
+            <!-- Staff Grid -->
+            <section class="dashboard-section">
+                <div class="section-title-row">
+                    <div>
+                        <h2 class="dash-section-title">Verified Candidates (<span id="staffCountDisplay">0</span>)</h2>
+                        <p class="dash-section-subtitle">Click "Direct Hire" to send a direct job invitation to any candidate.</p>
+                    </div>
                 </div>
-                <p class="staff-card-location">${[staff.district, staff.state].filter(Boolean).join(", ") || "Location not specified"}</p>
-                <button class="staff-hire-btn" data-staff-id="${staff.id}" data-staff-name="${staff.name}" data-staff-role="${staff.subcategory || staff.category || ""}">
-                    Hire
-                </button>
+
+                <div id="staffGridContainer" class="hotels-card-grid">
+                    <div class="loading-spinner-box">Loading verified talent... ⏳</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- DIRECT HIRE INVITATION MODAL -->
+    <div id="directHireModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDirectHireModal()">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Send Direct Hire Offer</h3>
+                <button type="button" class="modal-close-btn" onclick="closeDirectHireModal()">&times;</button>
             </div>
-        `;
+            <div class="modal-body">
+                <div style="display:flex; align-items:center; gap: 14px; margin-bottom: 20px; padding: 12px; background: var(--card-bg-subtle); border-radius: var(--radius-md);">
+                    <div class="avatar-circle-preview" id="modalWorkerAvatar" style="width: 52px; height: 52px; font-size: 22px;">👤</div>
+                    <div>
+                        <h4 id="modalWorkerName" style="margin:0; font-size: 16px; color: var(--primary-navy);">Candidate Name</h4>
+                        <span id="modalWorkerRole" style="font-size: 13px; color: var(--text-muted);">Chef • Pune</span>
+                    </div>
+                </div>
 
-    }
+                <form id="directHireForm" onsubmit="submitDirectHire(event)">
+                    <input type="hidden" id="modalWorkerId">
 
+                    <div class="form-group">
+                        <label for="hirePosition">Position / Shift Role *</label>
+                        <input type="text" id="hirePosition" class="form-input" placeholder="e.g. Banquet Waiter / Assistant Chef" required>
+                    </div>
 
-    async function searchStaff() {
+                    <div class="form-group">
+                        <label for="hireMessage">Offer Details / Shift Timing & Pay (Optional)</label>
+                        <textarea id="hireMessage" class="form-textarea" rows="3" placeholder="We would love to hire you for our Saturday evening banquet (6 PM - 11 PM). Compensation: ₹1,200/shift..."></textarea>
+                    </div>
 
-        const params = new URLSearchParams();
+                    <div id="hireErrorMsg" class="form-error-banner hidden"></div>
+                    <div id="hireSuccessMsg" class="form-success-banner hidden"></div>
 
-        if (categorySelect.value) params.set("category", categorySelect.value);
-        if (subcategorySelect.value) params.set("subcategory", subcategorySelect.value);
-        if (stateSelect.value) params.set("state", stateSelect.value);
-        if (districtSelect.value) params.set("district", districtSelect.value);
-        if (document.getElementById("filterAvailability").value) {
-            params.set("availability", document.getElementById("filterAvailability").value);
-        }
+                    <div class="modal-actions-row">
+                        <button type="button" class="btn btn-outline" onclick="closeDirectHireModal()">Cancel</button>
+                        <button type="submit" id="hireSubmitBtn" class="btn btn-primary">
+                            <span>Send Hire Offer 📩</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-        const resultsBox = document.getElementById("staffResults");
-        const countText = document.getElementById("staffResultCount");
+    <script>
+        let currentUser = null;
+        let allStaffList = [];
 
-        resultsBox.innerHTML = "";
-        countText.textContent = "Searching...";
-
-        try {
-
-            const response = await fetch(`/api/staff?${params.toString()}`);
-            const data = await response.json();
-
-            if (!response.ok) {
-
-                countText.textContent = data.message || "Something went wrong.";
+        window.addEventListener('DOMContentLoaded', async () => {
+            currentUser = JSON.parse(localStorage.getItem('worqdenUser') || 'null');
+            if (!currentUser) {
+                window.location.href = 'login.html';
                 return;
-
             }
 
-            countText.textContent = `${data.count} worker(s) found`;
+            setupUserUI();
+            initFilterData();
+            loadStaff();
 
-            if (data.count === 0) {
-
-                resultsBox.innerHTML = `<p class="staff-empty">No workers match these filters yet.</p>`;
-                return;
-
-            }
-
-            resultsBox.innerHTML = data.staff.map(staffCard).join("");
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-            countText.textContent = "Unable to connect to WorqDen server.";
-
-        }
-
-    }
-
-
-    document.getElementById("searchBtn").addEventListener("click", searchStaff);
-
-    // Page load par bhi ek baar sab dikha do (bina filter)
-    searchStaff();
-
-
-    // ===== HIRE MODAL LOGIC =====
-
-    let selectedStaffId = null;
-
-    const hireModalOverlay = document.getElementById("hireModalOverlay");
-    const hireModalTitle = document.getElementById("hireModalTitle");
-
-    document.getElementById("staffResults").addEventListener("click", function(event) {
-
-        const btn = event.target.closest(".staff-hire-btn");
-
-        if (!btn) return;
-
-        selectedStaffId = btn.dataset.staffId;
-
-        hireModalTitle.textContent = "Hire " + btn.dataset.staffName;
-        document.getElementById("hirePosition").value = btn.dataset.staffRole || "";
-        document.getElementById("hireDate").value = "";
-        document.getElementById("hireMessage").value = "";
-
-        hireModalOverlay.classList.remove("hidden");
-
-    });
-
-    document.getElementById("hireCancelBtn").addEventListener("click", function() {
-
-        hireModalOverlay.classList.add("hidden");
-        selectedStaffId = null;
-
-    });
-
-    document.getElementById("hireConfirmBtn").addEventListener("click", async function() {
-
-        if (!selectedStaffId) return;
-
-        try {
-
-            const response = await fetch("/api/hiring-request", {
-
-                method: "POST",
-
-                headers: { "Content-Type": "application/json" },
-
-                body: JSON.stringify({
-                    hotelId: userData.id,
-                    staffId: selectedStaffId,
-                    position: document.getElementById("hirePosition").value.trim(),
-                    date: document.getElementById("hireDate").value,
-                    message: document.getElementById("hireMessage").value.trim()
-                })
-
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-
-                alert("Hiring request sent!");
-                hireModalOverlay.classList.add("hidden");
-                selectedStaffId = null;
-
-            }
-
-            else {
-
-                alert(data.message || "Could not send request.");
-
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-            alert("Unable to connect to WorqDen server.");
-
-        }
-
-    });
-
-
-    document
-        .getElementById("logoutBtn")
-        .addEventListener("click", function(event) {
-
-            event.preventDefault();
-
-            localStorage.removeItem("worqdenUser");
-            localStorage.removeItem("worqdenToken");
-
-            window.location.href = "login.html";
-
+            try {
+                const uRes = await fetch(`/api/users/${currentUser.id}`);
+                const uData = await uRes.json();
+                if (uData.user) {
+                    currentUser = uData.user;
+                    localStorage.setItem('worqdenUser', JSON.stringify(uData.user));
+                    setupUserUI();
+                }
+            } catch (err) {}
         });
 
-</script>
+        function setupUserUI() {
+            document.getElementById('sidebarUserName').textContent = currentUser.name || 'Hotel';
+            document.getElementById('topbarName').textContent = currentUser.name || 'Hotel';
 
+            const sImg = document.getElementById('sidebarAvatarImg');
+            const tImg = document.getElementById('topbarAvatarImg');
+            const sInit = document.getElementById('sidebarInitial');
+            const tInit = document.getElementById('topbarInitial');
+            const initChar = (currentUser.name || 'H').charAt(0).toUpperCase();
+
+            sInit.textContent = initChar;
+            tInit.textContent = initChar;
+
+            if (currentUser.profileImage && currentUser.profileImage.trim()) {
+                sImg.src = currentUser.profileImage;
+                sImg.classList.remove('hidden');
+                sInit.classList.add('hidden');
+                sImg.onerror = function() {
+                    this.classList.add('hidden');
+                    sInit.classList.remove('hidden');
+                };
+
+                tImg.src = currentUser.profileImage;
+                tImg.classList.remove('hidden');
+                tInit.classList.add('hidden');
+                tImg.onerror = function() {
+                    this.classList.add('hidden');
+                    tInit.classList.remove('hidden');
+                };
+            } else {
+                sImg.classList.add('hidden');
+                sInit.classList.remove('hidden');
+                tImg.classList.add('hidden');
+                tInit.classList.remove('hidden');
+            }
+        }
+
+        function initFilterData() {
+            const stateSelect = document.getElementById('filterState');
+            if (stateSelect && typeof WORQDEN_DATA !== 'undefined') {
+                WORQDEN_DATA.states.forEach(st => {
+                    const opt = document.createElement('option');
+                    opt.value = st;
+                    opt.textContent = st;
+                    stateSelect.appendChild(opt);
+                });
+            }
+
+            const catSelect = document.getElementById('filterCategory');
+            if (catSelect && typeof WORQDEN_DATA !== 'undefined') {
+                WORQDEN_DATA.categories.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.name;
+                    opt.textContent = `${c.icon || '📌'} ${c.name}`;
+                    catSelect.appendChild(opt);
+                });
+            }
+        }
+
+        function onStateFilterChange() {
+            const st = document.getElementById('filterState').value;
+            const distSelect = document.getElementById('filterDistrict');
+            distSelect.innerHTML = '<option value="">All Districts</option>';
+
+            if (!st || typeof WORQDEN_DATA === 'undefined') return;
+            const dists = WORQDEN_DATA.districts[st] || [];
+            dists.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d;
+                opt.textContent = d;
+                distSelect.appendChild(opt);
+            });
+        }
+
+        async function loadStaff(state = '', district = '', category = '') {
+            const container = document.getElementById('staffGridContainer');
+            container.innerHTML = '<div class="loading-spinner-box">Finding qualified staff... ⏳</div>';
+
+            try {
+                const params = new URLSearchParams();
+                if (state) params.append('state', state);
+                if (district) params.append('district', district);
+                if (category) params.append('category', category);
+
+                const res = await fetch(`/api/staff?${params.toString()}`);
+                const data = await res.json();
+
+                allStaffList = data.staff || [];
+                document.getElementById('staffCountDisplay').textContent = allStaffList.length;
+                renderStaff(allStaffList);
+            } catch (err) {
+                container.innerHTML = '<div class="empty-state-card">Unable to load candidates.</div>';
+            }
+        }
+
+        function renderStaff(staff) {
+            const container = document.getElementById('staffGridContainer');
+            if (!staff || staff.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state-card" style="grid-column: 1/-1;">
+                        <span style="font-size: 36px;">👥</span>
+                        <h3>No Candidates Found</h3>
+                        <p>Try broadening your filter criteria to view more candidates.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = staff.map(st => {
+                const img = resolveCandidateImage(st.profileImage, st.name);
+                const roleBadge = st.subcategory || st.category || 'Hospitality Professional';
+                const exp = st.experience || 'Experienced';
+                const avail = st.availability || 'Available now';
+
+                return `
+                    <div class="hotel-featured-card">
+                        <div class="hotel-card-image-wrap">
+                            <img src="${escapeHtml(img)}" alt="${escapeHtml(st.name)}" class="hotel-card-image" onerror="this.onerror=null; this.src='candidate-fallback.svg';">
+                            <span class="hotel-type-badge">${escapeHtml(roleBadge)}</span>
+                        </div>
+                        <div class="hotel-card-body">
+                            <h3 class="hotel-card-name">${escapeHtml(st.name)}</h3>
+                            <p class="hotel-card-location">📍 ${escapeHtml(st.district ? st.district + ', ' : '')}${escapeHtml(st.state || 'India')}</p>
+                            
+                            <div style="margin: 10px 0;">
+                                <span class="status-pill status-accepted">${escapeHtml(avail)}</span>
+                                <span class="tag-pill" style="margin-left: 6px;">${escapeHtml(exp)}</span>
+                            </div>
+
+                            <div class="hotel-card-actions">
+                                <button type="button" class="btn btn-primary btn-block" onclick="openDirectHireModal('${st.id}')">
+                                    <span>Direct Hire &rarr;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function escapeQuotes(str) {
+            return (str || '').replace(/'/g, "\\'");
+        }
+
+        function searchStaff() {
+            const st = document.getElementById('filterState').value;
+            const dt = document.getElementById('filterDistrict').value;
+            const ct = document.getElementById('filterCategory').value;
+            loadStaff(st, dt, ct);
+        }
+
+        function filterStaffLive() {
+            const query = document.getElementById('topSearchInput').value.toLowerCase().trim();
+            if (!allStaffList.length) return;
+            const filtered = allStaffList.filter(s => 
+                (s.name || '').toLowerCase().includes(query) ||
+                (s.subcategory || '').toLowerCase().includes(query) ||
+                (s.district || '').toLowerCase().includes(query) ||
+                (s.state || '').toLowerCase().includes(query)
+            );
+            document.getElementById('staffCountDisplay').textContent = filtered.length;
+            renderStaff(filtered);
+        }
+
+        function openDirectHireModal(workerId, name, role, img) {
+            const st = allStaffList.find(s => String(s.id) === String(workerId));
+            const candName = st ? st.name : (name || 'Candidate');
+            const candRole = st ? (st.subcategory || st.category || 'Hospitality Professional') : (role || 'Hospitality Professional');
+            const candImg = st ? resolveCandidateImage(st.profileImage, st.name) : (img || resolveCandidateImage('', candName));
+
+            document.getElementById('modalWorkerId').value = workerId;
+            document.getElementById('modalWorkerName').textContent = candName;
+            document.getElementById('modalWorkerRole').textContent = candRole;
+            document.getElementById('modalWorkerAvatar').innerHTML = `<img src="${escapeHtml(candImg)}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" onerror="this.onerror=null; this.src='candidate-fallback.svg';">`;
+            document.getElementById('hirePosition').value = candRole;
+
+            document.getElementById('hireErrorMsg').classList.add('hidden');
+            document.getElementById('hireSuccessMsg').classList.add('hidden');
+            document.getElementById('directHireModal').classList.remove('hidden');
+        }
+
+        function closeDirectHireModal() {
+            document.getElementById('directHireModal').classList.add('hidden');
+        }
+
+        async function submitDirectHire(e) {
+            e.preventDefault();
+            const workerId = document.getElementById('modalWorkerId').value;
+            const position = document.getElementById('hirePosition').value;
+            const message = document.getElementById('hireMessage').value.trim();
+            const errBox = document.getElementById('hireErrorMsg');
+            const succBox = document.getElementById('hireSuccessMsg');
+            const submitBtn = document.getElementById('hireSubmitBtn');
+
+            errBox.classList.add('hidden');
+            succBox.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Sending Offer... ⏳';
+
+            try {
+                const res = await fetch('/api/requests', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        workerId: workerId,
+                        hotelId: currentUser.id,
+                        position: position,
+                        message: message,
+                        senderType: 'hotel'
+                    })
+                });
+                const data = await res.json();
+
+                if (res.status === 201) {
+                    succBox.textContent = 'Direct hire offer sent successfully! 🎉';
+                    succBox.classList.remove('hidden');
+                    setTimeout(() => {
+                        closeDirectHireModal();
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = 'Send Hire Offer 📩';
+                    }, 1400);
+                } else {
+                    errBox.textContent = data.message || 'Failed to send offer.';
+                    errBox.classList.remove('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Send Hire Offer 📩';
+                }
+            } catch (err) {
+                errBox.textContent = 'Connection error. Please try again.';
+                errBox.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Send Hire Offer 📩';
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('worqdenUser');
+            localStorage.removeItem('worqdenToken');
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>

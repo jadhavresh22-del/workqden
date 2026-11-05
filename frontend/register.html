@@ -1,920 +1,838 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>WorqDen - Create Account</title>
-
+    <title>WorqDen — Create Account & Register</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="data.js"></script>
 </head>
+<body class="auth-body">
 
-<body class="register-page">
+    <!-- Auth Header -->
+    <header class="main-header">
+        <a href="index.html" class="logo">
+            <svg class="logo-svg-mark" viewBox="0 0 64 64" width="34" height="34" style="flex-shrink:0;">
+                <defs>
+                    <linearGradient id="wqLogoReg" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#F97316"/>
+                        <stop offset="100%" stop-color="#10B981"/>
+                    </linearGradient>
+                </defs>
+                <rect width="64" height="64" rx="16" fill="#0F172A"/>
+                <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoReg)" stroke-width="2.5"/>
+                <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="32" cy="18" r="4" fill="#F97316"/>
+            </svg>
+            <span style="font-size: 21px; font-weight: 800; color: #FFFFFF;">Worq<span style="color: #F97316;">Den</span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="login.html">Already have an account? <strong style="color:#60A5FA;">Login</strong></a>
+        </nav>
+    </header>
 
-<header class="main-header">
+    <main class="auth-page-container">
+        <!-- ==========================================
+             SCREEN 2: ROLE SELECTION (STEP 0)
+             ========================================== -->
+        <div id="roleSelectionSection" class="role-selection-wrapper">
+            <div class="auth-header-block">
+                <span class="auth-tag-badge">JOIN WORQDEN</span>
+                <h1 class="auth-title">Choose Your Account Type</h1>
+                <p class="auth-subtitle">Select how you want to use WorqDen to get started with verified gig hiring.</p>
+            </div>
 
-    <div class="logo">WorqDen</div>
+            <div class="role-cards-grid">
+                <!-- Card 1: Worker -->
+                <div class="role-select-card" onclick="selectRole('staff')">
+                    <div class="role-card-badge">POPULAR</div>
+                    <div class="role-icon-box">👷</div>
+                    <h3 class="role-card-title">Worker / Staff</h3>
+                    <p class="role-card-desc">Find flexible shifts, kitchen & event jobs, and connect directly with top luxury hotels.</p>
+                    <ul class="role-card-perks">
+                        <li>✓ 100% Free - Zero Commission</li>
+                        <li>✓ Direct Two-Way Hiring Requests</li>
+                        <li>✓ Daily & Event-Based Payments</li>
+                    </ul>
+                    <button type="button" class="btn btn-primary btn-block">Continue as Worker &rarr;</button>
+                </div>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="login.html">Login</a>
-    </nav>
+                <!-- Card 2: Student -->
+                <div class="role-select-card" onclick="selectRole('student')">
+                    <div class="role-card-badge" style="background:#EFF6FF; color:#2563EB;">FLEXIBLE</div>
+                    <div class="role-icon-box" style="background:#EFF6FF;">🎓</div>
+                    <h3 class="role-card-title">Student</h3>
+                    <p class="role-card-desc">Earn extra income with weekend gigs, part-time catering, and gain hospitality experience.</p>
+                    <ul class="role-card-perks">
+                        <li>✓ Flexible Weekend / Night Shifts</li>
+                        <li>✓ Certificate & Experience Letter</li>
+                        <li>✓ Student-Friendly Working Hours</li>
+                    </ul>
+                    <button type="button" class="btn btn-primary btn-block">Continue as Student &rarr;</button>
+                </div>
 
-</header>
+                <!-- Card 3: Hotel / Organization -->
+                <div class="role-select-card" onclick="selectRole('hotel')">
+                    <div class="role-card-badge" style="background:#FEF3C7; color:#B45309;">EMPLOYER</div>
+                    <div class="role-icon-box" style="background:#FEF3C7;">🏨</div>
+                    <h3 class="role-card-title">Hotel / Organization</h3>
+                    <p class="role-card-desc">Hire verified workers and students for banquets, rush hours, and ongoing staff needs.</p>
+                    <ul class="role-card-perks">
+                        <li>✓ Instant Nearby Candidate Discovery</li>
+                        <li>✓ OTP-Verified Identity Profiles</li>
+                        <li>✓ Seamless Request Management</li>
+                    </ul>
+                    <button type="button" class="btn btn-primary btn-block">Continue as Hotel &rarr;</button>
+                </div>
+            </div>
 
-
-<main class="register-wrapper">
-
-    <div class="register-card">
-
-        <div class="register-heading">
-
-            <span class="form-badge">JOIN WORQDEN</span>
-
-            <h1>Create your account</h1>
-
-            <p>
-                Connect with workers, students and organizations
-                for flexible work opportunities.
-            </p>
-
+            <div style="text-align: center; margin-top: 24px;">
+                <p style="font-size: 14px; color: var(--text-muted);">Already registered? <a href="login.html" style="font-weight: 600;">Sign in here</a></p>
+            </div>
         </div>
 
-
-        <form id="registerForm">
-
-            <h3 class="form-section-title">
-                Account Type
-            </h3>
-
-            <div class="form-group">
-
-                <label for="userType">
-                    Register as
-                </label>
-
-                <select id="userType" required>
-
-                    <option value="">
-                        Select account type
-                    </option>
-
-                    <option value="staff">
-                        Worker / Professional
-                    </option>
-
-                    <option value="student">
-                        Student
-                    </option>
-
-                    <option value="hotel">
-                        Hotel / Organization
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div id="workerFields">
-
-                <h3 class="form-section-title">
-                    Work Information
-                </h3>
-
-
-                <div class="form-row">
-
-                    <div class="form-group">
-
-                        <label for="category">
-                            Category
-                        </label>
-
-                        <select id="category">
-
-                            <option value="">
-                                Select category
-                            </option>
-
-                        </select>
-
+        <!-- ==========================================
+             SCREEN 3: MULTI-STEP REGISTRATION WIZARD
+             ========================================== -->
+        <div id="wizardSection" class="wizard-two-column hidden">
+            <!-- Left Form Column -->
+            <div class="wizard-card-surface">
+                <!-- Stepper Progress Header -->
+                <div class="wizard-stepper">
+                    <div class="stepper-step active" id="stepIndicator1">
+                        <span class="step-num">1</span>
+                        <span class="step-label">Personal Info</span>
                     </div>
-
-
-                    <div class="form-group">
-
-                        <label for="subcategory">
-                            Subcategory
-                        </label>
-
-                        <select id="subcategory">
-
-                            <option value="">
-                                Select subcategory
-                            </option>
-
-                        </select>
-
+                    <div class="stepper-divider"></div>
+                    <div class="stepper-step" id="stepIndicator2">
+                        <span class="step-num">2</span>
+                        <span class="step-label">Work Details</span>
                     </div>
-
+                    <div class="stepper-divider"></div>
+                    <div class="stepper-step" id="stepIndicator3">
+                        <span class="step-num">3</span>
+                        <span class="step-label">Location</span>
+                    </div>
+                    <div class="stepper-divider"></div>
+                    <div class="stepper-step" id="stepIndicator4">
+                        <span class="step-num">4</span>
+                        <span class="step-label">Finish</span>
+                    </div>
                 </div>
 
-
-                <div class="form-row">
-
-                    <div class="form-group">
-
-                        <label for="experience">
-                            Experience Level
-                        </label>
-
-                        <select id="experience">
-
-                            <option value="">
-                                Select experience
-                            </option>
-
-                            <option value="Fresher">
-                                Fresher
-                            </option>
-
-                            <option value="Beginner">
-                                Beginner
-                            </option>
-
-                            <option value="Intermediate">
-                                Intermediate
-                            </option>
-
-                            <option value="Experienced">
-                                Experienced
-                            </option>
-
-                            <option value="Professional">
-                                Professional
-                            </option>
-
-                        </select>
-
+                <div class="auth-header-compact">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span class="auth-tag-badge" id="selectedRoleBadge">WORKER REGISTRATION</span>
+                        <button type="button" onclick="changeRole()" class="btn-link" style="font-size: 12.5px;">Change Role</button>
                     </div>
-
-
-                    <div class="form-group">
-
-                        <label for="availability">
-                            Availability
-                        </label>
-
-                        <select id="availability">
-
-                            <option value="">
-                                Select availability
-                            </option>
-
-                            <option value="Available now">
-                                Available now
-                            </option>
-
-                            <option value="Part time">
-                                Part time
-                            </option>
-
-                            <option value="Full time">
-                                Full time
-                            </option>
-
-                            <option value="Weekends">
-                                Weekends
-                            </option>
-
-                        </select>
-
-                    </div>
-
+                    <h2 class="auth-heading-h2" id="stepTitle">Step 1: Account & Contact</h2>
                 </div>
 
-            </div>
+                <!-- Registration Form -->
+                <form id="multiStepForm" onsubmit="event.preventDefault();">
 
+                    <!-- STEP 1: Personal Info & Phone OTP -->
+                    <div id="stepContent1" class="wizard-step-pane">
+                        <div class="form-group">
+                            <label for="fullName">Full Name / Contact Person *</label>
+                            <input type="text" id="fullName" class="form-input" placeholder="e.g. Rahul Sharma" required>
+                        </div>
 
-            <h3 class="form-section-title">
-                Personal Information
-            </h3>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+                        </div>
 
+                        <!-- Phone Number & OTP Verification Row -->
+                        <div class="form-group">
+                            <label for="phone">Mobile Phone Number * (10 Digits)</label>
+                            <div class="phone-otp-row">
+                                <div class="phone-input-prefix">
+                                    <span>+91</span>
+                                    <input type="tel" id="phone" class="form-input" placeholder="9876543210" maxlength="10" required>
+                                </div>
+                                <button type="button" id="sendOtpBtn" class="btn btn-outline" onclick="handleSendOtp()">
+                                    <span>Send OTP</span>
+                                </button>
+                            </div>
+                        </div>
 
-            <div class="form-row">
+                        <!-- OTP Verification Box (shown after sending) -->
+                        <div id="otpInputContainer" class="otp-verification-box hidden">
+                            <div id="devOtpAlert" class="dev-otp-banner hidden">
+                                🔑 <strong>Dev OTP:</strong> <span id="devOtpDisplay">123456</span>
+                            </div>
+                            <label for="otpCode" style="font-size: 13px; font-weight: 600;">Enter 6-Digit SMS Code</label>
+                            <div style="display: flex; gap: 8px; margin-top: 6px;">
+                                <input type="text" id="otpCode" class="form-input" placeholder="123456" maxlength="6" style="letter-spacing: 4px; font-weight: 700; text-align: center;">
+                                <button type="button" id="verifyOtpBtn" class="btn btn-primary" onclick="handleVerifyOtp()" style="white-space: nowrap;">
+                                    Verify
+                                </button>
+                            </div>
+                            <p id="phoneVerifiedStatus" class="phone-verified-msg hidden">✅ Phone Verified Successfully!</p>
+                        </div>
 
-                <div class="form-group">
+                        <div class="form-group">
+                            <label for="password">Create Password * (min. 6 characters)</label>
+                            <input type="password" id="password" class="form-input" placeholder="••••••••" required minlength="6">
+                        </div>
 
-                    <label for="name">
-                        Full Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your full name"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="phone">
-                        Phone Number
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="phone"
-                        placeholder="Enter phone number"
-                        required
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="email">
-                    Email Address
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="password">
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Create a password"
-                    required
-                >
-
-            </div>
-
-
-            <div id="locationFields">
-
-                <h3 class="form-section-title">
-                    Location
-                </h3>
-
-                <div class="form-row">
-
-                    <div class="form-group">
-
-                        <label for="state">
-                            State
-                        </label>
-
-                        <select id="state">
-
-                            <option value="">
-                                Select state
-                            </option>
-
-                        </select>
-
+                        <div class="wizard-actions">
+                            <div></div>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(1)">
+                                <span>Next: Work Details</span>
+                                <span>&rarr;</span>
+                            </button>
+                        </div>
                     </div>
 
+                    <!-- STEP 2: Work / Property Details -->
+                    <div id="stepContent2" class="wizard-step-pane hidden">
+                        <!-- Profile Photo Blob Upload -->
+                        <div class="form-group">
+                            <label id="photoUploadLabel">Profile Photo / Property Logo</label>
+                            <div class="avatar-upload-widget">
+                                <div class="avatar-circle-preview" id="avatarPreviewBox">
+                                    <span id="avatarPreviewInitials">👤</span>
+                                    <img id="avatarPreviewImg" class="hidden" alt="Profile Preview">
+                                </div>
+                                <div class="avatar-upload-cta">
+                                    <label class="btn btn-outline btn-sm" style="cursor: pointer;">
+                                        <span>📷 Choose Photo</span>
+                                        <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="handleImageBlob(event)">
+                                    </label>
+                                    <span class="file-hint">JPG, PNG or WEBP (Max 5MB)</span>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="form-group">
+                        <!-- Role Specific Form Fields: Worker/Student -->
+                        <div id="workerFields">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="category">Category *</label>
+                                    <select id="category" class="form-select" onchange="populateSubcategories()">
+                                        <option value="">Select category</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subcategory">Subcategory / Role *</label>
+                                    <select id="subcategory" class="form-select">
+                                        <option value="">Select subcategory</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        <label for="district">
-                            District
-                        </label>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="experience">Experience Level</label>
+                                    <select id="experience" class="form-select">
+                                        <option value="Fresher">Fresher (Looking to start)</option>
+                                        <option value="Beginner">Beginner (1-2 years)</option>
+                                        <option value="Intermediate" selected>Intermediate (2-5 years)</option>
+                                        <option value="Expert">Expert (5+ years)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="availability">Availability</label>
+                                    <select id="availability" class="form-select">
+                                        <option value="Available now">🟢 Available now</option>
+                                        <option value="Part time">🟡 Part time</option>
+                                        <option value="Full time">🔵 Full time</option>
+                                        <option value="Weekends">🟣 Weekends only</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        <select id="district">
+                            <div class="form-group">
+                                <label>Preferred Work Type</label>
+                                <div class="pill-radio-group">
+                                    <label class="pill-radio"><input type="radio" name="workType" value="Part Time" checked><span>Part Time</span></label>
+                                    <label class="pill-radio"><input type="radio" name="workType" value="Full Time"><span>Full Time</span></label>
+                                    <label class="pill-radio"><input type="radio" name="workType" value="Per Event"><span>Per Event / Shift</span></label>
+                                </div>
+                            </div>
+                        </div>
 
-                            <option value="">
-                                Select district
-                            </option>
+                        <!-- Role Specific Form Fields: Hotel -->
+                        <div id="hotelFields" class="hidden">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="hotelName">Property / Venue Name *</label>
+                                    <input type="text" id="hotelName" class="form-input" placeholder="e.g. Hotel / Business Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hotelType">Hotel / Venue Type</label>
+                                    <select id="hotelType" class="form-select">
+                                        <option value="Luxury Hotel">Luxury 5-Star Hotel</option>
+                                        <option value="Resort">Resort & Spa</option>
+                                        <option value="Business Hotel">Business Hotel</option>
+                                        <option value="Boutique Hotel">Boutique Hotel</option>
+                                        <option value="Event Banquet">Event & Banquet Hall</option>
+                                        <option value="Restaurant">Fine Dining Restaurant</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        </select>
+                            <div class="form-group">
+                                <label>Open Positions Currently Needed</label>
+                                <div class="positions-checkbox-grid">
+                                    <label class="checkbox-tag"><input type="checkbox" name="hotelPos" value="Waiter"> 🍽️ Waiter</label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="hotelPos" value="Chef"> 👨‍🍳 Chef / Cook</label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="hotelPos" value="Housekeeping"> 🧹 Housekeeping</label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="hotelPos" value="Receptionist"> 🛎️ Receptionist</label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="hotelPos" value="Bartender"> 🍸 Bartender</label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="hotelPos" value="Security"> 🛡️ Security</label>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="wizard-actions">
+                            <button type="button" class="btn btn-outline" onclick="prevStep(2)">&larr; Back</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                                <span>Next: Location</span>
+                                <span>&rarr;</span>
+                            </button>
+                        </div>
                     </div>
 
-                </div>
+                    <!-- STEP 3: Location (786 Districts across 36 States/UTs) -->
+                    <div id="stepContent3" class="wizard-step-pane hidden">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="state">State / Union Territory *</label>
+                                <select id="state" class="form-select" onchange="populateDistricts()" required>
+                                    <option value="">Select State</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="district">District * (All 786 Districts)</label>
+                                <select id="district" class="form-select" required>
+                                    <option value="">Select District</option>
+                                </select>
+                            </div>
+                        </div>
 
-            </div>
+                        <div class="form-group">
+                            <label for="about">About / Bio / Description</label>
+                            <textarea id="about" class="form-textarea" rows="3" placeholder="Tell hotels about your experience, certifications, or property details..."></textarea>
+                        </div>
 
-
-            <div id="studentFields" class="hidden">
-
-                <h3 class="form-section-title">
-                    Student Information
-                </h3>
-
-                <div class="form-group">
-
-                    <label for="studentSkill">
-                        Skills / Interests
-                    </label>
-
-                    <input
-                        type="text"
-                        id="studentSkill"
-                        placeholder="Example: Python, Design, Photography"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div id="hotelFields" class="hidden">
-
-                <h3 class="form-section-title">
-                    Organization Information
-                </h3>
-
-                <div class="form-row">
-
-                    <div class="form-group">
-
-                        <label for="organizationName">
-                            Organization Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="organizationName"
-                            placeholder="Hotel / organization name"
-                        >
-
+                        <div class="wizard-actions">
+                            <button type="button" class="btn btn-outline" onclick="prevStep(3)">&larr; Back</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                                <span>Review & Finish</span>
+                                <span>&rarr;</span>
+                            </button>
+                        </div>
                     </div>
 
+                    <!-- STEP 4: Review & Submit -->
+                    <div id="stepContent4" class="wizard-step-pane hidden">
+                        <div class="review-card">
+                            <h3 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-navy);">Summary of Your Profile</h3>
+                            <div class="review-grid">
+                                <div class="review-item"><span class="rev-label">Account Type:</span> <strong id="revRole">Worker</strong></div>
+                                <div class="review-item"><span class="rev-label">Name:</span> <strong id="revName">-</strong></div>
+                                <div class="review-item"><span class="rev-label">Email:</span> <span id="revEmail">-</span></div>
+                                <div class="review-item"><span class="rev-label">Phone:</span> <span id="revPhone">-</span></div>
+                                <div class="review-item"><span class="rev-label">Location:</span> <span id="revLocation">-</span></div>
+                                <div class="review-item"><span class="rev-label">Category / Role:</span> <span id="revCategory">-</span></div>
+                            </div>
+                        </div>
 
-                    <div class="form-group">
+                        <div class="form-group" style="margin-top: 16px;">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="termsCheck" required checked>
+                                <span style="font-size: 13.5px; color: var(--text-body);">I agree to the <a href="#">WorqDen Cooperative Code</a> and Terms of Fair Gig Compensation.</span>
+                            </label>
+                        </div>
 
-                        <label for="organizationType">
-                            Organization Type
-                        </label>
+                        <div id="registerError" class="form-error-banner hidden"></div>
+                        <div id="registerSuccess" class="form-success-banner hidden"></div>
 
-                        <select id="organizationType">
+                        <div class="wizard-actions">
+                            <button type="button" class="btn btn-outline" onclick="prevStep(4)">&larr; Back</button>
+                            <button type="button" id="submitRegBtn" class="btn btn-primary btn-lg" onclick="handleFinalSubmit()">
+                                <span>Complete Registration 🎉</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-                            <option value="">
-                                Select type
-                            </option>
+            <!-- Right Info Column (Screen 3) -->
+            <div class="wizard-info-panel">
+                <div class="info-card-content">
+                    <div class="info-badge">🚀 GET HIRED FASTER</div>
+                    <h3 class="info-card-title">Build Your Professional Profile</h3>
+                    <p class="info-card-desc">Your skills matter! Complete your profile to get discovered faster by top hotels and event organizers in your district.</p>
 
-                            <option value="Hotel">
-                                Hotel
-                            </option>
+                    <div class="info-features-list">
+                        <div class="info-feature-item">
+                            <div class="feat-icon">⚡</div>
+                            <div>
+                                <strong>Instant Gig Matching</strong>
+                                <p>Get matched with verified hotels looking for your specific skills.</p>
+                            </div>
+                        </div>
 
-                            <option value="Restaurant">
-                                Restaurant
-                            </option>
+                        <div class="info-feature-item">
+                            <div class="feat-icon">🛡️</div>
+                            <div>
+                                <strong>100% Verified Profiles</strong>
+                                <p>Phone OTP verification ensures genuine talent and trusted employers.</p>
+                            </div>
+                        </div>
 
-                            <option value="Event Management">
-                                Event Management
-                            </option>
+                        <div class="info-feature-item">
+                            <div class="feat-icon">💼</div>
+                            <div>
+                                <strong>Direct Two-Way Hiring</strong>
+                                <p>Send direct requests to hotels or receive direct invitations to work.</p>
+                            </div>
+                        </div>
 
-                            <option value="Business">
-                                Business / Company
-                            </option>
-
-                            <option value="Other">
-                                Other
-                            </option>
-
-                        </select>
-
+                        <div class="info-feature-item">
+                            <div class="feat-icon">💰</div>
+                            <div>
+                                <strong>Zero Commission Model</strong>
+                                <p>Keep 100% of your earnings with transparent cooperative policies.</p>
+                            </div>
+                        </div>
                     </div>
 
+                    <!-- Trust Quote -->
+                    <div class="info-quote-box">
+                        <p>"WorqDen connected me with 4 luxury resorts in Goa in under a week without any agent fees!"</p>
+                        <div class="quote-author">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" alt="Pooja" class="quote-avatar">
+                            <div>
+                                <strong>Pooja S.</strong>
+                                <span>Event Bartender</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-
-
-            <div class="form-group">
-
-                <label for="about">
-                    About
-                </label>
-
-                <textarea
-                    id="about"
-                    placeholder="Tell us a little about yourself or your organization"
-                    rows="4"
-                ></textarea>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="create-account-btn">
-
-                Create Account
-
-            </button>
-
-
-        </form>
-
-
-        <div class="login-link">
-
-            Already have an account?
-
-            <a href="login.html">
-                Login
-            </a>
-
         </div>
-
-    </div>
-
-</main>
-
-
-<script>
-
-const statesDistricts = {
-
-    "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Nellore", "Prakasam", "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"],
-
-    "Arunachal Pradesh": ["Papum Pare", "East Siang", "West Siang", "Lower Subansiri", "Upper Subansiri", "Tawang", "West Kameng", "East Kameng"],
-
-    "Assam": ["Kamrup", "Kamrup Metropolitan", "Dibrugarh", "Jorhat", "Nagaon", "Barpeta", "Cachar", "Sonitpur", "Tinsukia", "Golaghat"],
-
-    "Bihar": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Darbhanga", "Purnia", "Nalanda", "Rohtas", "Saran", "Vaishali", "West Champaran", "East Champaran"],
-
-    "Chhattisgarh": ["Raipur", "Bilaspur", "Durg", "Korba", "Raigarh", "Rajnandgaon", "Jagdalpur", "Ambikapur"],
-
-    "Goa": ["North Goa", "South Goa"],
-
-    "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh", "Gandhinagar", "Anand", "Kutch"],
-
-    "Haryana": ["Faridabad", "Gurugram", "Panipat", "Ambala", "Hisar", "Karnal", "Rohtak", "Sonipat", "Yamunanagar", "Panchkula"],
-
-    "Himachal Pradesh": ["Shimla", "Kangra", "Mandi", "Solan", "Una", "Hamirpur", "Bilaspur", "Kullu"],
-
-    "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Deoghar", "Hazaribagh", "Giridih"],
-
-    "Karnataka": ["Bengaluru Urban", "Bengaluru Rural", "Mysuru", "Mangaluru", "Hubli-Dharwad", "Belagavi", "Kalaburagi", "Ballari", "Shivamogga", "Tumakuru", "Davanagere", "Udupi"],
-
-    "Kerala": ["Thiruvananthapuram", "Kollam", "Ernakulam", "Kozhikode", "Thrissur", "Alappuzha", "Kannur", "Kottayam", "Palakkad", "Malappuram", "Wayanad", "Idukki"],
-
-    "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain", "Sagar", "Rewa", "Satna", "Dewas", "Ratlam"],
-
-    "Maharashtra": ["Mumbai City", "Mumbai Suburban", "Pune", "Nagpur", "Nashik", "Thane", "Aurangabad", "Solapur", "Kolhapur", "Amravati", "Nanded", "Sangli"],
-
-    "Manipur": ["Imphal East", "Imphal West", "Thoubal", "Bishnupur", "Churachandpur"],
-
-    "Meghalaya": ["East Khasi Hills", "West Khasi Hills", "Ri Bhoi", "West Garo Hills", "East Garo Hills"],
-
-    "Mizoram": ["Aizawl", "Lunglei", "Champhai", "Serchhip"],
-
-    "Nagaland": ["Kohima", "Dimapur", "Mokokchung", "Tuensang"],
-
-    "Odisha": ["Khordha", "Cuttack", "Puri", "Ganjam", "Sundargarh", "Sambalpur", "Balasore", "Mayurbhanj"],
-
-    "Punjab": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Hoshiarpur", "Ferozepur"],
-
-    "Rajasthan": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner", "Ajmer", "Alwar", "Bharatpur", "Sikar", "Bhilwara"],
-
-    "Sikkim": ["East Sikkim", "West Sikkim", "North Sikkim", "South Sikkim"],
-
-    "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tirunelveli", "Erode", "Vellore", "Thanjavur", "Tiruppur"],
-
-    "Telangana": ["Hyderabad", "Rangareddy", "Warangal", "Nizamabad", "Karimnagar", "Khammam", "Medak", "Nalgonda"],
-
-    "Tripura": ["West Tripura", "South Tripura", "North Tripura", "Dhalai"],
-
-    "Uttar Pradesh": ["Lucknow", "Kanpur", "Ghaziabad", "Agra", "Meerut", "Varanasi", "Prayagraj", "Bareilly", "Aligarh", "Moradabad", "Noida (Gautam Buddha Nagar)", "Gorakhpur"],
-
-    "Uttarakhand": ["Dehradun", "Haridwar", "Nainital", "Udham Singh Nagar", "Almora", "Pauri Garhwal"],
-
-    "West Bengal": ["Kolkata", "North 24 Parganas", "South 24 Parganas", "Howrah", "Hooghly", "Nadia", "Darjeeling", "Purba Bardhaman", "Malda"],
-
-    "Andaman and Nicobar Islands": ["South Andaman", "North and Middle Andaman", "Nicobar"],
-
-    "Chandigarh": ["Chandigarh"],
-
-    "Dadra and Nagar Haveli and Daman and Diu": ["Dadra and Nagar Haveli", "Daman", "Diu"],
-
-    "Delhi": ["New Delhi", "North Delhi", "South Delhi", "East Delhi", "West Delhi", "Central Delhi", "North East Delhi", "North West Delhi", "South East Delhi", "South West Delhi", "Shahdara"],
-
-    "Jammu and Kashmir": ["Srinagar", "Jammu", "Baramulla", "Anantnag", "Udhampur", "Kathua", "Pulwama"],
-
-    "Ladakh": ["Leh", "Kargil"],
-
-    "Lakshadweep": ["Lakshadweep"],
-
-    "Puducherry": ["Puducherry", "Karaikal", "Mahe", "Yanam"]
-
-};
-
-
-const categories = {
-
-    "Hospitality & Hotels": [
-        "Waiter",
-        "Chef",
-        "Cook",
-        "Kitchen Helper",
-        "Housekeeping",
-        "Receptionist",
-        "Steward"
-    ],
-
-    "Events": [
-        "Event Helper",
-        "Catering Staff",
-        "Event Coordinator",
-        "Decoration Worker",
-        "Photographer",
-        "Videographer",
-        "Sound Technician"
-    ],
-
-    "Home Services": [
-        "Plumber",
-        "Electrician",
-        "Carpenter",
-        "Painter",
-        "Cleaner",
-        "AC Technician",
-        "Appliance Repair"
-    ],
-
-    "Construction": [
-        "Mason",
-        "Welder",
-        "Carpenter",
-        "Painter",
-        "Electrician",
-        "Plumber"
-    ],
-
-    "Transportation": [
-        "Driver",
-        "Delivery Partner",
-        "Loader",
-        "Travel Assistant",
-        "Transport Helper"
-    ],
-
-    "Beauty & Personal Care": [
-        "Hair Stylist",
-        "Makeup Artist",
-        "Beautician",
-        "Mehendi Artist",
-        "Nail Artist"
-    ],
-
-    "Education": [
-        "Tutor",
-        "Teaching Assistant",
-        "Subject Expert",
-        "Academic Support"
-    ],
-
-    "Office & Business": [
-        "Data Entry",
-        "Receptionist",
-        "Office Assistant",
-        "Sales Executive",
-        "Customer Support"
-    ],
-
-    "Healthcare": [
-        "Caretaker",
-        "Nursing Assistant",
-        "Home Care Worker",
-        "Medical Support"
-    ],
-
-    "Technology": [
-        "Web Developer",
-        "Graphic Designer",
-        "Video Editor",
-        "IT Support",
-        "Social Media Manager"
-    ],
-
-    "Retail": [
-        "Store Assistant",
-        "Cashier",
-        "Sales Staff",
-        "Stock Assistant"
-    ],
-
-    "Cleaning & Maintenance": [
-        "House Cleaner",
-        "Office Cleaner",
-        "Gardener",
-        "Maintenance Worker"
-    ],
-
-    "Security": [
-        "Security Guard",
-        "Event Security",
-        "Night Guard"
-    ],
-
-    "Agriculture": [
-        "Farm Worker",
-        "Gardener",
-        "Harvest Worker",
-        "Livestock Assistant"
-    ]
-
-};
-
-
-const userType =
-    document.getElementById("userType");
-
-const category =
-    document.getElementById("category");
-
-const subcategory =
-    document.getElementById("subcategory");
-
-const workerFields =
-    document.getElementById("workerFields");
-
-const studentFields =
-    document.getElementById("studentFields");
-
-const hotelFields =
-    document.getElementById("hotelFields");
-
-const stateSelect =
-    document.getElementById("state");
-
-const districtSelect =
-    document.getElementById("district");
-
-
-/* STATE LIST */
-
-Object.keys(statesDistricts).forEach(function(name) {
-
-    const option =
-        document.createElement("option");
-
-    option.value = name;
-    option.textContent = name;
-
-    stateSelect.appendChild(option);
-
-});
-
-
-/* DISTRICT (based on selected state) */
-
-stateSelect.addEventListener("change", function() {
-
-    districtSelect.innerHTML =
-        '<option value="">Select district</option>';
-
-    const selected =
-        statesDistricts[stateSelect.value] || [];
-
-    selected.forEach(function(name) {
-
-        const option =
-            document.createElement("option");
-
-        option.value = name;
-        option.textContent = name;
-
-        districtSelect.appendChild(option);
-
-    });
-
-});
-
-
-/* CATEGORY LIST */
-
-Object.keys(categories).forEach(function(name) {
-
-    const option =
-        document.createElement("option");
-
-    option.value = name;
-    option.textContent = name;
-
-    category.appendChild(option);
-
-});
-
-
-/* SUBCATEGORY */
-
-category.addEventListener("change", function() {
-
-    subcategory.innerHTML =
-        '<option value="">Select subcategory</option>';
-
-    const selected =
-        categories[category.value] || [];
-
-    selected.forEach(function(name) {
-
-        const option =
-            document.createElement("option");
-
-        option.value = name;
-        option.textContent = name;
-
-        subcategory.appendChild(option);
-
-    });
-
-});
-
-
-/* USER TYPE */
-
-userType.addEventListener("change", function() {
-
-    workerFields.classList.add("hidden");
-    studentFields.classList.add("hidden");
-    hotelFields.classList.add("hidden");
-
-    if (
-        userType.value === "staff" ||
-        userType.value === "student"
-    ) {
-
-        workerFields.classList.remove("hidden");
-
-    }
-
-
-    if (userType.value === "student") {
-
-        studentFields.classList.remove("hidden");
-
-    }
-
-
-    if (userType.value === "hotel") {
-
-        hotelFields.classList.remove("hidden");
-
-    }
-
-});
-
-
-/* REGISTER */
-
-document
-    .getElementById("registerForm")
-    .addEventListener("submit", async function(event) {
-
-        event.preventDefault();
-
-
-        const skillsValue =
-            document.getElementById("studentSkill").value
-            .split(",")
-            .map(skill => skill.trim())
-            .filter(skill => skill);
-
-
-        const userData = {
-
-            userType:
-                userType.value,
-
-            name:
-                document.getElementById("name").value.trim(),
-
-            email:
-                document.getElementById("email").value.trim(),
-
-            phone:
-                document.getElementById("phone").value.trim(),
-
-            password:
-                document.getElementById("password").value,
-
-            state:
-                document.getElementById("state").value.trim(),
-
-            district:
-                document.getElementById("district").value.trim(),
-
-            category:
-                category.value,
-
-            subcategory:
-                subcategory.value,
-
-            experience:
-                document.getElementById("experience").value,
-
-            skills:
-                skillsValue,
-
-            availability:
-                document.getElementById("availability").value,
-
-            about:
-                document.getElementById("about").value.trim(),
-
-            organizationName:
-                document.getElementById("organizationName").value.trim(),
-
-            organizationType:
-                document.getElementById("organizationType").value
-
-        };
-
-
-        try {
-
-            const response =
-                await fetch(
-                    "/api/register",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(userData)
+    </main>
+
+    <script>
+        let selectedRole = 'staff';
+        let currentStep = 1;
+        let isPhoneVerifiedFlag = false;
+        let profileImageBase64 = '';
+
+        // Initialize state, categories, and url parameters
+        window.addEventListener('DOMContentLoaded', () => {
+            initData();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const roleParam = urlParams.get('role');
+            if (roleParam) {
+                if (roleParam === 'worker' || roleParam === 'staff') selectRole('staff');
+                else if (roleParam === 'student') selectRole('student');
+                else if (roleParam === 'hotel') selectRole('hotel');
+            }
+        });
+
+        function initData() {
+            // Populate States (all 36 States/UTs)
+            const stateSelect = document.getElementById('state');
+            if (stateSelect) {
+                stateSelect.innerHTML = '<option value="">Select State / UT</option>';
+                const statesList = (typeof WORQDEN_DATA !== 'undefined' && WORQDEN_DATA.states) 
+                    ? WORQDEN_DATA.states 
+                    : (typeof statesDistricts !== 'undefined' ? Object.keys(statesDistricts) : []);
+                
+                statesList.forEach(st => {
+                    const opt = document.createElement('option');
+                    opt.value = st;
+                    opt.textContent = st;
+                    stateSelect.appendChild(opt);
+                });
+            }
+
+            // Populate Categories (all 14 Categories with icons)
+            const catSelect = document.getElementById('category');
+            if (catSelect) {
+                catSelect.innerHTML = '<option value="">Select Category</option>';
+                const categoriesArr = (typeof WORQDEN_DATA !== 'undefined' && WORQDEN_DATA.categories)
+                    ? WORQDEN_DATA.categories
+                    : (typeof categories !== 'undefined' ? Object.keys(categories).map(k => ({ name: k, icon: '📌', subcategories: categories[k] })) : []);
+
+                categoriesArr.forEach(cat => {
+                    const opt = document.createElement('option');
+                    const cName = typeof cat === 'object' ? cat.name : cat;
+                    const cIcon = (typeof cat === 'object' && cat.icon) ? cat.icon : '📌';
+                    opt.value = cName;
+                    opt.textContent = `${cIcon} ${cName}`;
+                    catSelect.appendChild(opt);
+                });
+            }
+        }
+
+        function selectRole(role) {
+            selectedRole = role;
+            document.getElementById('roleSelectionSection').classList.add('hidden');
+            document.getElementById('wizardSection').classList.remove('hidden');
+
+            const badge = document.getElementById('selectedRoleBadge');
+            const workerFields = document.getElementById('workerFields');
+            const hotelFields = document.getElementById('hotelFields');
+            const photoLabel = document.getElementById('photoUploadLabel');
+
+            if (role === 'hotel') {
+                badge.textContent = 'HOTEL / ORGANIZATION REGISTRATION';
+                badge.style.background = '#FEF3C7';
+                badge.style.color = '#B45309';
+                workerFields.classList.add('hidden');
+                hotelFields.classList.remove('hidden');
+                photoLabel.textContent = 'Property / Hotel Logo';
+            } else if (role === 'student') {
+                badge.textContent = 'STUDENT GIG REGISTRATION';
+                badge.style.background = '#EFF6FF';
+                badge.style.color = '#2563EB';
+                workerFields.classList.remove('hidden');
+                hotelFields.classList.add('hidden');
+                photoLabel.textContent = 'Student Profile Photo';
+            } else {
+                badge.textContent = 'WORKER / PROFESSIONAL REGISTRATION';
+                badge.style.background = '#DCFCE7';
+                badge.style.color = '#15803D';
+                workerFields.classList.remove('hidden');
+                hotelFields.classList.add('hidden');
+                photoLabel.textContent = 'Profile Photo';
+            }
+
+            initData();
+            goToStep(1);
+        }
+
+        function changeRole() {
+            document.getElementById('wizardSection').classList.add('hidden');
+            document.getElementById('roleSelectionSection').classList.remove('hidden');
+        }
+
+        function populateSubcategories() {
+            const catName = document.getElementById('category').value;
+            const subSelect = document.getElementById('subcategory');
+            subSelect.innerHTML = '<option value="">Select Subcategory</option>';
+
+            if (!catName) return;
+
+            let subList = [];
+            if (typeof WORQDEN_DATA !== 'undefined' && WORQDEN_DATA.categories) {
+                const found = WORQDEN_DATA.categories.find(c => (typeof c === 'object' ? c.name : c) === catName);
+                if (found && found.subcategories) subList = found.subcategories;
+            }
+            if (subList.length === 0 && typeof categories !== 'undefined' && categories[catName]) {
+                subList = categories[catName];
+            }
+
+            subList.forEach(sub => {
+                const opt = document.createElement('option');
+                opt.value = sub;
+                opt.textContent = sub;
+                subSelect.appendChild(opt);
+            });
+        }
+
+        function populateDistricts() {
+            const stName = document.getElementById('state').value;
+            const distSelect = document.getElementById('district');
+            distSelect.innerHTML = '<option value="">Select District</option>';
+
+            if (!stName) return;
+
+            let dists = [];
+            if (typeof WORQDEN_DATA !== 'undefined' && WORQDEN_DATA.districts) {
+                dists = WORQDEN_DATA.districts[stName] || [];
+            } else if (typeof statesDistricts !== 'undefined') {
+                dists = statesDistricts[stName] || [];
+            }
+
+            dists.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d;
+                opt.textContent = d;
+                distSelect.appendChild(opt);
+            });
+        }
+
+        function handleImageBlob(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Photo size exceeds 5MB limit.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                profileImageBase64 = e.target.result;
+                const img = document.getElementById('avatarPreviewImg');
+                img.src = profileImageBase64;
+                img.classList.remove('hidden');
+                document.getElementById('avatarPreviewInitials').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function handleSendOtp() {
+            const phone = document.getElementById('phone').value.trim();
+            const cleanedPhone = phone.replace(/[\s\-()+]/g, '');
+
+            if (!cleanedPhone || !/^\d{10,15}$/.test(cleanedPhone)) {
+                alert('Please enter a valid 10-digit mobile number.');
+                document.getElementById('phone').focus();
+                return;
+            }
+
+            const btn = document.getElementById('sendOtpBtn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            try {
+                const res = await fetch('/api/phone-otp/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: cleanedPhone, purpose: 'register' })
+                });
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    document.getElementById('otpInputContainer').classList.remove('hidden');
+                    if (data.devOtp) {
+                        document.getElementById('devOtpDisplay').textContent = data.devOtp;
+                        document.getElementById('devOtpAlert').classList.remove('hidden');
+                        document.getElementById('otpCode').value = data.devOtp;
                     }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            if (response.ok) {
-
-                alert(
-                    "Registration successful!"
-                );
-
-                document
-                    .getElementById("registerForm")
-                    .reset();
-
-                category.value = "";
-
-                subcategory.innerHTML =
-                    '<option value="">Select subcategory</option>';
-
-                workerFields.classList.add("hidden");
-                studentFields.classList.add("hidden");
-                hotelFields.classList.add("hidden");
-
+                    btn.textContent = 'Resend OTP';
+                } else {
+                    alert(data.message || 'Failed to send OTP.');
+                    btn.textContent = 'Send OTP';
+                }
+            } catch (err) {
+                alert('Connection error while sending OTP.');
+                btn.textContent = 'Send OTP';
+            } finally {
+                btn.disabled = false;
             }
-
-            else {
-
-                alert(
-                    data.message ||
-                    "Registration failed."
-                );
-
-            }
-
         }
 
-        catch (error) {
+        async function handleVerifyOtp() {
+            const phone = document.getElementById('phone').value.trim();
+            const otp = document.getElementById('otpCode').value.trim();
+            const cleanedPhone = phone.replace(/[\s\-()+]/g, '');
 
-            console.error(error);
+            if (!otp || otp.length !== 6) {
+                alert('Please enter the 6-digit OTP code.');
+                return;
+            }
 
-            alert(
-                "Unable to connect to WorqDen server."
-            );
+            const btn = document.getElementById('verifyOtpBtn');
+            btn.disabled = true;
+            btn.textContent = 'Verifying...';
 
+            try {
+                const res = await fetch('/api/phone-otp/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: cleanedPhone, otp, purpose: 'register' })
+                });
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    isPhoneVerifiedFlag = true;
+                    document.getElementById('phoneVerifiedStatus').classList.remove('hidden');
+                    document.getElementById('devOtpAlert').classList.add('hidden');
+                    btn.textContent = 'Verified ✓';
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-success');
+                } else {
+                    alert(data.message || 'Invalid OTP code.');
+                    btn.textContent = 'Verify';
+                }
+            } catch (err) {
+                alert('Error verifying OTP.');
+                btn.textContent = 'Verify';
+            } finally {
+                btn.disabled = false;
+            }
         }
 
-    });
+        function goToStep(step) {
+            currentStep = step;
+            for (let i = 1; i <= 4; i++) {
+                const pane = document.getElementById(`stepContent${i}`);
+                const ind = document.getElementById(`stepIndicator${i}`);
+                if (pane) pane.classList.toggle('hidden', i !== step);
+                if (ind) {
+                    ind.classList.toggle('active', i === step);
+                    ind.classList.toggle('completed', i < step);
+                }
+            }
 
-</script>
+            const titles = {
+                1: 'Step 1: Account & Contact Details',
+                2: selectedRole === 'hotel' ? 'Step 2: Property & Hiring Requirements' : 'Step 2: Work Skills & Availability',
+                3: 'Step 3: Location & District',
+                4: 'Step 4: Review & Complete Registration'
+            };
+            document.getElementById('stepTitle').textContent = titles[step];
+        }
 
+        function nextStep(step) {
+            if (step === 1) {
+                const name = document.getElementById('fullName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const pass = document.getElementById('password').value;
+
+                if (!name || !email || !phone || !pass) {
+                    alert('Please fill out all required fields in Step 1.');
+                    return;
+                }
+
+                // Strict email regex validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address (e.g. name@example.com).');
+                    document.getElementById('email').focus();
+                    return;
+                }
+
+                // Strict phone validation (10 digits)
+                const cleanedPhone = phone.replace(/[\s\-()+]/g, '');
+                if (!/^\d{10,15}$/.test(cleanedPhone)) {
+                    alert('Please enter a valid 10-digit mobile number.');
+                    document.getElementById('phone').focus();
+                    return;
+                }
+
+                if (pass.length < 6) {
+                    alert('Password must be at least 6 characters.');
+                    document.getElementById('password').focus();
+                    return;
+                }
+            } else if (step === 2) {
+                if (selectedRole === 'hotel') {
+                    const hName = document.getElementById('hotelName').value.trim();
+                    if (!hName) {
+                        alert('Please enter your property / hotel name.');
+                        return;
+                    }
+                } else {
+                    const cat = document.getElementById('category').value;
+                    const sub = document.getElementById('subcategory').value;
+                    if (!cat || !sub) {
+                        alert('Please select both category and subcategory.');
+                        return;
+                    }
+                }
+            } else if (step === 3) {
+                const st = document.getElementById('state').value;
+                const dt = document.getElementById('district').value;
+                if (!st || !dt) {
+                    alert('Please select your State and District.');
+                    return;
+                }
+
+                // Populate Step 4 review
+                document.getElementById('revRole').textContent = selectedRole === 'hotel' ? 'Hotel / Organization' : (selectedRole === 'student' ? 'Student' : 'Worker / Staff');
+                document.getElementById('revName').textContent = selectedRole === 'hotel' ? document.getElementById('hotelName').value : document.getElementById('fullName').value;
+                document.getElementById('revEmail').textContent = document.getElementById('email').value;
+                document.getElementById('revPhone').textContent = document.getElementById('phone').value + (isPhoneVerifiedFlag ? ' (Verified ✓)' : '');
+                document.getElementById('revLocation').textContent = `${document.getElementById('district').value}, ${document.getElementById('state').value}`;
+                document.getElementById('revCategory').textContent = selectedRole === 'hotel' ? document.getElementById('hotelType').value : `${document.getElementById('category').value} (${document.getElementById('subcategory').value})`;
+            }
+
+            goToStep(step + 1);
+        }
+
+        function prevStep(step) {
+            goToStep(step - 1);
+        }
+
+        async function handleFinalSubmit() {
+            const errBox = document.getElementById('registerError');
+            const succBox = document.getElementById('registerSuccess');
+            const submitBtn = document.getElementById('submitRegBtn');
+
+            errBox.classList.add('hidden');
+            succBox.classList.add('hidden');
+
+            const payload = {
+                userType: selectedRole,
+                name: selectedRole === 'hotel' ? document.getElementById('hotelName').value.trim() : document.getElementById('fullName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                password: document.getElementById('password').value,
+                state: document.getElementById('state').value,
+                district: document.getElementById('district').value,
+                about: document.getElementById('about').value.trim(),
+                profileImage: profileImageBase64
+            };
+
+            if (selectedRole === 'hotel') {
+                payload.organizationName = document.getElementById('hotelName').value.trim();
+                payload.hotelType = document.getElementById('hotelType').value;
+                payload.organizationType = document.getElementById('hotelType').value;
+                const posChecked = Array.from(document.querySelectorAll('input[name="hotelPos"]:checked')).map(cb => cb.value);
+                payload.availablePositions = posChecked;
+            } else {
+                payload.category = document.getElementById('category').value;
+                payload.subcategory = document.getElementById('subcategory').value;
+                payload.experience = document.getElementById('experience').value;
+                payload.availability = document.getElementById('availability').value;
+                const checkedWorkType = document.querySelector('input[name="workType"]:checked');
+                if (checkedWorkType) payload.skills = [checkedWorkType.value];
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Creating Account... ⏳';
+
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (res.status === 201) {
+                    succBox.textContent = 'Account created successfully! Redirecting... 🎉';
+                    succBox.classList.remove('hidden');
+
+                    if (data.token) localStorage.setItem('worqdenToken', data.token);
+                    if (data.user) localStorage.setItem('worqdenUser', JSON.stringify(data.user));
+
+                    setTimeout(() => {
+                        if (data.user.userType === 'hotel') {
+                            window.location.href = 'hotel-dashboard.html';
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
+                    }, 1200);
+                } else {
+                    errBox.textContent = data.message || 'Registration failed.';
+                    errBox.classList.remove('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Complete Registration 🎉';
+                }
+            } catch (e) {
+                errBox.textContent = 'Network error while registering. Please try again.';
+                errBox.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Complete Registration 🎉';
+            }
+        }
+    </script>
 </body>
 </html>

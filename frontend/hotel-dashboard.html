@@ -1,92 +1,908 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>WorqDen - Hotel Dashboard</title>
-
+    <title>WorqDen — Hotel & Venue Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="data.js"></script>
 </head>
+<body class="dashboard-layout-body">
 
-<body class="register-page">
+    <!-- Screen 9: Hotel Left Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <a href="hotel-dashboard.html" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg class="logo-svg-mark" viewBox="0 0 64 64" width="30" height="30" style="flex-shrink:0;">
+                    <defs>
+                        <linearGradient id="wqLogoHDash" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#F97316"/>
+                            <stop offset="100%" stop-color="#10B981"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="64" height="64" rx="16" fill="#0F172A"/>
+                    <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoHDash)" stroke-width="2.5"/>
+                    <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                </svg>
+                <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--primary-navy, #0F172A);">Worq<span style="color: #F97316;">Den</span></span>
+            </a>
+        </div>
 
-<header class="main-header">
+        <nav class="sidebar-menu">
+            <a href="hotel-dashboard.html" class="sidebar-link active">
+                <span class="sidebar-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="staff.html" class="sidebar-link">
+                <span class="sidebar-icon">👥</span>
+                <span>Find Staff</span>
+            </a>
+            <a href="requests.html" class="sidebar-link">
+                <span class="sidebar-icon">📥</span>
+                <span>Incoming Requests</span>
+                <span class="sidebar-badge" id="hotelPendingBadge" style="display:none;">0</span>
+            </a>
+            <a href="profile.html" class="sidebar-link">
+                <span class="sidebar-icon">🏨</span>
+                <span>Hotel Profile</span>
+            </a>
+        </nav>
 
-    <div class="logo">WorqDen</div>
+        <div class="sidebar-footer">
+            <div class="user-mini-card">
+                <div class="user-avatar-small" id="sidebarAvatar">
+                    <span id="sidebarInitial">🏨</span>
+                    <img id="sidebarAvatarImg" class="hidden" alt="Hotel Logo">
+                </div>
+                <div class="user-mini-info">
+                    <strong id="sidebarHotelName">Hotel Partner</strong>
+                    <span class="mini-role-tag" style="background:#FEF3C7; color:#B45309;">Hotel / Venue</span>
+                </div>
+            </div>
+            <button type="button" class="btn-logout" onclick="handleLogout()">
+                <span>🚪 Logout</span>
+            </button>
+        </div>
+    </aside>
 
-    <nav>
-        <span id="welcomeText" class="welcome-text"></span>
-        <a href="#" id="logoutBtn" class="logout-link">Logout</a>
-    </nav>
+    <!-- Main Content Area -->
+    <main class="dashboard-main-content">
+        <!-- Top Navigation Header Strip -->
+        <header class="dashboard-topbar">
+            <div class="topbar-search">
+                <span style="font-size: 14px;">🔍</span>
+                <input type="text" placeholder="Search staff candidates, skills, or requests...">
+            </div>
+            <div class="topbar-actions">
+                <a href="requests.html" class="topbar-icon-btn" title="View Requests">
+                    <span>🔔</span>
+                </a>
+                <a href="profile.html" class="topbar-user-profile">
+                    <div class="avatar-circle-sm" id="topbarAvatarBox">
+                        <span id="topbarInitial">🏨</span>
+                        <img id="topbarAvatarImg" class="hidden" alt="Avatar">
+                    </div>
+                    <span id="topbarHotelName" class="topbar-user-name">Hotel</span>
+                </a>
+            </div>
+        </header>
 
-</header>
+        <div class="dashboard-scrollable-body">
+            <!-- Screen 9: Greeting Banner -->
+            <section class="dashboard-greeting-banner">
+                <div class="greeting-left">
+                    <h1 class="greeting-title">Hello, <span id="greetingHotelName">Hotel Partner</span> 👋</h1>
+                    <p class="greeting-subtitle">Manage your venue staffing, review incoming applications, and hire verified workers for your events.</p>
+                </div>
+                <div class="greeting-right" style="display:flex; gap: 10px; align-items:center;">
+                    <button type="button" class="btn btn-orange" onclick="openCreateJobModal()">
+                        <span>+ Post New Job</span>
+                    </button>
+                    <a href="staff.html" class="btn btn-primary">
+                        <span>Browse Staff &rarr;</span>
+                    </a>
+                </div>
+            </section>
 
+            <!-- Screen 9: 4 Stat Metric Cards (Dynamic DB Metrics) -->
+            <section class="metric-cards-grid">
+                <!-- Card 1: Available Staff -->
+                <div class="metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Available Staff</span>
+                        <div class="metric-icon-box" style="background: #EFF6FF; color: #2563EB;">👥</div>
+                    </div>
+                    <div class="metric-number" id="metricAvailableStaff">0</div>
+                    <div class="metric-change positive">
+                        <span>Live registered candidates</span>
+                    </div>
+                </div>
 
-<main class="dashboard-wrapper">
+                <!-- Card 2: Pending Requests -->
+                <div class="metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Pending Requests</span>
+                        <div class="metric-icon-box" style="background: #FEF3C7; color: #D97706;">⏳</div>
+                    </div>
+                    <div class="metric-number" id="metricPendingRequests">0</div>
+                    <div class="metric-change" style="color: #D97706;">
+                        <span>Requires your review</span>
+                    </div>
+                </div>
 
-    <h1 class="dashboard-title">Hotel dashboard</h1>
-    <p class="dashboard-subtitle">Find and manage your workforce.</p>
+                <!-- Card 3: Accepted Staff -->
+                <div class="metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Accepted Staff</span>
+                        <div class="metric-icon-box" style="background: #DCFCE7; color: #16A34A;">✅</div>
+                    </div>
+                    <div class="metric-number" id="metricAcceptedStaff">0</div>
+                    <div class="metric-change positive">
+                        <span>Confirmed for shifts</span>
+                    </div>
+                </div>
 
-    <div class="dashboard-grid">
+                <!-- Card 4: Active Job Postings -->
+                <div class="metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Active Job Postings</span>
+                        <div class="metric-icon-box" style="background: #F1F5F9; color: #475569;">💼</div>
+                    </div>
+                    <div class="metric-number" id="metricActiveHiring">0</div>
+                    <div class="metric-change">
+                        <span>Positions currently open</span>
+                    </div>
+                </div>
+            </section>
 
-        <a href="staff.html" class="dashboard-card">
-            <span class="dashboard-card-icon">🔍</span>
-            <h3>Find Staff</h3>
-            <p>Search workers by category, location and availability.</p>
-        </a>
+            <!-- Quick Action Bar -->
+            <section class="quick-actions-bar">
+                <button type="button" class="quick-action-btn" onclick="openCreateJobModal()" style="background:none; border:none; text-align:left; cursor:pointer;">
+                    <span class="q-icon">➕</span>
+                    <div>
+                        <strong>Post a New Job / Shift</strong>
+                        <span>Create hiring requirement with pay and dates</span>
+                    </div>
+                </button>
+                <a href="staff.html" class="quick-action-btn">
+                    <span class="q-icon">🔍</span>
+                    <div>
+                        <strong>Browse Available Staff</strong>
+                        <span>Find chefs, waiters, and event staff</span>
+                    </div>
+                </a>
+                <a href="requests.html" class="quick-action-btn">
+                    <span class="q-icon">📥</span>
+                    <div>
+                        <strong>Manage All Requests</strong>
+                        <span>Accept or reject candidate applications</span>
+                    </div>
+                </a>
+            </section>
 
-        <a href="profile.html" class="dashboard-card">
-            <span class="dashboard-card-icon">🏢</span>
-            <h3>My Profile</h3>
-            <p>View and update your organization details.</p>
-        </a>
+            <!-- Active Job Postings Section (Screen 9 Extension) -->
+            <section class="dashboard-section" style="margin-top: 32px;">
+                <div class="section-title-row">
+                    <div>
+                        <h2 class="dash-section-title">Your Job Postings & Shifts (<span id="hotelJobsCount">0</span>)</h2>
+                        <p class="dash-section-subtitle">Manage open hospitality positions, set payment rates, and view applicant candidates.</p>
+                    </div>
+                    <button type="button" class="btn btn-orange btn-sm" onclick="openCreateJobModal()">+ Post New Job</button>
+                </div>
 
-        <a href="requests.html" class="dashboard-card">
-            <span class="dashboard-card-icon">📋</span>
-            <h3>Hiring Requests</h3>
-            <p>Track the status of requests you've sent to workers.</p>
-        </a>
+                <div id="hotelJobsListContainer" class="recent-requests-table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Category</th>
+                                <th>Payment & Shift</th>
+                                <th>Work Date</th>
+                                <th>Vacancies</th>
+                                <th>Applicants</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hotelJobsTableBody">
+                            <tr>
+                                <td colspan="8" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                                    Loading your job postings... ⏳
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
+            <!-- Screen 9: Recent Requests Table -->
+            <section class="dashboard-section" style="margin-top: 32px;">
+                <div class="section-title-row">
+                    <div>
+                        <h2 class="dash-section-title">Recent Candidate Applications</h2>
+                        <p class="dash-section-subtitle">Review incoming applications from workers and students looking to work at your property.</p>
+                    </div>
+                    <a href="requests.html" class="view-all-link">View All Applications &rarr;</a>
+                </div>
+
+                <div class="recent-requests-table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate Name</th>
+                                <th>Applied Role</th>
+                                <th>Candidate Location</th>
+                                <th>Applied Date</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hotelRecentRequestsTableBody">
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                                    Loading incoming applications...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ==========================================
+         CREATE / EDIT JOB MODAL
+         ========================================== -->
+    <div id="jobModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeJobModal()">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-header">
+                <h3 id="jobModalHeading">Post a New Job / Shift</h3>
+                <button type="button" class="modal-close-btn" onclick="closeJobModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="jobForm" onsubmit="submitJobForm(event)">
+                    <input type="hidden" id="jobEditId" value="">
+
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 2;">
+                            <label for="jobTitle">Job Title *</label>
+                            <input type="text" id="jobTitle" class="form-input" placeholder="e.g. Banquet Event Waiter, Continental Chef" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="jobCategory">Category *</label>
+                            <select id="jobCategory" class="form-select" required onchange="onJobCategoryChange()">
+                                <option value="">Select category</option>
+                                <option value="Hospitality & Hotels">Hospitality & Hotels</option>
+                                <option value="Kitchen & Culinary">Kitchen & Culinary</option>
+                                <option value="Housekeeping & Cleaning">Housekeeping & Cleaning</option>
+                                <option value="Front Desk & Reception">Front Desk & Reception</option>
+                                <option value="Bar & Beverage">Bar & Beverage</option>
+                                <option value="Event Staffing">Event Staffing</option>
+                                <option value="Security & Safety">Security & Safety</option>
+                                <option value="Logistics & Drivers">Logistics & Drivers</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobSubcategory">Subcategory / Role Role</label>
+                            <select id="jobSubcategory" class="form-select">
+                                <option value="">Select role</option>
+                                <option value="Waiter">Waiter / Server</option>
+                                <option value="Chef">Chef / Cook</option>
+                                <option value="Cleaner">Cleaner / Housekeeper</option>
+                                <option value="Security">Security Guard / Bouncer</option>
+                                <option value="Bartender">Bartender / Mixologist</option>
+                                <option value="Receptionist">Front Desk Receptionist</option>
+                                <option value="Event Helper">Event Helper / Setup Crew</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobSalary">Payment / Salary Rate *</label>
+                            <div style="display:flex; gap: 8px;">
+                                <input type="text" id="jobSalary" class="form-input" placeholder="e.g. ₹900" style="flex: 1;" required>
+                                <select id="jobSalaryType" class="form-select" style="flex: 1;">
+                                    <option value="per shift">per shift</option>
+                                    <option value="per day">per day</option>
+                                    <option value="per hour">per hour</option>
+                                    <option value="per month">per month</option>
+                                    <option value="per event">per event</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobShift">Work Shift *</label>
+                            <select id="jobShift" class="form-select" required>
+                                <option value="Evening (5 PM - 11 PM)">Evening (5 PM - 11 PM)</option>
+                                <option value="Morning (7 AM - 3 PM)">Morning (7 AM - 3 PM)</option>
+                                <option value="Afternoon (12 PM - 8 PM)">Afternoon (12 PM - 8 PM)</option>
+                                <option value="Night (8 PM - 4 AM)">Night (8 PM - 4 AM)</option>
+                                <option value="Weekend Shifts Only">Weekend Shifts Only</option>
+                                <option value="Full Day Shift">Full Day Shift</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobWorkDate">Shift / Start Date *</label>
+                            <input type="date" id="jobWorkDate" class="form-input" required>
+                        </div>
+                        <div class="form-group" style="max-width: 140px;">
+                            <label for="jobVacancies">Vacancies *</label>
+                            <input type="number" id="jobVacancies" class="form-input" min="1" max="100" value="2" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jobRequirements">Key Requirements</label>
+                        <input type="text" id="jobRequirements" class="form-input" placeholder="e.g. Formal black attire, minimum 6 months banquet experience, polite communication">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jobDescription">Job Description & Venue Benefits</label>
+                        <textarea id="jobDescription" class="form-textarea" rows="3" placeholder="Provide details about the event, duties, dinner/transport arrangements, or payment terms..."></textarea>
+                    </div>
+
+                    <div id="jobModalError" class="form-error-banner hidden"></div>
+                    <div id="jobModalSuccess" class="form-success-banner hidden"></div>
+
+                    <div class="modal-actions-row">
+                        <button type="button" class="btn btn-outline" onclick="closeJobModal()">Cancel</button>
+                        <button type="submit" id="jobSubmitBtn" class="btn btn-primary">
+                            <span>Save Job Posting 🚀</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-</main>
+    <!-- ==========================================
+         VIEW JOB APPLICANTS MODAL
+         ========================================== -->
+    <div id="jobApplicantsModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeJobApplicantsModal()">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-header">
+                <div>
+                    <h3 id="jobApplicantsModalTitle" style="margin:0;">Job Applicants</h3>
+                    <p style="margin:2px 0 0; font-size:13px; color:var(--text-muted);" id="jobApplicantsModalSubtitle"></p>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeJobApplicantsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="jobApplicantsListContainer">
+                    <div class="loading-spinner-box">Loading candidates... ⏳</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        let currentHotel = null;
+        let currentHotelJobs = [];
 
-<script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            currentHotel = JSON.parse(localStorage.getItem('worqdenUser') || 'null');
+            if (!currentHotel) {
+                window.location.href = 'login.html';
+                return;
+            }
 
-    const userData =
-        JSON.parse(localStorage.getItem("worqdenUser") || "null");
+            // Redirect non-hotel users to candidate dashboard
+            if (currentHotel.userType !== 'hotel') {
+                window.location.href = 'dashboard.html';
+                return;
+            }
 
-    if (!userData) {
+            setupHotelUI();
+            loadHotelJobs();
+            loadHotelRequests();
+            loadStaffStats();
 
-        window.location.href = "login.html";
+            // Sync fresh profile from DB
+            try {
+                const uRes = await fetch(`/api/users/${currentHotel.id}`);
+                const uData = await uRes.json();
+                if (uData.user) {
+                    currentHotel = uData.user;
+                    localStorage.setItem('worqdenUser', JSON.stringify(uData.user));
+                    setupHotelUI();
+                }
+            } catch (err) {}
 
-    }
-
-    else {
-
-        document.getElementById("welcomeText").textContent =
-            "Hi, " + (userData.organizationName || userData.name);
-
-    }
-
-
-    document
-        .getElementById("logoutBtn")
-        .addEventListener("click", function(event) {
-
-            event.preventDefault();
-
-            localStorage.removeItem("worqdenUser");
-            localStorage.removeItem("worqdenToken");
-
-            window.location.href = "login.html";
-
+            // Set default date picker to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const dateInput = document.getElementById('jobWorkDate');
+            if (dateInput) {
+                dateInput.min = new Date().toISOString().split('T')[0];
+                dateInput.value = tomorrow.toISOString().split('T')[0];
+            }
         });
 
-</script>
+        function setupHotelUI() {
+            document.getElementById('greetingHotelName').textContent = currentHotel.organizationName || currentHotel.name || 'Hotel Partner';
+            document.getElementById('sidebarHotelName').textContent = currentHotel.organizationName || currentHotel.name || 'Hotel Partner';
+            document.getElementById('topbarHotelName').textContent = currentHotel.organizationName || currentHotel.name || 'Hotel Partner';
 
+            const sImg = document.getElementById('sidebarAvatarImg');
+            const tImg = document.getElementById('topbarAvatarImg');
+            const sInit = document.getElementById('sidebarInitial');
+            const tInit = document.getElementById('topbarInitial');
+            const initChar = ((currentHotel.organizationName || currentHotel.name || 'H').charAt(0)).toUpperCase();
+
+            sInit.textContent = initChar;
+            tInit.textContent = initChar;
+
+            if (currentHotel.profileImage && currentHotel.profileImage.trim()) {
+                sImg.src = currentHotel.profileImage;
+                sImg.classList.remove('hidden');
+                sInit.classList.add('hidden');
+                sImg.onerror = function() {
+                    this.classList.add('hidden');
+                    sInit.classList.remove('hidden');
+                };
+
+                tImg.src = currentHotel.profileImage;
+                tImg.classList.remove('hidden');
+                tInit.classList.add('hidden');
+                tImg.onerror = function() {
+                    this.classList.add('hidden');
+                    tInit.classList.remove('hidden');
+                };
+            } else {
+                sImg.classList.add('hidden');
+                sInit.classList.remove('hidden');
+                tImg.classList.add('hidden');
+                tInit.classList.remove('hidden');
+            }
+        }
+
+        async function loadStaffStats() {
+            try {
+                const res = await fetch(`/api/staff?state=${encodeURIComponent(currentHotel.state || '')}`);
+                const data = await res.json();
+                const totalNearby = data.staff ? data.staff.length : 0;
+                document.getElementById('metricAvailableStaff').textContent = totalNearby;
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // ==========================================
+        // JOB POSTINGS CRUD
+        // ==========================================
+        async function loadHotelJobs() {
+            const tbody = document.getElementById('hotelJobsTableBody');
+            const countEl = document.getElementById('hotelJobsCount');
+
+            try {
+                const res = await fetch(`/api/jobs?hotelId=${currentHotel.id}`);
+                const data = await res.json();
+                const jobs = data.jobs || [];
+                currentHotelJobs = jobs;
+
+                countEl.textContent = jobs.length;
+                document.getElementById('metricActiveHiring').textContent = jobs.filter(j => j.status === 'active').length;
+
+                if (jobs.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align:center; padding: 32px 16px; color: var(--text-muted);">
+                                <div style="font-size: 28px; margin-bottom: 6px;">💼</div>
+                                <strong>You haven't posted any jobs or shifts yet.</strong>
+                                <div style="margin-top: 4px; font-size: 13px;">Click "+ Post New Job" to hire banquet servers, chefs, housekeepers, or event staff!</div>
+                                <button type="button" class="btn btn-orange btn-sm" onclick="openCreateJobModal()" style="margin-top: 14px;">+ Post Your First Job</button>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = jobs.map(job => {
+                    const statusClass = job.status === 'active' ? 'status-accepted' : 'status-cancelled';
+                    const statusText = job.status === 'active' ? '🟢 Active' : '⚪ Closed';
+                    const appCount = job.applicantsCount || 0;
+
+                    return `
+                        <tr>
+                            <td>
+                                <strong>${escapeHtml(job.title)}</strong>
+                                ${job.subcategory ? `<div style="font-size: 12px; color: var(--text-muted);">${escapeHtml(job.subcategory)}</div>` : ''}
+                            </td>
+                            <td><span class="pos-tag">${escapeHtml(job.category)}</span></td>
+                            <td>
+                                <strong style="color: var(--primary-blue);">${escapeHtml(job.salary || 'Flexible')}</strong>
+                                <div style="font-size: 12px; color: var(--text-muted);">${escapeHtml(job.shift || 'Full Day')}</div>
+                            </td>
+                            <td>${job.workDate ? escapeHtml(job.workDate) : 'Immediate'}</td>
+                            <td><strong>${job.vacancies || 1}</strong></td>
+                            <td>
+                                <button type="button" class="btn ${appCount > 0 ? 'btn-emerald' : 'btn-outline'} btn-sm" onclick="viewJobApplicants('${job.id}', '${escapeQuotes(job.title)}')">
+                                    <span>👥 ${appCount} ${appCount === 1 ? 'Candidate' : 'Candidates'}</span>
+                                </button>
+                            </td>
+                            <td><span class="status-pill ${statusClass}">${statusText}</span></td>
+                            <td style="text-align: right;">
+                                <div style="display:inline-flex; gap: 6px; justify-content: flex-end;">
+                                    <button type="button" class="btn btn-outline btn-sm" onclick="openEditJobModal('${job.id}')" title="Edit Job Posting">✏️ Edit</button>
+                                    <button type="button" class="btn btn-danger-soft btn-sm" onclick="deleteHotelJob('${job.id}')" title="Delete Job Posting">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 20px; color: var(--danger-red);">Failed to load job postings.</td></tr>`;
+            }
+        }
+
+        function openCreateJobModal() {
+            document.getElementById('jobEditId').value = '';
+            document.getElementById('jobModalHeading').textContent = 'Post a New Job / Shift';
+            document.getElementById('jobForm').reset();
+            document.getElementById('jobModalError').classList.add('hidden');
+            document.getElementById('jobModalSuccess').classList.add('hidden');
+            document.getElementById('jobSubmitBtn').disabled = false;
+            document.getElementById('jobSubmitBtn').innerHTML = '<span>Save Job Posting 🚀</span>';
+
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('jobWorkDate').value = tomorrow.toISOString().split('T')[0];
+
+            document.getElementById('jobModal').classList.remove('hidden');
+        }
+
+        function openEditJobModal(jobId) {
+            const job = currentHotelJobs.find(j => j.id === jobId);
+            if (!job) return;
+
+            document.getElementById('jobEditId').value = job.id;
+            document.getElementById('jobModalHeading').textContent = 'Edit Job Posting';
+            document.getElementById('jobTitle').value = job.title || '';
+            document.getElementById('jobCategory').value = job.category || '';
+            document.getElementById('jobSubcategory').value = job.subcategory || '';
+            document.getElementById('jobSalary').value = job.salary || '';
+            document.getElementById('jobSalaryType').value = job.salaryType || 'per shift';
+            document.getElementById('jobShift').value = job.shift || 'Evening (5 PM - 11 PM)';
+            document.getElementById('jobWorkDate').value = job.workDate || '';
+            document.getElementById('jobVacancies').value = job.vacancies || 1;
+            document.getElementById('jobRequirements').value = job.requirements || '';
+            document.getElementById('jobDescription').value = job.description || '';
+
+            document.getElementById('jobModalError').classList.add('hidden');
+            document.getElementById('jobModalSuccess').classList.add('hidden');
+            document.getElementById('jobSubmitBtn').disabled = false;
+            document.getElementById('jobSubmitBtn').innerHTML = '<span>Update Job Posting ✓</span>';
+
+            document.getElementById('jobModal').classList.remove('hidden');
+        }
+
+        function closeJobModal() {
+            document.getElementById('jobModal').classList.add('hidden');
+        }
+
+        async function submitJobForm(e) {
+            e.preventDefault();
+            const editId = document.getElementById('jobEditId').value;
+            const title = document.getElementById('jobTitle').value.trim();
+            const category = document.getElementById('jobCategory').value;
+            const subcategory = document.getElementById('jobSubcategory').value;
+            const salary = document.getElementById('jobSalary').value.trim();
+            const salaryType = document.getElementById('jobSalaryType').value;
+            const shift = document.getElementById('jobShift').value;
+            const workDate = document.getElementById('jobWorkDate').value;
+            const vacancies = document.getElementById('jobVacancies').value;
+            const requirements = document.getElementById('jobRequirements').value.trim();
+            const description = document.getElementById('jobDescription').value.trim();
+
+            const errBox = document.getElementById('jobModalError');
+            const succBox = document.getElementById('jobModalSuccess');
+            const btn = document.getElementById('jobSubmitBtn');
+
+            errBox.classList.add('hidden');
+            succBox.classList.add('hidden');
+            btn.disabled = true;
+            btn.innerHTML = 'Saving... ⏳';
+
+            const payload = {
+                hotelId: currentHotel.id,
+                title,
+                category,
+                subcategory,
+                salary,
+                salaryType,
+                shift,
+                workDate,
+                vacancies,
+                requirements,
+                description
+            };
+
+            try {
+                const url = editId ? `/api/jobs/${editId}` : '/api/jobs';
+                const method = editId ? 'PUT' : 'POST';
+
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    succBox.textContent = data.message || 'Job saved successfully!';
+                    succBox.classList.remove('hidden');
+                    loadHotelJobs();
+                    setTimeout(() => {
+                        closeJobModal();
+                    }, 1200);
+                } else {
+                    errBox.textContent = data.message || 'Failed to save job posting.';
+                    errBox.classList.remove('hidden');
+                    btn.disabled = false;
+                    btn.innerHTML = editId ? '<span>Update Job Posting ✓</span>' : '<span>Save Job Posting 🚀</span>';
+                }
+            } catch (err) {
+                errBox.textContent = 'Connection error. Please try again.';
+                errBox.classList.remove('hidden');
+                btn.disabled = false;
+                btn.innerHTML = editId ? '<span>Update Job Posting ✓</span>' : '<span>Save Job Posting 🚀</span>';
+            }
+        }
+
+        async function deleteHotelJob(jobId) {
+            if (!confirm('Are you sure you want to delete this job posting? All pending applications for this job will also be removed.')) return;
+
+            try {
+                const res = await fetch(`/api/jobs/${jobId}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ hotelId: currentHotel.id })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Job posting deleted successfully! ✅');
+                    loadHotelJobs();
+                } else {
+                    alert(data.message || 'Failed to delete job posting.');
+                }
+            } catch (err) {
+                alert('Connection error while deleting job.');
+            }
+        }
+
+        // ==========================================
+        // VIEW JOB APPLICANTS MODAL
+        // ==========================================
+        async function viewJobApplicants(jobId, jobTitle) {
+            const modal = document.getElementById('jobApplicantsModal');
+            document.getElementById('jobApplicantsModalTitle').textContent = `Applicants for "${jobTitle}"`;
+            document.getElementById('jobApplicantsModalSubtitle').textContent = 'Review candidate profiles and update application status';
+            const container = document.getElementById('jobApplicantsListContainer');
+            container.innerHTML = '<div class="loading-spinner-box">Loading candidates... ⏳</div>';
+            modal.classList.remove('hidden');
+
+            try {
+                const res = await fetch(`/api/jobs/${jobId}/applicants`);
+                const data = await res.json();
+                const applicants = data.applicants || [];
+
+                if (applicants.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state-card" style="padding: 32px 16px; text-align: center;">
+                            <div style="font-size: 32px;">👥</div>
+                            <h4 style="margin-top: 8px;">No Applicants Yet</h4>
+                            <p style="color: var(--text-muted); font-size: 13.5px;">Candidates will appear here as soon as they submit applications on WorqDen.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = applicants.map(app => {
+                    const status = (app.status || 'pending').toLowerCase();
+                    let statusClass = 'status-pending';
+                    let statusText = '🟡 Pending Review';
+                    if (status === 'accepted') { statusClass = 'status-accepted'; statusText = '🟢 Accepted'; }
+                    else if (status === 'rejected') { statusClass = 'status-rejected'; statusText = '🔴 Rejected'; }
+                    else if (status === 'cancelled') { statusClass = 'status-cancelled'; statusText = '⚪ Cancelled'; }
+
+                    const dateFormatted = new Date(app.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const isPending = status === 'pending';
+
+                    return `
+                        <div class="card" style="margin-bottom: 12px; padding: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: #FFFFFF;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap: wrap; gap: 10px;">
+                                <div style="display:flex; gap: 12px; align-items:center;">
+                                    <div class="avatar-circle-sm" style="width: 44px; height: 44px; font-size: 18px;">👤</div>
+                                    <div>
+                                        <h4 style="margin: 0; font-size: 16px; color: var(--text-dark);">${escapeHtml(app.workerName || 'Candidate')}</h4>
+                                        <div style="font-size: 12.5px; color: var(--text-muted);">
+                                            📍 ${app.workerDistrict ? escapeHtml(app.workerDistrict) + ', ' : ''}${escapeHtml(app.workerState || 'India')} • 📞 +91 ${escapeHtml(app.workerPhone || 'N/A')}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div><span class="status-pill ${statusClass}">${statusText}</span></div>
+                            </div>
+
+                            <div style="margin: 12px 0 8px 0; padding: 10px 12px; background: var(--card-bg-subtle); border-radius: var(--radius-sm); font-size: 13px;">
+                                <div><strong>Experience:</strong> ${escapeHtml(app.workerExperience || 'Fresher')} • <strong>Category:</strong> ${escapeHtml(app.workerCategory || 'Hospitality')}</div>
+                                ${app.message ? `<div style="margin-top: 4px; color: var(--text-body);"><em>"${escapeHtml(app.message)}"</em></div>` : ''}
+                                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px;">Applied on: ${dateFormatted}</div>
+                            </div>
+
+                            ${isPending ? `
+                                <div style="display:flex; justify-content:flex-end; gap: 8px; margin-top: 10px;">
+                                    <button type="button" class="btn btn-success btn-sm" onclick="handleUpdateStatus('${app.id}', 'accepted', true, '${jobId}', '${escapeQuotes(jobTitle)}')">✓ Accept & Hire</button>
+                                    <button type="button" class="btn btn-outline btn-sm" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="handleUpdateStatus('${app.id}', 'rejected', true, '${jobId}', '${escapeQuotes(jobTitle)}')">✕ Decline</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                container.innerHTML = '<div class="empty-state-card" style="color:var(--danger-red);">Failed to load applicants.</div>';
+            }
+        }
+
+        function closeJobApplicantsModal() {
+            document.getElementById('jobApplicantsModal').classList.add('hidden');
+        }
+
+        // ==========================================
+        // APPLICATIONS / REQUESTS TABLE
+        // ==========================================
+        async function loadHotelRequests() {
+            try {
+                const res = await fetch(`/api/requests?hotelId=${currentHotel.id}`);
+                const data = await res.json();
+                const reqs = data.requests || [];
+                const tbody = document.getElementById('hotelRecentRequestsTableBody');
+
+                const pendingList = reqs.filter(r => r.status === 'pending');
+                const acceptedList = reqs.filter(r => r.status === 'accepted');
+
+                document.getElementById('metricPendingRequests').textContent = pendingList.length;
+                document.getElementById('metricAcceptedStaff').textContent = acceptedList.length;
+
+                const badge = document.getElementById('hotelPendingBadge');
+                if (pendingList.length > 0) {
+                    badge.textContent = pendingList.length;
+                    badge.style.display = 'inline-flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+
+                if (reqs.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                                No incoming applications received yet. Post a job or browse candidates to invite them!
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = reqs.slice(0, 6).map(req => {
+                    const status = (req.status || 'pending').toLowerCase();
+                    let statusClass = 'status-pending';
+                    let statusText = '🟡 Pending';
+
+                    if (status === 'accepted') {
+                        statusClass = 'status-accepted';
+                        statusText = '🟢 Accepted';
+                    } else if (status === 'rejected') {
+                        statusClass = 'status-rejected';
+                        statusText = '🔴 Rejected';
+                    } else if (status === 'cancelled' || status === 'withdrawn') {
+                        statusClass = 'status-cancelled';
+                        statusText = '⚪ Cancelled';
+                    }
+
+                    const dateFormatted = new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const isPending = status === 'pending';
+
+                    return `
+                        <tr>
+                            <td>
+                                <div style="display:flex; align-items:center; gap: 10px;">
+                                    <div class="avatar-circle-sm">👤</div>
+                                    <div>
+                                        <strong>${escapeHtml(req.workerName || 'Candidate')}</strong>
+                                        <div style="font-size: 12px; color: var(--text-muted);">${escapeHtml(req.workerEmail || '')}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>${escapeHtml(req.jobTitle || req.position || 'Staff')}</strong>
+                                ${req.salary ? `<div style="font-size: 12px; color: var(--primary-blue); font-weight: 600;">${escapeHtml(req.salary)}</div>` : ''}
+                            </td>
+                            <td>${req.workerDistrict ? escapeHtml(req.workerDistrict) + ', ' : ''}${escapeHtml(req.workerState || 'India')}</td>
+                            <td>${dateFormatted}</td>
+                            <td><span class="status-pill ${statusClass}">${statusText}</span></td>
+                            <td style="text-align: right;">
+                                <div style="display:inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
+                                    ${isPending ? `
+                                        <button type="button" class="btn btn-success btn-sm" onclick="handleUpdateStatus('${req.id}', 'accepted')" title="Accept this candidate">✓ Accept</button>
+                                        <button type="button" class="btn btn-outline btn-sm" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="handleUpdateStatus('${req.id}', 'rejected')" title="Decline request">✕ Reject</button>
+                                        <button type="button" class="btn btn-danger-soft btn-sm" onclick="handleUpdateStatus('${req.id}', 'cancelled')" title="Cancel / Withdraw offer">🚫 Cancel</button>
+                                    ` : `
+                                        <a href="requests.html?id=${req.id}" class="btn btn-outline btn-sm">View Details</a>
+                                    `}
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function handleUpdateStatus(reqId, newStatus, isModal = false, jobId = null, jobTitle = '') {
+            const promptMsg = newStatus === 'cancelled' 
+                ? 'Are you sure you want to cancel / withdraw this request?'
+                : `Are you sure you want to mark this request as ${newStatus.toUpperCase()}?`;
+
+            if (!confirm(promptMsg)) return;
+
+            try {
+                const res = await fetch(`/api/requests/${reqId}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(`Request has been marked as ${newStatus.toUpperCase()}! ✅`);
+                    loadHotelRequests();
+                    loadHotelJobs();
+                    if (isModal && jobId) {
+                        viewJobApplicants(jobId, jobTitle);
+                    }
+                } else {
+                    alert(data.message || 'Failed to update request.');
+                }
+            } catch (err) {
+                alert('Connection error while updating status.');
+            }
+        }
+
+        function onJobCategoryChange() {
+            const cat = document.getElementById('jobCategory').value;
+            const sub = document.getElementById('jobSubcategory');
+            if (typeof categories !== 'undefined' && categories[cat]) {
+                sub.innerHTML = '<option value="">Select role</option>' + categories[cat].map(c => `<option value="${c}">${c}</option>`).join('');
+            }
+        }
+
+        function escapeQuotes(str) {
+            return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('worqdenUser');
+            localStorage.removeItem('worqdenToken');
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>

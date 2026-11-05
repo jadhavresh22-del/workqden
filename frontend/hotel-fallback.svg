@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="240" viewBox="0 0 400 240">
+  <defs>
+    <linearGradient id="hotelBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="240" fill="url(#hotelBgGrad)"/>
+  <rect x="1" y="1" width="398" height="238" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Subtle grid pattern overlay -->
+  <circle cx="200" cy="100" r="64" fill="#334155" fill-opacity="0.25"/>
+
+  <!-- Hotel Building Icon -->
+  <g transform="translate(168, 52)" fill="none" stroke="url(#accentGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Main building outline -->
+    <path d="M4 56 V16 L32 4 L60 16 V56 Z" fill="#1E293B"/>
+    <!-- Central entrance door -->
+    <path d="M26 56 V40 H38 V56" fill="#F97316" fill-opacity="0.3"/>
+    <!-- Windows row 1 -->
+    <rect x="14" y="20" width="8" height="8" rx="1.5" fill="#F8FAFC" fill-opacity="0.8"/>
+    <rect x="28" y="20" width="8" height="8" rx="1.5" fill="#F8FAFC" fill-opacity="0.8"/>
+    <rect x="42" y="20" width="8" height="8" rx="1.5" fill="#F8FAFC" fill-opacity="0.8"/>
+    <!-- Windows row 2 -->
+    <rect x="14" y="32" width="8" height="8" rx="1.5" fill="#F8FAFC" fill-opacity="0.8"/>
+    <rect x="28" y="32" width="8" height="8" rx="1.5" fill="#F8FAFC" fill-opacity="0.8"/>
+    <rect x="42" y="32" width="8" height="8" rx="1.5" fill="#F8FAFC" fill-opacity="0.8"/>
+  </g>
+
+  <!-- Labels -->
+  <text x="200" y="156" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#F8FAFC" letter-spacing="0.5">HOTEL &amp; VENUE PARTNER</text>
+  <text x="200" y="180" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#94A3B8" letter-spacing="1">WORQDEN VERIFIED PROPERTY</text>
+  
+  <!-- Accent bottom stripe -->
+  <rect x="160" y="200" width="80" height="3" rx="1.5" fill="url(#accentGrad)"/>
+</svg>

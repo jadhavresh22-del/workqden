@@ -1,192 +1,553 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>WorqDen - My Profile</title>
-
+    <title>WorqDen — Edit Profile & Completion Gauge</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="data.js"></script>
 </head>
+<body class="dashboard-layout-body">
 
-<body class="register-page">
-
-<header class="main-header">
-
-    <div class="logo">WorqDen</div>
-
-    <nav>
-        <a id="backLink" href="dashboard.html">Back to dashboard</a>
-        <a href="#" id="logoutBtn" class="logout-link">Logout</a>
-    </nav>
-
-</header>
-
-
-<main class="profile-wrapper">
-
-    <div id="profileCard" class="profile-card hidden">
-
-        <div class="profile-header">
-
-            <div class="profile-avatar" id="profileAvatar"></div>
-
-            <div>
-                <h1 id="profileName"></h1>
-                <span id="profileTypeBadge" class="profile-type-badge"></span>
-            </div>
-
+    <!-- Left Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <a href="dashboard.html" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg class="logo-svg-mark" viewBox="0 0 64 64" width="30" height="30" style="flex-shrink:0;">
+                    <defs>
+                        <linearGradient id="wqLogoProf" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#F97316"/>
+                            <stop offset="100%" stop-color="#10B981"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="64" height="64" rx="16" fill="#0F172A"/>
+                    <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoProf)" stroke-width="2.5"/>
+                    <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                </svg>
+                <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--primary-navy, #0F172A);">Worq<span style="color: #F97316;">Den</span></span>
+            </a>
         </div>
 
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" id="sidebarDashLink" class="sidebar-link">
+                <span class="sidebar-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="hotels.html" id="sidebarBrowseLink" class="sidebar-link">
+                <span class="sidebar-icon">🏨</span>
+                <span>Find Hotels</span>
+            </a>
+            <a href="requests.html" class="sidebar-link">
+                <span class="sidebar-icon">📥</span>
+                <span>My Requests</span>
+            </a>
+            <a href="profile.html" class="sidebar-link active">
+                <span class="sidebar-icon">👤</span>
+                <span>My Profile</span>
+            </a>
+        </nav>
 
-        <div class="profile-grid" id="profileGrid">
-            <!-- Filled dynamically by JS -->
-        </div>
-
-
-        <div id="profileAbout" class="profile-about"></div>
-
-    </div>
-
-
-    <p id="profileLoading" class="profile-loading">Loading your profile...</p>
-
-</main>
-
-
-<script>
-
-    const userData =
-        JSON.parse(localStorage.getItem("worqdenUser") || "null");
-
-    if (!userData) {
-
-        window.location.href = "login.html";
-
-    }
-
-
-    function fieldRow(label, value) {
-
-        if (!value) return "";
-
-        return `
-            <div class="profile-field">
-                <span class="profile-field-label">${label}</span>
-                <span class="profile-field-value">${value}</span>
+        <div class="sidebar-footer">
+            <div class="user-mini-card">
+                <div class="user-avatar-small" id="sidebarAvatar">
+                    <span id="sidebarInitial">👤</span>
+                    <img id="sidebarAvatarImg" class="hidden" alt="Avatar">
+                </div>
+                <div class="user-mini-info">
+                    <strong id="sidebarUserName">User</strong>
+                    <span id="sidebarUserRole" class="mini-role-tag">Member</span>
+                </div>
             </div>
-        `;
+            <button type="button" class="btn-logout" onclick="handleLogout()">
+                <span>🚪 Logout</span>
+            </button>
+        </div>
+    </aside>
 
-    }
+    <!-- Main Content Area -->
+    <main class="dashboard-main-content">
+        <header class="dashboard-topbar">
+            <div class="topbar-search">
+                <span style="font-size: 14px;">⚙️</span>
+                <span style="font-weight: 600; font-size: 14px; color: var(--text-dark);">Account Settings & Profile Management</span>
+            </div>
+            <div class="topbar-actions">
+                <a href="requests.html" class="topbar-icon-btn" title="View Requests"><span>🔔</span></a>
+            </div>
+        </header>
 
+        <div class="dashboard-scrollable-body">
+            <!-- Screen 8: Two-Column Profile Editor -->
+            <div class="profile-two-column-layout">
+                <!-- Left: Profile Form Card -->
+                <div class="profile-form-card">
+                    <div class="profile-card-header">
+                        <h2 class="dash-section-title">Edit Your Profile</h2>
+                        <p class="dash-section-subtitle">Update your personal information, work skills, and district location.</p>
+                    </div>
 
-    async function loadProfile() {
+                    <!-- Profile Photo Blob Upload Row -->
+                    <div class="profile-avatar-row">
+                        <div class="avatar-large-box">
+                            <span id="profileAvatarInitials">👤</span>
+                            <img id="profileAvatarImg" class="hidden" alt="Profile Photo">
+                        </div>
+                        <div class="avatar-actions-col">
+                            <h4 style="margin: 0; font-size: 15px; color: var(--text-dark);">Profile Photo / Logo</h4>
+                            <p style="margin: 2px 0 8px 0; font-size: 12.5px; color: var(--text-muted);">Supports PNG, JPG, or WEBP up to 5MB.</p>
+                            <label class="btn btn-outline btn-sm" style="cursor: pointer;">
+                                <span>📷 Change Photo</span>
+                                <input type="file" id="profileImageUploadInput" accept="image/*" style="display: none;" onchange="handleProfilePhotoBlob(event)">
+                            </label>
+                        </div>
+                    </div>
 
-        try {
+                    <form id="profileEditForm" onsubmit="handleSaveProfile(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profName">Full Name / Business Name *</label>
+                                <input type="text" id="profName" class="form-input" required oninput="calculateCompletion()">
+                            </div>
+                            <div class="form-group">
+                                <label for="profEmail">Email Address (Read-only)</label>
+                                <input type="email" id="profEmail" class="form-input" readonly style="background: var(--card-bg-subtle);">
+                            </div>
+                        </div>
 
-            const response =
-                await fetch(`/api/profile/${encodeURIComponent(userData.email)}`);
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profPhone">Mobile Number (Verified 🛡️)</label>
+                                <input type="tel" id="profPhone" class="form-input" readonly style="background: var(--card-bg-subtle);">
+                            </div>
+                            <div class="form-group">
+                                <label for="profAvailability">Availability Status</label>
+                                <select id="profAvailability" class="form-select" onchange="calculateCompletion()">
+                                    <option value="Available now">🟢 Available now</option>
+                                    <option value="Part time">🟡 Part time</option>
+                                    <option value="Full time">🔵 Full time</option>
+                                    <option value="Weekends">🟣 Weekends only</option>
+                                </select>
+                            </div>
+                        </div>
 
-            const data =
-                await response.json();
+                        <!-- Work Category Row (for workers/students) -->
+                        <div id="profWorkerFields">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profCategory">Category</label>
+                                    <select id="profCategory" class="form-select" onchange="populateProfSubcategories(); calculateCompletion();">
+                                        <option value="">Select category</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profSubcategory">Subcategory / Role</label>
+                                    <select id="profSubcategory" class="form-select" onchange="calculateCompletion()">
+                                        <option value="">Select subcategory</option>
+                                    </select>
+                                </div>
+                            </div>
 
-            if (!response.ok) {
+                            <div class="form-group">
+                                <label for="profExperience">Experience Level</label>
+                                <select id="profExperience" class="form-select" onchange="calculateCompletion()">
+                                    <option value="Fresher">Fresher</option>
+                                    <option value="Beginner">Beginner (1-2 years)</option>
+                                    <option value="Intermediate">Intermediate (2-5 years)</option>
+                                    <option value="Expert">Expert (5+ years)</option>
+                                </select>
+                            </div>
+                        </div>
 
-                document.getElementById("profileLoading").textContent =
-                    data.message || "Could not load profile.";
+                        <!-- Location Row: All 786 Districts across 36 States/UTs -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profState">State / UT *</label>
+                                <select id="profState" class="form-select" onchange="populateProfDistricts(); calculateCompletion();" required>
+                                    <option value="">Select State</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="profDistrict">District *</label>
+                                <select id="profDistrict" class="form-select" onchange="calculateCompletion()" required>
+                                    <option value="">Select District</option>
+                                </select>
+                            </div>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="profAbout">About / Bio</label>
+                            <textarea id="profAbout" class="form-textarea" rows="3" placeholder="Describe your experience, certifications, and skills..." oninput="calculateCompletion()"></textarea>
+                        </div>
+
+                        <div id="profErrorMsg" class="form-error-banner hidden"></div>
+                        <div id="profSuccessMsg" class="form-success-banner hidden"></div>
+
+                        <div style="margin-top: 20px;">
+                            <button type="submit" id="saveProfBtn" class="btn btn-primary btn-lg">
+                                <span>Save Changes ✓</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right: Screen 8 Circular Completion Gauge Card -->
+                <div class="profile-completion-card">
+                    <div class="gauge-header">
+                        <span class="auth-tag-badge">PROFILE STRENGTH</span>
+                        <h3 style="margin-top: 8px; font-size: 18px; color: var(--primary-navy);">Completion Score</h3>
+                        <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Complete your profile to receive maximum hiring visibility.</p>
+                    </div>
+
+                    <!-- SVG Circular Gauge -->
+                    <div class="circular-progress-wrap">
+                        <svg class="progress-ring" width="160" height="160">
+                            <circle class="progress-ring__circle-bg" stroke="#E2E8F0" stroke-width="12" fill="transparent" r="66" cx="80" cy="80"/>
+                            <circle id="progressRingCircle" class="progress-ring__circle" stroke="#2563EB" stroke-width="12" stroke-linecap="round" fill="transparent" r="66" cx="80" cy="80"/>
+                        </svg>
+                        <div class="progress-ring__text">
+                            <span id="completionPercentText" class="percent-val">85%</span>
+                            <span class="percent-lbl">Complete</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Checklist Items -->
+                    <div class="completion-checklist">
+                        <div class="checklist-item" id="chkBasic">
+                            <span class="chk-icon">✅</span>
+                            <span class="chk-text">Basic Info (Name & Contact)</span>
+                        </div>
+                        <div class="checklist-item" id="chkPhoto">
+                            <span class="chk-icon">✅</span>
+                            <span class="chk-text">Profile Photo Uploaded</span>
+                        </div>
+                        <div class="checklist-item" id="chkSkills">
+                            <span class="chk-icon">✅</span>
+                            <span class="chk-text">Category & Skill Role</span>
+                        </div>
+                        <div class="checklist-item" id="chkLocation">
+                            <span class="chk-icon">✅</span>
+                            <span class="chk-text">State & District Location</span>
+                        </div>
+                        <div class="checklist-item" id="chkAbout">
+                            <span class="chk-icon">⏳</span>
+                            <span class="chk-text">Bio / About Summary</span>
+                        </div>
+                    </div>
+
+                    <!-- Pro-Tip Box -->
+                    <div class="info-quote-box" style="margin-top: 24px; background: #EFF6FF; border-color: #BFDBFE;">
+                        <strong style="color: #1E3A8A; font-size: 13px;">💡 Pro-Tip:</strong>
+                        <p style="color: #1E40AF; font-size: 12.5px; margin-top: 4px;">Candidates with 100% profile score receive 3.5x more hiring offers from 5-star properties.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentUser = null;
+        let profileImageBase64 = '';
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            currentUser = JSON.parse(localStorage.getItem('worqdenUser') || 'null');
+            if (!currentUser) {
+                window.location.href = 'login.html';
                 return;
-
             }
 
-            const user = data.user;
+            setupUserUI();
+            initData();
+            populateForm();
+            calculateCompletion();
 
-            document.getElementById("backLink").href =
-                user.userType === "hotel" ? "hotel-dashboard.html" : "dashboard.html";
-
-            document.getElementById("profileName").textContent =
-                user.userType === "hotel" ? (user.organizationName || user.name) : user.name;
-
-            document.getElementById("profileAvatar").textContent =
-                (user.name || "?").charAt(0).toUpperCase();
-
-            const typeLabels = {
-                staff: "Worker / Professional",
-                student: "Student",
-                hotel: "Hotel / Organization"
-            };
-
-            document.getElementById("profileTypeBadge").textContent =
-                typeLabels[user.userType] || user.userType;
-
-
-            let gridHTML = "";
-
-            if (user.userType === "hotel") {
-
-                gridHTML += fieldRow("Organization Type", user.organizationType);
-                gridHTML += fieldRow("Contact Person", user.name);
-
-            } else {
-
-                gridHTML += fieldRow("Category", user.category);
-                gridHTML += fieldRow("Subcategory", user.subcategory);
-                gridHTML += fieldRow("Experience", user.experience);
-                gridHTML += fieldRow("Availability", user.availability);
-
-                if (user.skills && user.skills.length) {
-
-                    gridHTML += fieldRow("Skills", user.skills.join(", "));
-
+            try {
+                const uRes = await fetch(`/api/users/${currentUser.id}`);
+                const uData = await uRes.json();
+                if (uData.user) {
+                    currentUser = uData.user;
+                    localStorage.setItem('worqdenUser', JSON.stringify(uData.user));
+                    setupUserUI();
+                    populateForm();
+                    calculateCompletion();
                 }
-
-            }
-
-            gridHTML += fieldRow("Email", user.email);
-            gridHTML += fieldRow("Phone", user.phone);
-            gridHTML += fieldRow("State", user.state);
-            gridHTML += fieldRow("District", user.district);
-
-            document.getElementById("profileGrid").innerHTML = gridHTML;
-
-            document.getElementById("profileAbout").textContent =
-                user.about || "No description added yet.";
-
-            document.getElementById("profileLoading").classList.add("hidden");
-            document.getElementById("profileCard").classList.remove("hidden");
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-
-            document.getElementById("profileLoading").textContent =
-                "Unable to connect to WorqDen server.";
-
-        }
-
-    }
-
-
-    loadProfile();
-
-
-    document
-        .getElementById("logoutBtn")
-        .addEventListener("click", function(event) {
-
-            event.preventDefault();
-
-            localStorage.removeItem("worqdenUser");
-            localStorage.removeItem("worqdenToken");
-
-            window.location.href = "login.html";
-
+            } catch (err) {}
         });
 
-</script>
+        function setupUserUI() {
+            document.getElementById('sidebarUserName').textContent = currentUser.organizationName || currentUser.name || 'User';
+            const isHotel = currentUser.userType === 'hotel';
+            document.getElementById('sidebarUserRole').textContent = isHotel ? 'Hotel Partner' : (currentUser.subcategory || currentUser.category || 'Worker');
 
+            if (isHotel) {
+                document.getElementById('sidebarDashLink').href = 'hotel-dashboard.html';
+                document.getElementById('sidebarBrowseLink').href = 'staff.html';
+                document.getElementById('sidebarBrowseLink').innerHTML = '<span class="sidebar-icon">👥</span><span>Find Staff</span>';
+                document.getElementById('profWorkerFields').classList.add('hidden');
+            }
+
+            const pImg = document.getElementById('profileAvatarImg');
+            const sImg = document.getElementById('sidebarAvatarImg');
+            const pInit = document.getElementById('profileAvatarInitials');
+            const sInit = document.getElementById('sidebarInitial');
+            const initChar = ((currentUser.organizationName || currentUser.name || 'U').charAt(0)).toUpperCase();
+
+            pInit.textContent = initChar;
+            sInit.textContent = initChar;
+
+            if (currentUser.profileImage && currentUser.profileImage.trim()) {
+                profileImageBase64 = currentUser.profileImage;
+                pImg.src = currentUser.profileImage;
+                pImg.classList.remove('hidden');
+                pInit.classList.add('hidden');
+                pImg.onerror = function() {
+                    this.classList.add('hidden');
+                    pInit.classList.remove('hidden');
+                };
+
+                sImg.src = currentUser.profileImage;
+                sImg.classList.remove('hidden');
+                sInit.classList.add('hidden');
+                sImg.onerror = function() {
+                    this.classList.add('hidden');
+                    sInit.classList.remove('hidden');
+                };
+            } else {
+                pImg.classList.add('hidden');
+                pInit.classList.remove('hidden');
+                sImg.classList.add('hidden');
+                sInit.classList.remove('hidden');
+            }
+        }
+
+        function initData() {
+            const stateSelect = document.getElementById('profState');
+            if (stateSelect && typeof WORQDEN_DATA !== 'undefined') {
+                stateSelect.innerHTML = '<option value="">Select State / UT</option>';
+                WORQDEN_DATA.states.forEach(st => {
+                    const opt = document.createElement('option');
+                    opt.value = st;
+                    opt.textContent = st;
+                    stateSelect.appendChild(opt);
+                });
+            }
+
+            const catSelect = document.getElementById('profCategory');
+            if (catSelect && typeof WORQDEN_DATA !== 'undefined') {
+                catSelect.innerHTML = '<option value="">Select Category</option>';
+                WORQDEN_DATA.categories.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.name;
+                    opt.textContent = `${c.icon || '📌'} ${c.name}`;
+                    catSelect.appendChild(opt);
+                });
+            }
+        }
+
+        function populateProfSubcategories(selectedSub = '') {
+            const catName = document.getElementById('profCategory').value;
+            const subSelect = document.getElementById('profSubcategory');
+            subSelect.innerHTML = '<option value="">Select Subcategory</option>';
+
+            if (!catName || typeof WORQDEN_DATA === 'undefined') return;
+            const found = WORQDEN_DATA.categories.find(c => c.name === catName);
+            if (found && found.subcategories) {
+                found.subcategories.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s;
+                    opt.textContent = s;
+                    if (s === selectedSub) opt.selected = true;
+                    subSelect.appendChild(opt);
+                });
+            }
+        }
+
+        function populateProfDistricts(selectedDist = '') {
+            const stName = document.getElementById('profState').value;
+            const distSelect = document.getElementById('profDistrict');
+            distSelect.innerHTML = '<option value="">Select District</option>';
+
+            if (!stName || typeof WORQDEN_DATA === 'undefined') return;
+            const dists = WORQDEN_DATA.districts[stName] || [];
+            dists.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d;
+                opt.textContent = d;
+                if (d === selectedDist) opt.selected = true;
+                distSelect.appendChild(opt);
+            });
+        }
+
+        function populateForm() {
+            document.getElementById('profName').value = currentUser.userType === 'hotel' ? (currentUser.organizationName || currentUser.name || '') : (currentUser.name || '');
+            document.getElementById('profEmail').value = currentUser.email || '';
+            document.getElementById('profPhone').value = currentUser.phone ? `+91 ${currentUser.phone}` : '';
+            document.getElementById('profAvailability').value = currentUser.availability || 'Available now';
+            document.getElementById('profExperience').value = currentUser.experience || 'Intermediate';
+            document.getElementById('profAbout').value = currentUser.about || '';
+
+            if (currentUser.state) {
+                document.getElementById('profState').value = currentUser.state;
+                populateProfDistricts(currentUser.district || '');
+            }
+
+            if (currentUser.category) {
+                document.getElementById('profCategory').value = currentUser.category;
+                populateProfSubcategories(currentUser.subcategory || '');
+            }
+        }
+
+        function handleProfilePhotoBlob(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Image exceeds 5MB limit.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                profileImageBase64 = e.target.result;
+                const pImg = document.getElementById('profileAvatarImg');
+                pImg.src = profileImageBase64;
+                pImg.classList.remove('hidden');
+                document.getElementById('profileAvatarInitials').classList.add('hidden');
+                calculateCompletion();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Calculate Screen 8 Circular Meter Score
+        function calculateCompletion() {
+            let score = 0;
+            const name = document.getElementById('profName').value.trim();
+            const state = document.getElementById('profState').value;
+            const dist = document.getElementById('profDistrict').value;
+            const about = document.getElementById('profAbout').value.trim();
+            const hasPhoto = !!profileImageBase64;
+
+            // 1. Basic info (20%)
+            if (name) {
+                score += 20;
+                setCheckItem('chkBasic', true);
+            } else setCheckItem('chkBasic', false);
+
+            // 2. Photo (20%)
+            if (hasPhoto) {
+                score += 20;
+                setCheckItem('chkPhoto', true);
+            } else setCheckItem('chkPhoto', false);
+
+            // 3. Category / Skills (20%)
+            if (currentUser.userType === 'hotel' || document.getElementById('profCategory').value) {
+                score += 20;
+                setCheckItem('chkSkills', true);
+            } else setCheckItem('chkSkills', false);
+
+            // 4. Location (20%)
+            if (state && dist) {
+                score += 20;
+                setCheckItem('chkLocation', true);
+            } else setCheckItem('chkLocation', false);
+
+            // 5. About (20%)
+            if (about.length >= 10) {
+                score += 20;
+                setCheckItem('chkAbout', true);
+            } else setCheckItem('chkAbout', false);
+
+            // Render Ring
+            document.getElementById('completionPercentText').textContent = `${score}%`;
+            const circle = document.getElementById('progressRingCircle');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            const offset = circumference - (score / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+
+            if (score === 100) circle.style.stroke = '#16A34A';
+            else if (score >= 60) circle.style.stroke = '#2563EB';
+            else circle.style.stroke = '#F59E0B';
+        }
+
+        function setCheckItem(id, passed) {
+            const item = document.getElementById(id);
+            if (!item) return;
+            const icon = item.querySelector('.chk-icon');
+            if (passed) {
+                icon.textContent = '✅';
+                item.style.opacity = '1';
+            } else {
+                icon.textContent = '⏳';
+                item.style.opacity = '0.7';
+            }
+        }
+
+        async function handleSaveProfile(e) {
+            e.preventDefault();
+            const errBox = document.getElementById('profErrorMsg');
+            const succBox = document.getElementById('profSuccessMsg');
+            const saveBtn = document.getElementById('saveProfBtn');
+
+            errBox.classList.add('hidden');
+            succBox.classList.add('hidden');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = 'Saving Changes... ⏳';
+
+            const payload = {
+                name: document.getElementById('profName').value.trim(),
+                availability: document.getElementById('profAvailability').value,
+                state: document.getElementById('profState').value,
+                district: document.getElementById('profDistrict').value,
+                about: document.getElementById('profAbout').value.trim(),
+                profileImage: profileImageBase64
+            };
+
+            if (currentUser.userType === 'hotel') {
+                payload.organizationName = document.getElementById('profName').value.trim();
+            } else {
+                payload.category = document.getElementById('profCategory').value;
+                payload.subcategory = document.getElementById('profSubcategory').value;
+                payload.experience = document.getElementById('profExperience').value;
+            }
+
+            try {
+                const res = await fetch(`/api/users/${currentUser.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (res.ok && data.user) {
+                    succBox.textContent = 'Profile updated successfully! ✓';
+                    succBox.classList.remove('hidden');
+                    localStorage.setItem('worqdenUser', JSON.stringify(data.user));
+                    currentUser = data.user;
+                    calculateCompletion();
+                } else {
+                    errBox.textContent = data.message || 'Failed to update profile.';
+                    errBox.classList.remove('hidden');
+                }
+            } catch (err) {
+                errBox.textContent = 'Connection error while saving profile.';
+                errBox.classList.remove('hidden');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = 'Save Changes ✓';
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('worqdenUser');
+            localStorage.removeItem('worqdenToken');
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>

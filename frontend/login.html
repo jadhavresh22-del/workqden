@@ -1,206 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>WorqDen - Login</title>
-
+    <title>WorqDen — Login to Your Account</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+<body class="auth-body">
 
-<body class="register-page">
+    <!-- Auth Header -->
+    <header class="main-header">
+        <a href="index.html" class="logo">
+            <svg class="logo-svg-mark" viewBox="0 0 64 64" width="34" height="34" style="flex-shrink:0;">
+                <defs>
+                    <linearGradient id="wqLogoLog" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#F97316"/>
+                        <stop offset="100%" stop-color="#10B981"/>
+                    </linearGradient>
+                </defs>
+                <rect width="64" height="64" rx="16" fill="#0F172A"/>
+                <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoLog)" stroke-width="2.5"/>
+                <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="32" cy="18" r="4" fill="#F97316"/>
+            </svg>
+            <span style="font-size: 21px; font-weight: 800; color: #FFFFFF;">Worq<span style="color: #F97316;">Den</span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="admin.html" style="color: #FCD34D;">🛡️ Admin Portal</a>
+            <a href="register.html">Don't have an account? <strong style="color:#60A5FA;">Sign Up</strong></a>
+        </nav>
+    </header>
 
-<header class="main-header">
+    <main class="auth-page-container">
+        <!-- Screen 4: Two-Column Login Card Layout -->
+        <div class="login-two-column">
+            <!-- Left Form Card -->
+            <div class="login-form-card">
+                <div class="auth-header-compact">
+                    <span class="auth-tag-badge">WELCOME BACK</span>
+                    <h1 class="auth-heading-h2">Login to WorqDen</h1>
+                    <p class="auth-subtitle">Choose your preferred login method to access your dashboard.</p>
+                </div>
 
-    <div class="logo">WorqDen</div>
+                <!-- Login Mode Switcher Tabs -->
+                <div class="login-mode-tabs">
+                    <button type="button" id="tabPasswordBtn" class="mode-tab-btn active" onclick="switchLoginMode('password')">
+                        <span>🔑 Password</span>
+                    </button>
+                    <button type="button" id="tabOtpBtn" class="mode-tab-btn" onclick="switchLoginMode('otp')">
+                        <span>📱 Phone OTP</span>
+                    </button>
+                </div>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="register.html">Sign up</a>
-    </nav>
+                <!-- Form 1: Password Login -->
+                <form id="passwordLoginForm" onsubmit="handlePasswordLogin(event)">
+                    <div class="form-group">
+                        <label for="identifier">Email Address or Mobile Number *</label>
+                        <input type="text" id="identifier" class="form-input" placeholder="e.g. name@example.com or 9876543210" required>
+                    </div>
 
-</header>
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label for="loginPassword" style="margin-bottom: 0;">Password *</label>
+                            <a href="forgot-password.html" class="btn-link" style="font-size: 13px;">Forgot password?</a>
+                        </div>
+                        <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" style="margin-top: 6px;" required>
+                    </div>
 
+                    <div class="form-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="rememberMe" checked>
+                            <span style="font-size: 13.5px; color: var(--text-body);">Keep me signed in</span>
+                        </label>
+                    </div>
 
-<main class="register-wrapper">
+                    <div id="loginPassError" class="form-error-banner hidden"></div>
+                    <div id="loginPassSuccess" class="form-success-banner hidden"></div>
 
-    <div class="register-card login-card">
+                    <button type="submit" id="loginPassSubmitBtn" class="btn btn-primary btn-block btn-lg">
+                        <span>Sign In &rarr;</span>
+                    </button>
+                </form>
 
-        <div class="register-heading">
+                <!-- Form 2: Phone OTP 1-Click Login -->
+                <form id="otpLoginForm" class="hidden" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label for="otpLoginPhone">Registered Mobile Number *</label>
+                        <div class="phone-otp-row">
+                            <div class="phone-input-prefix">
+                                <span>+91</span>
+                                <input type="tel" id="otpLoginPhone" class="form-input" placeholder="9876543210" maxlength="10" required>
+                            </div>
+                            <button type="button" id="sendLoginOtpBtn" class="btn btn-outline" onclick="handleSendLoginOtp()">
+                                <span>Send OTP</span>
+                            </button>
+                        </div>
+                    </div>
 
-            <span class="form-badge">WELCOME BACK</span>
+                    <!-- OTP Input Box -->
+                    <div id="loginOtpBox" class="otp-verification-box hidden">
+                        <div id="loginDevOtpAlert" class="dev-otp-banner hidden">
+                            🔑 <strong>Dev OTP:</strong> <span id="loginDevOtpDisplay">123456</span>
+                        </div>
+                        <label for="loginOtpCode" style="font-size: 13px; font-weight: 600;">Enter 6-Digit SMS Code</label>
+                        <input type="text" id="loginOtpCode" class="form-input" placeholder="123456" maxlength="6" style="letter-spacing: 4px; font-weight: 700; text-align: center; margin-top: 6px;">
+                    </div>
 
-            <h1>Login to WorqDen</h1>
+                    <div id="loginOtpError" class="form-error-banner hidden"></div>
+                    <div id="loginOtpSuccess" class="form-success-banner hidden"></div>
 
-            <p>
-                Access your dashboard and manage your work opportunities.
-            </p>
+                    <button type="button" id="verifyLoginOtpBtn" class="btn btn-primary btn-block btn-lg hidden" onclick="handleVerifyLoginOtp()" style="margin-top: 14px;">
+                        <span>Verify & Sign In &rarr;</span>
+                    </button>
+                </form>
 
-        </div>
-
-
-        <form id="loginForm">
-
-            <div class="form-group">
-
-                <label for="email">
-                    Email Address
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    required
-                >
-
+                <div style="text-align: center; margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                    <p style="font-size: 13.5px; color: var(--text-muted);">
+                        New to WorqDen? <a href="register.html" style="font-weight: 600; color: var(--primary-blue);">Create an account &rarr;</a>
+                    </p>
+                    <div style="margin-top: 12px; padding: 8px 12px; background: #F8FAFC; border-radius: var(--radius-md); display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-color);">
+                        <span style="font-size: 12px; color: var(--text-muted);">Platform Administrator?</span>
+                        <a href="admin.html" class="btn btn-outline btn-sm" style="padding: 3px 8px; font-size: 11.5px; font-weight: 700; color: #D97706; border-color: #FCD34D;">🛡️ Admin Portal</a>
+                    </div>
+                </div>
             </div>
 
+            <!-- Right Promo / Illustration Column (Screen 4) -->
+            <div class="login-info-card">
+                <div class="info-card-content">
+                    <div class="info-badge">✨ FAST & SECURE</div>
+                    <h2 class="info-card-title">Your Next Opportunity Awaits</h2>
+                    <p class="info-card-desc">Whether you're a skilled worker looking for shifts, an ambitious student seeking flexible income, or a hotel looking for reliable talent — WorqDen powers your journey.</p>
 
-            <div class="form-group">
+                    <div class="login-feature-bullets">
+                        <div class="login-bullet">
+                            <span class="bullet-icon">⚡</span>
+                            <span>Direct 1-click work applications to 1,200+ partner hotels</span>
+                        </div>
+                        <div class="login-bullet">
+                            <span class="bullet-icon">🛡️</span>
+                            <span>100% verified phone identities & zero commission cuts</span>
+                        </div>
+                        <div class="login-bullet">
+                            <span class="bullet-icon">📍</span>
+                            <span>Comprehensive coverage across all 786 Indian districts</span>
+                        </div>
+                    </div>
 
-                <label for="password">
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter your password"
-                    required
-                >
-
+                    <!-- Testimonial Box -->
+                    <div class="info-quote-box" style="margin-top: 36px; background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2);">
+                        <p style="color: #F8FAFC; font-style: italic;">"Found 3 hotel gigs in my first week in Pune! The direct two-way hiring system is amazing."</p>
+                        <div class="quote-author" style="margin-top: 10px;">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&h=80&q=80" alt="Rajesh" class="quote-avatar">
+                            <div>
+                                <strong style="color: #FFFFFF;">Rajesh Kumar</strong>
+                                <span style="color: #93C5FD; font-size: 12px;">Verified Chef • Pune ⭐ 4.9</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-
-            <p id="loginError" class="form-error hidden"></p>
-
-
-            <button
-                type="submit"
-                class="create-account-btn">
-
-                Login
-
-            </button>
-
-
-        </form>
-
-
-        <div class="login-link">
-
-            Don't have an account?
-
-            <a href="register.html">
-                Create one
-            </a>
-
         </div>
+    </main>
 
-    </div>
+    <script>
+        function switchLoginMode(mode) {
+            const passBtn = document.getElementById('tabPasswordBtn');
+            const otpBtn = document.getElementById('tabOtpBtn');
+            const passForm = document.getElementById('passwordLoginForm');
+            const otpForm = document.getElementById('otpLoginForm');
 
-</main>
+            if (mode === 'password') {
+                passBtn.classList.add('active');
+                otpBtn.classList.remove('active');
+                passForm.classList.remove('hidden');
+                otpForm.classList.add('hidden');
+            } else {
+                otpBtn.classList.add('active');
+                passBtn.classList.remove('active');
+                otpForm.classList.remove('hidden');
+                passForm.classList.add('hidden');
+            }
+        }
 
+        async function handlePasswordLogin(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('identifier').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errBox = document.getElementById('loginPassError');
+            const succBox = document.getElementById('loginPassSuccess');
+            const submitBtn = document.getElementById('loginPassSubmitBtn');
 
-<script>
+            errBox.classList.add('hidden');
+            succBox.classList.add('hidden');
 
-document
-    .getElementById("loginForm")
-    .addEventListener("submit", async function(event) {
+            // Validate format: must be valid email or 10-digit phone
+            const cleanedPhone = identifier.replace(/[\s\-()+]/g, '');
+            const isPhone = /^\d{10,15}$/.test(cleanedPhone);
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(identifier);
 
-        event.preventDefault();
+            if (!isPhone && !isEmail) {
+                errBox.textContent = '⚠️ Please enter a valid email address (e.g. name@example.com) or a 10-digit mobile number.';
+                errBox.classList.remove('hidden');
+                document.getElementById('identifier').focus();
+                return;
+            }
 
-        const errorBox =
-            document.getElementById("loginError");
+            if (password.length < 6) {
+                errBox.textContent = '⚠️ Password must be at least 6 characters.';
+                errBox.classList.remove('hidden');
+                document.getElementById('loginPassword').focus();
+                return;
+            }
 
-        errorBox.classList.add("hidden");
-        errorBox.textContent = "";
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Signing In... ⏳';
 
-        const email =
-            document.getElementById("email").value.trim();
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ identifier, password })
+                });
+                const data = await res.json();
 
-        const password =
-            document.getElementById("password").value;
+                if (res.ok && data.user) {
+                    succBox.textContent = `Welcome back, ${data.user.name}! Redirecting...`;
+                    succBox.classList.remove('hidden');
 
-        try {
+                    if (data.token) localStorage.setItem('worqdenToken', data.token);
+                    localStorage.setItem('worqdenUser', JSON.stringify(data.user));
 
-            const response =
-                await fetch(
-                    "/api/login",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify({ email, password })
-                    }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            if (response.ok) {
-
-                // Token aur user data save karte hain — password kabhi save nahi hota
-                localStorage.setItem(
-                    "worqdenToken",
-                    data.token
-                );
-
-                localStorage.setItem(
-                    "worqdenUser",
-                    JSON.stringify(data.user)
-                );
-
-
-                // userType ke hisaab se sahi dashboard pe bhejna hai
-                if (data.user.userType === "hotel") {
-
-                    window.location.href = "hotel-dashboard.html";
-
+                    setTimeout(() => {
+                        if (data.user.userType === 'hotel') {
+                            window.location.href = 'hotel-dashboard.html';
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
+                    }, 1000);
                 } else {
-
-                    window.location.href = "dashboard.html";
-
+                    errBox.textContent = data.message || 'Invalid email/phone or password. Please try again.';
+                    errBox.classList.remove('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Sign In &rarr;';
                 }
-
+            } catch (err) {
+                errBox.textContent = 'Connection error. Please try again.';
+                errBox.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Sign In &rarr;';
             }
-
-            else {
-
-                errorBox.textContent =
-                    data.message ||
-                    "Login failed. Please try again.";
-
-                errorBox.classList.remove("hidden");
-
-            }
-
         }
 
-        catch (error) {
+        async function handleSendLoginOtp() {
+            const phone = document.getElementById('otpLoginPhone').value.trim();
+            if (!phone || phone.length < 10) {
+                alert('Please enter your 10-digit registered mobile number.');
+                return;
+            }
 
-            console.error(error);
+            const btn = document.getElementById('sendLoginOtpBtn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
 
-            errorBox.textContent =
-                "Unable to connect to WorqDen server.";
+            try {
+                const res = await fetch('/api/phone-otp/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, purpose: 'login' })
+                });
+                const data = await res.json();
 
-            errorBox.classList.remove("hidden");
+                if (res.ok && data.success) {
+                    document.getElementById('loginOtpBox').classList.remove('hidden');
+                    document.getElementById('verifyLoginOtpBtn').classList.remove('hidden');
 
+                    if (data.devOtp) {
+                        document.getElementById('loginDevOtpDisplay').textContent = data.devOtp;
+                        document.getElementById('loginDevOtpAlert').classList.remove('hidden');
+                        document.getElementById('loginOtpCode').value = data.devOtp;
+                    }
+                    btn.textContent = 'Resend';
+                } else {
+                    alert(data.message || 'Failed to send OTP.');
+                    btn.textContent = 'Send OTP';
+                }
+            } catch (err) {
+                alert('Connection error while sending OTP.');
+                btn.textContent = 'Send OTP';
+            } finally {
+                btn.disabled = false;
+            }
         }
 
-    });
+        async function handleVerifyLoginOtp() {
+            const phone = document.getElementById('otpLoginPhone').value.trim();
+            const otp = document.getElementById('loginOtpCode').value.trim();
+            const errBox = document.getElementById('loginOtpError');
+            const succBox = document.getElementById('loginOtpSuccess');
+            const verifyBtn = document.getElementById('verifyLoginOtpBtn');
 
-</script>
+            if (!otp || otp.length !== 6) {
+                alert('Please enter the 6-digit OTP.');
+                return;
+            }
 
+            errBox.classList.add('hidden');
+            succBox.classList.add('hidden');
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = 'Verifying... ⏳';
+
+            try {
+                const res = await fetch('/api/login/phone-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, otp })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.user) {
+                    succBox.textContent = `Welcome, ${data.user.name}! Redirecting...`;
+                    succBox.classList.remove('hidden');
+
+                    if (data.token) localStorage.setItem('worqdenToken', data.token);
+                    localStorage.setItem('worqdenUser', JSON.stringify(data.user));
+
+                    setTimeout(() => {
+                        if (data.user.userType === 'hotel') {
+                            window.location.href = 'hotel-dashboard.html';
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
+                    }, 1000);
+                } else {
+                    errBox.textContent = data.message || 'Invalid or expired OTP.';
+                    errBox.classList.remove('hidden');
+                    verifyBtn.disabled = false;
+                    verifyBtn.innerHTML = 'Verify & Sign In &rarr;';
+                }
+            } catch (err) {
+                errBox.textContent = 'Connection error. Please try again.';
+                errBox.classList.remove('hidden');
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = 'Verify & Sign In &rarr;';
+            }
+        }
+    </script>
 </body>
 </html>

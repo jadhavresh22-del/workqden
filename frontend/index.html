@@ -1,1292 +1,578 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WORQDEN — Hotel Job Hiring Platform</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Public+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#141F29;
-    --ink-2:#1D2C38;
-    --ink-3:#26394A;
-    --paper:#F6F1E6;
-    --paper-2:#EFE7D6;
-    --cream:#FBF8F1;
-    --brass:#C6A15B;
-    --brass-light:#E3C888;
-    --brass-dark:#8F7136;
-    --wine:#7B2D26;
-    --wine-light:#9A4038;
-    --sage:#465C4C;
-    --sage-light:#6A8471;
-    --text-light:#F3EDE0;
-    --text-light-dim:#C9C0AC;
-    --text-dark:#1B2A33;
-    --text-dark-dim:#5B6B72;
-    --line-dark:rgba(243,237,224,0.14);
-    --line-light:rgba(27,42,51,0.14);
-    --shadow: 0 20px 50px -20px rgba(10,15,20,0.45);
-    --radius-s: 6px;
-    --radius-m: 14px;
-    --radius-l: 26px;
-    --display: 'Fraunces', serif;
-    --body: 'Public Sans', sans-serif;
-    --mono: 'Space Mono', monospace;
-  }
-
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
-  }
-
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--text-dark);
-    font-family:var(--body);
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-
-  img,svg{display:block; max-width:100%;}
-  a{color:inherit;}
-  button{font-family:inherit;}
-
-  :focus-visible{
-    outline:2px solid var(--wine);
-    outline-offset:3px;
-    border-radius:4px;
-  }
-
-  .wrap{
-    max-width:1240px;
-    margin:0 auto;
-    padding:0 32px;
-  }
-  @media (max-width:720px){ .wrap{padding:0 20px;} }
-
-  h1,h2,h3,h4{
-    font-family:var(--display);
-    font-weight:600;
-    margin:0;
-    letter-spacing:-0.01em;
-  }
-
-  .eyebrow{
-    font-family:var(--mono);
-    font-size:12.5px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-  }
-  .eyebrow::before{
-    content:"";
-    width:16px; height:1px;
-    background:currentColor;
-    display:inline-block;
-  }
-
-  /* ============ NAV ============ */
-  header.site{
-    position:sticky; top:0; z-index:100;
-    background:rgba(20,31,41,0.92);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line-dark);
-  }
-  .nav{
-    display:flex; align-items:center; justify-content:space-between;
-    height:76px;
-    color:var(--text-light);
-  }
-  .logo{
-    display:flex; align-items:center; gap:10px;
-    font-family:var(--display);
-    font-size:22px;
-    font-weight:700;
-    color:var(--text-light);
-    text-decoration:none;
-    letter-spacing:-0.01em;
-  }
-  .logo .mark{
-    width:34px; height:34px;
-    flex-shrink:0;
-  }
-  .logo .tag{
-    font-family:var(--mono);
-    font-size:9.5px;
-    letter-spacing:0.16em;
-    text-transform:uppercase;
-    color:var(--brass-light);
-    display:block;
-    font-weight:400;
-    margin-top:2px;
-  }
-  .logo-block{display:flex; flex-direction:column; line-height:1;}
-
-  .nav-links{
-    display:flex; gap:36px; align-items:center;
-    list-style:none; margin:0; padding:0;
-    font-size:14.5px; font-weight:500;
-  }
-  .nav-links a{
-    text-decoration:none; color:var(--text-light-dim);
-    transition:color .2s ease;
-    position:relative;
-    padding:6px 0;
-  }
-  .nav-links a:hover{color:var(--text-light);}
-  .nav-links a.active{color:var(--brass-light);}
-
-  .nav-actions{display:flex; align-items:center; gap:14px;}
-  .btn{
-    font-family:var(--body);
-    font-weight:600;
-    font-size:14px;
-    border-radius:999px;
-    padding:11px 22px;
-    border:1px solid transparent;
-    cursor:pointer;
-    text-decoration:none;
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
-    white-space:nowrap;
-  }
-  .btn:active{transform:translateY(1px);}
-  .btn-ghost{
-    background:transparent;
-    color:var(--text-light);
-    border-color:var(--line-dark);
-  }
-  .btn-ghost:hover{border-color:var(--brass-light); color:var(--brass-light);}
-  .btn-brass{
-    background:var(--brass);
-    color:#1B140A;
-  }
-  .btn-brass:hover{background:var(--brass-light); box-shadow:0 8px 24px -8px rgba(198,161,91,0.6);}
-  .btn-wine{background:var(--wine); color:var(--cream);}
-  .btn-wine:hover{background:var(--wine-light); box-shadow:0 8px 24px -8px rgba(123,45,38,0.55);}
-  .btn-outline-dark{
-    background:transparent; color:var(--text-dark); border-color:var(--line-light);
-  }
-  .btn-outline-dark:hover{border-color:var(--wine); color:var(--wine);}
-  .btn-block{width:100%; justify-content:center;}
-  .btn-sm{padding:8px 16px; font-size:13px;}
-
-  .burger{
-    display:none;
-    background:none; border:none; color:var(--text-light);
-    width:40px; height:40px; cursor:pointer;
-  }
-  .mobile-panel{
-    display:none;
-    background:var(--ink);
-    border-bottom:1px solid var(--line-dark);
-  }
-  .mobile-panel.open{display:block;}
-  .mobile-panel .wrap{padding:20px 20px 26px;}
-  .mobile-panel ul{list-style:none; margin:0 0 18px; padding:0; display:flex; flex-direction:column; gap:16px;}
-  .mobile-panel a{color:var(--text-light); text-decoration:none; font-size:16px; font-weight:500;}
-  .mobile-panel .mob-actions{display:flex; flex-direction:column; gap:10px;}
-
-  @media (max-width:920px){
-    .nav-links{display:none;}
-    .nav-actions .btn-ghost{display:none;}
-    .burger{display:flex; align-items:center; justify-content:center;}
-  }
-
-  /* ============ HERO ============ */
-  .hero{
-    background:
-      radial-gradient(1200px 500px at 85% -10%, rgba(198,161,91,0.16), transparent 60%),
-      linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
-    color:var(--text-light);
-    padding:78px 0 0;
-    position:relative;
-    overflow:hidden;
-  }
-  .hero-grid{
-    display:grid;
-    grid-template-columns:1.05fr 0.95fr;
-    gap:40px;
-    align-items:center;
-    padding-bottom:70px;
-  }
-  @media (max-width:980px){
-    .hero-grid{grid-template-columns:1fr; padding-bottom:40px;}
-  }
-
-  .hero .eyebrow{color:var(--brass-light); margin-bottom:22px;}
-  .hero h1{
-    font-size:clamp(34px, 5vw, 58px);
-    line-height:1.06;
-    color:var(--text-light);
-    max-width:15ch;
-  }
-  .hero h1 em{
-    font-style:italic;
-    color:var(--brass-light);
-    font-weight:500;
-  }
-  .hero p.lede{
-    margin:24px 0 34px;
-    font-size:17.5px;
-    line-height:1.65;
-    color:var(--text-light-dim);
-    max-width:46ch;
-  }
-
-  .search-card{
-    background:var(--cream);
-    border-radius:var(--radius-m);
-    padding:10px;
-    display:flex;
-    gap:8px;
-    box-shadow:var(--shadow);
-    max-width:560px;
-  }
-  @media (max-width:560px){ .search-card{flex-direction:column;} }
-  .search-field{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    padding:8px 16px;
-    border-right:1px solid var(--line-light);
-  }
-  @media (max-width:560px){ .search-field{border-right:none; border-bottom:1px solid var(--line-light); padding:10px 14px;} }
-  .search-field label{
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-    color:var(--text-dark-dim);
-    margin-bottom:3px;
-  }
-  .search-field input{
-    border:none; outline:none; background:transparent;
-    font-family:var(--body); font-size:14.5px; color:var(--text-dark);
-    font-weight:600;
-  }
-  .search-field input::placeholder{color:#9aa8a8; font-weight:400;}
-  .search-card .btn{flex-shrink:0; align-self:center;}
-
-  .hero-stats{
-    display:flex; gap:34px;
-    margin-top:36px;
-    flex-wrap:wrap;
-  }
-  .hero-stats .stat b{
-    display:block;
-    font-family:var(--mono);
-    font-size:24px;
-    color:var(--brass-light);
-    letter-spacing:-0.02em;
-  }
-  .hero-stats .stat span{
-    font-size:12.5px;
-    color:var(--text-light-dim);
-  }
-
-  /* hero illustration */
-  .hero-art{
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-  }
-  .hero-art svg{
-    width:100%; height:auto; max-width:460px;
-    filter:drop-shadow(0 30px 60px rgba(0,0,0,0.45));
-  }
-  .float-slow{animation:floaty 7s ease-in-out infinite;}
-  .float-slow2{animation:floaty 8.5s ease-in-out infinite; animation-delay:.6s;}
-  @keyframes floaty{
-    0%,100%{transform:translateY(0px) rotate(var(--r,0deg));}
-    50%{transform:translateY(-10px) rotate(var(--r,0deg));}
-  }
-
-  
-  .marquee{
-    background:var(--brass);
-    color:#1B140A;
-    overflow:hidden;
-    border-top:1px solid rgba(0,0,0,0.08);
-    border-bottom:1px solid rgba(0,0,0,0.08);
-  }
-  .marquee-track{
-    display:flex;
-    width:max-content;
-    animation:scroll 32s linear infinite;
-  }
-  .marquee:hover .marquee-track{animation-play-state:paused;}
-  @keyframes scroll{
-    from{transform:translateX(0);}
-    to{transform:translateX(-50%);}
-  }
-  .marquee-item{
-    font-family:var(--mono);
-    font-size:13px;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-    padding:13px 30px;
-    white-space:nowrap;
-    display:flex; align-items:center; gap:12px;
-    border-right:1px solid rgba(0,0,0,0.15);
-  }
-
-  /* ============ SECTION HEADERS ============ */
-  section{padding:96px 0;}
-  @media (max-width:720px){ section{padding:64px 0;} }
-  .sec-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    gap:24px;
-    margin-bottom:48px;
-  }
-  @media (max-width:720px){ .sec-head{flex-direction:column; align-items:flex-start;} }
-  .sec-head .eyebrow{color:var(--wine); margin-bottom:14px;}
-  .sec-head h2{font-size:clamp(28px,3.6vw,40px); color:var(--text-dark); max-width:16ch;}
-  .sec-head p{font-size:15.5px; color:var(--text-dark-dim); max-width:38ch; line-height:1.6; margin:0;}
-
-  /* ============ CATEGORIES ============ */
-  .cat-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:1px;
-    background:var(--line-light);
-    border:1px solid var(--line-light);
-    border-radius:var(--radius-m);
-    overflow:hidden;
-  }
-  @media (max-width:900px){ .cat-grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:520px){ .cat-grid{grid-template-columns:1fr;} }
-  .cat-card{
-    background:var(--cream);
-    padding:30px 26px;
-    text-decoration:none;
-    color:var(--text-dark);
-    transition:background .2s ease;
-    position:relative;
-  }
-  .cat-card:hover{background:var(--paper-2);}
-  .cat-card .ic{width:34px; height:34px; margin-bottom:22px; color:var(--wine);}
-  .cat-card h4{font-size:16.5px; font-weight:600; margin-bottom:6px;}
-  .cat-card .count{font-family:var(--mono); font-size:12px; color:var(--text-dark-dim);}
-  .cat-card .arrow{
-    position:absolute; top:26px; right:24px;
-    width:18px; height:18px; color:var(--text-dark-dim);
-    opacity:0; transform:translate(-4px,4px);
-    transition:opacity .2s ease, transform .2s ease;
-  }
-  .cat-card:hover .arrow{opacity:1; transform:translate(0,0); color:var(--wine);}
-
-  /* ============ JOBS (key-card signature) ============ */
-  .jobs-sec{background:var(--ink); color:var(--text-light);}
-  .jobs-sec .eyebrow{color:var(--brass-light);}
-  .jobs-sec .sec-head h2{color:var(--text-light);}
-  .jobs-sec .sec-head p{color:var(--text-light-dim);}
-
-  .filter-row{
-    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px;
-  }
-  .filter-btn{
-    font-family:var(--mono);
-    font-size:12px;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-    padding:9px 18px;
-    border-radius:999px;
-    border:1px solid var(--line-dark);
-    background:transparent;
-    color:var(--text-light-dim);
-    cursor:pointer;
-    transition:all .18s ease;
-  }
-  .filter-btn:hover{border-color:var(--brass-light); color:var(--brass-light);}
-  .filter-btn.active{background:var(--brass); border-color:var(--brass); color:#1B140A;}
-
-  .job-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:22px;
-  }
-  @media (max-width:980px){ .job-grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:640px){ .job-grid{grid-template-columns:1fr;} }
-
-  .key-card{
-    background:var(--cream);
-    color:var(--text-dark);
-    border-radius:var(--radius-m);
-    padding:22px 22px 20px;
-    position:relative;
-    box-shadow:0 14px 34px -18px rgba(0,0,0,0.6);
-    transition:transform .22s ease, box-shadow .22s ease;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    border:1px solid rgba(0,0,0,0.05);
-  }
-  .key-card:hover{transform:translateY(-5px); box-shadow:0 22px 44px -16px rgba(0,0,0,0.55);}
-  .key-card.hidden{display:none;}
-  .key-card .grommet{
-    position:absolute; left:22px; top:22px;
-    width:16px; height:16px; border-radius:50%;
-    background:var(--paper);
-    border:2px solid var(--brass);
-  }
-  .key-card .room{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:0.08em;
-    color:var(--brass-dark);
-    padding-left:34px;
-    text-transform:uppercase;
-  }
-  .key-card .perf{
-    border-top:1px dashed rgba(27,42,51,0.25);
-    margin:2px 0 0;
-  }
-  .key-card h4{font-size:19px; line-height:1.3; padding-left:34px; margin-top:-6px;}
-  .key-card .hotel{
-    font-size:13.5px; color:var(--text-dark-dim); padding-left:34px;
-    display:flex; align-items:center; gap:6px;
-  }
-  .key-card .meta{
-    display:flex; flex-wrap:wrap; gap:8px; padding-left:34px;
-  }
-  .pill{
-    font-size:11.5px;
-    font-weight:600;
-    padding:5px 11px;
-    border-radius:999px;
-    background:var(--paper-2);
-    color:var(--text-dark-dim);
-  }
-  .pill.pay{background:rgba(70,92,76,0.14); color:var(--sage);}
-  .key-card .card-foot{
-    display:flex; align-items:center; justify-content:space-between;
-    padding-left:34px; margin-top:4px;
-  }
-  .card-foot .wage{font-family:var(--mono); font-weight:700; font-size:15px; color:var(--text-dark);}
-  .card-foot .apply{
-    font-size:13.5px; font-weight:700; color:var(--wine); text-decoration:none;
-    display:inline-flex; align-items:center; gap:5px;
-  }
-  .card-foot .apply svg{width:14px; height:14px; transition:transform .18s ease;}
-  .key-card:hover .apply svg{transform:translateX(3px);}
-
-  .jobs-more{
-    display:flex; justify-content:center; margin-top:44px
-  .how-tabs{
-    display:inline-flex;
-    background:var(--paper-2);
-    border-radius:999px;
-    padding:5px;
-    margin-bottom:46px;
-  }
-  .how-tab{
-    border:none; background:transparent; cursor:pointer;
-    padding:11px 26px; border-radius:999px;
-    font-family:var(--body); font-weight:600; font-size:14px;
-    color:var(--text-dark-dim);
-    transition:all .2s ease;
-  }
-  .how-tab.active{background:var(--ink); color:var(--text-light);}
-
-  .how-panel{display:none;}
-  .how-panel.active{display:grid;}
-  .how-panel{
-    grid-template-columns:repeat(3,1fr);
-    gap:28px;
-  }
-  @media (max-width:860px){ .how-panel{grid-template-columns:1fr;} }
-  .how-step{
-    background:var(--cream);
-    border:1px solid var(--line-light);
-    border-radius:var(--radius-m);
-    padding:32px 26px;
-    position:relative;
-  }
-  .how-step .num{
-    font-family:var(--mono);
-    font-size:13px;
-    width:38px; height:38px;
-    border-radius:50%;
-    border:1.5px solid var(--brass);
-    color:var(--brass-dark);
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:22px;
-  }
-  .how-step h4{font-size:18px; margin-bottom:10px;}
-  .how-step p{font-size:14.5px; line-height:1.6; color:var(--text-dark-dim); margin:0;}
-  .why{background:var(--paper-2);}
-  .why-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:0;
-    border-top:1px solid var(--line-light);
-    border-left:1px solid var(--line-light);
-  }
-  @media (max-width:900px){ .why-grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:520px){ .why-grid{grid-template-columns:1fr;} }
-  .why-item{
-    border-right:1px solid var(--line-light);
-    border-bottom:1px solid var(--line-light);
-    padding:34px 26px;
-  }
-  .why-item .ic{width:28px; height:28px; color:var(--wine); margin-bottom:20px;}
-  .why-item h4{font-size:16px; margin-bottom:8px;}
-  .why-item p{font-size:13.8px; color:var(--text-dark-dim); line-height:1.55; margin:0;}
-  .testi-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:24px;
-  }
-  @media (max-width:900px){ .testi-grid{grid-template-columns:1fr;} }
-  .testi-card{
-    background:var(--cream);
-    border-radius:var(--radius-m);
-    padding:32px 28px;
-    border:1px solid var(--line-light);
-    display:flex; flex-direction:column; gap:20px;
-  }
-  .testi-card .qmark{width:30px; height:30px; color:var(--brass);}
-  .testi-card p.quote{
-    font-family:var(--display);
-    font-style:italic;
-    font-size:17px;
-    line-height:1.55;
-    color:var(--text-dark);
-    margin:0;
-  }
-  .testi-person{display:flex; align-items:center; gap:12px; margin-top:auto;}
-  .avatar{
-    width:40px; height:40px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-family:var(--mono); font-weight:700; font-size:13px;
-    color:var(--cream);
-    flex-shrink:0;
-  }
-  .testi-person .who b{display:block; font-size:13.5px;}
-  .testi-person .who span{font-size:12px; color:var(--text-dark-dim);}
-  .cta-banner{
-    background:linear-gradient(120deg, var(--wine) 0%, #5C221D 100%);
-    color:var(--cream);
-    border-radius:var(--radius-l);
-    padding:56px 56px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:30px;
-    position:relative;
-    overflow:hidden;
-  }
-  @media (max-width:800px){ .cta-banner{flex-direction:column; align-items:flex-start; padding:40px 28px;} }
-  .cta-banner .ring{
-    position:absolute; right:-60px; top:-60px;
-    width:220px; height:220px;
-    border:1.5px solid rgba(251,248,241,0.15);
-    border-radius:50%;
-  }
-  .cta-banner .ring2{
-    position:absolute; right:20px; bottom:-90px;
-    width:180px; height:180px;
-    border:1.5px solid rgba(251,248,241,0.12);
-    border-radius:50%;
-  }
-  .cta-banner h3{font-size:clamp(24px,3vw,32px); max-width:16ch; position:relative;}
-  .cta-banner p{font-size:15px; color:rgba(251,248,241,0.78); margin:12px 0 0; max-width:42ch; position:relative;}
-  .cta-actions{display:flex; gap:12px; flex-shrink:0; position:relative;}
-  @media (max-width:480px){ .cta-actions{flex-direction:column; width:100%;} }
-  footer{
-    background:var(--ink);
-    color:var(--text-light);
-    padding-top:70px;
-    position:relative;
-    overflow:hidden;
-  }
-  footer .foot-top{
-    display:grid;
-    grid-template-columns:1.4fr repeat(4,1fr);
-    gap:32px;
-    padding-bottom:56px;
-    border-bottom:1px solid var(--line-dark);
-  }
-  @media (max-width:920px){
-    footer .foot-top{grid-template-columns:repeat(2,1fr);}
-  }
-  @media (max-width:560px){
-    footer .foot-top{grid-template-columns:1fr; gap:40px;}
-  }
-  .foot-brand .logo{margin-bottom:16px;}
-  .foot-brand p{
-    font-size:14px; line-height:1.65; color:var(--text-light-dim);
-    max-width:30ch; margin:0 0 26px;
-  }
-  .guestbook{
-    background:var(--ink-3);
-    border:1px solid var(--line-dark);
-    border-radius:var(--radius-m);
-    padding:18px;
-    max-width:340px;
-  }
-  .guestbook .eyebrow{color:var(--brass-light); margin-bottom:10px;}
-  .guestbook p{font-size:13px; color:var(--text-light-dim); margin:0 0 14px; max-width:none;}
-  .guestbook form{display:flex; gap:8px;}
-  @media (max-width:400px){ .guestbook form{flex-direction:column;} }
-  .guestbook input{
-    flex:1; min-width:0;
-    background:var(--ink);
-    border:1px solid var(--line-dark);
-    border-radius:8px;
-    padding:11px 13px;
-    color:var(--text-light);
-    font-size:13.5px;
-    font-family:var(--body);
-  }
-  .guestbook input::placeholder{color:#8894A0;}
-  .guestbook .note{
-    font-family:var(--mono); font-size:11px; color:var(--sage-light);
-    margin-top:10px; min-height:14px;
-  }
-
-  .foot-col h5{
-    font-family:var(--mono);
-    font-size:11.5px;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-    color:var(--brass-light);
-    margin:0 0 20px;
-    font-weight:400;
-  }
-  .foot-col ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:13px;}
-  .foot-col a{
-    color:var(--text-light-dim); text-decoration:none; font-size:14px;
-    transition:color .18s ease;
-  }
-  .foot-col a:hover{color:var(--brass-light);}
-
-  .foot-bottom{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:26px 0 30px;
-    flex-wrap:wrap; gap:16px;
-  }
-  .foot-bottom .copy{
-    font-size:12.5px; color:var(--text-light-dim);
-    display:flex; align-items:center; gap:10px;
-  }
-  .foot-bottom .copy svg{width:16px; height:16px; color:var(--brass);}
-  .socials{display:flex; gap:10px;}
-  .social-btn{
-    width:36px; height:36px; border-radius:50%;
-    border:1px solid var(--line-dark);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--text-light-dim);
-    text-decoration:none;
-    transition:all .18s ease;
-  }
-  .social-btn:hover{border-color:var(--brass); color:var(--brass-light); transform:translateY(-2px);}
-  .social-btn svg{width:16px; height:16px;}
-
-  .foot-strip{
-    background:var(--brass);
-    color:#1B140A;
-    font-family:var(--mono);
-    font-size:11.5px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    text-align:center;
-    padding:10px 0;
-  }
-
-  ::selection{background:var(--brass); color:#1B140A;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorqDen — Cooperative Gig Services Platform for Hospitality</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="data.js"></script>
 </head>
 <body>
-<header class="site">
-  <div class="wrap nav">
-    <a href="#top" class="logo">
-      <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="20" cy="20" r="19" stroke="#C6A15B" stroke-width="1.5"/>
-        <circle cx="20" cy="16" r="5.4" stroke="#C6A15B" stroke-width="1.6"/>
-        <path d="M20 21.4V29M16.6 25H23.4" stroke="#C6A15B" stroke-width="1.6" stroke-linecap="round"/>
-      </svg>
-      <span class="logo-block">Worqden<span class="tag">Hotel Hiring</span></span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#jobs" class="active">Find jobs</a></li>
-      <li><a href="#hotels">For hotels</a></li>
-      <li><a href="#how">How it works</a></li>
-      <li><a href="#why">Why Worqden</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="login.html" class="btn btn-ghost">Sign in</a>
-      <a href="register.html" class="btn btn-brass">Post a job</a>
-      <button class="burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobilePanel">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-  </div>
-  <div class="mobile-panel" id="mobilePanel">
-    <div class="wrap">
-      <ul>
-        <li><a href="#jobs">Find jobs</a></li>
-        <li><a href="#hotels">For hotels</a></li>
-        <li><a href="#how">How it works</a></li>
-        <li><a href="#why">Why Worqden</a></li>
-      </ul>
-      <div class="mob-actions">
-        <a href="login.html" class="btn btn-ghost btn-block">Sign in</a>
-        <a href="register.html" class="btn btn-brass btn-block">Post a job</a>
-      </div>
-    </div>
-  </div>
-</header>
-<!--hero section-->
-<div id="top"></div>
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow">Hospitality hiring, done properly</span>
-      <h1>Every great stay starts with <em>someone at the desk.</em></h1>
-      <p class="lede">Worqden connects hotels, resorts and inns with the front desk agents, housekeepers, cooks and concierges who keep them running — matched by shift, not by scrolling.</p>
 
-      <form class="search-card" id="heroSearch">
-        <div class="search-field">
-          <label for="roleInput">Role</label>
-          <input id="roleInput" type="text" placeholder="Front desk, housekeeping…">
-        </div>
-        <div class="search-field">
-          <label for="cityInput">City</label>
-          <input id="cityInput" type="text" placeholder="Where are you looking?">
-        </div>
-        <button type="submit" class="btn btn-brass">
-          Search jobs
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </form>
-
-      <div class="hero-stats">
-        <div class="stat"><b data-count="1240">0</b><span>Live roles today</span></div>
-        <div class="stat"><b data-count="860">0</b><span>Hotels hiring</span></div>
-        <div class="stat"><b data-count="54">0</b><span>Cities covered</span></div>
-      </div>
-    </div>
-
-    <div class="hero-art">
-      <svg viewBox="0 0 440 440" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- luggage tag back card -->
-        <g class="float-slow" style="--r:-6deg" transform="rotate(-6 150 260)">
-          <rect x="60" y="150" width="200" height="230" rx="18" fill="#7B2D26"/>
-          <rect x="60" y="150" width="200" height="230" rx="18" stroke="#E3C888" stroke-opacity="0.35" stroke-width="1.5"/>
-          <circle cx="100" cy="185" r="10" fill="none" stroke="#F6F1E6" stroke-width="2.4"/>
-          <line x1="90" y1="230" x2="230" y2="230" stroke="#F6F1E6" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>
-          <line x1="90" y1="256" x2="200" y2="256" stroke="#F6F1E6" stroke-opacity="0.35" stroke-width="6" stroke-linecap="round"/>
-          <line x1="90" y1="278" x2="230" y2="278" stroke="#F6F1E6" stroke-opacity="0.35" stroke-width="6" stroke-linecap="round"/>
-          <line x1="90" y1="300" x2="170" y2="300" stroke="#F6F1E6" stroke-opacity="0.35" stroke-width="6" stroke-linecap="round"/>
-        </g>
-        <!-- key card front -->
-        <g class="float-slow2" style="--r:4deg" transform="rotate(4 260 210)">
-          <rect x="150" y="90" width="220" height="260" rx="20" fill="#FBF8F1"/>
-          <rect x="150" y="90" width="220" height="260" rx="20" stroke="#1B2A33" stroke-opacity="0.08" stroke-width="1.5"/>
-          <circle cx="192" cy="128" r="12" fill="#F6F1E6" stroke="#C6A15B" stroke-width="2.6"/>
-          <text x="176" y="175" font-family="Space Mono, monospace" font-size="11" letter-spacing="1" fill="#8F7136">ROOM No.</text>
-          <text x="176" y="200" font-family="Fraunces, serif" font-size="34" font-weight="600" fill="#1B2A33">204</text>
-          <line x1="176" y1="222" x2="344" y2="222" stroke="#1B2A33" stroke-opacity="0.12" stroke-dasharray="2 6" stroke-width="1.6"/>
-          <text x="176" y="250" font-family="Public Sans, sans-serif" font-size="14" font-weight="700" fill="#1B2A33">Front Desk Agent</text>
-          <text x="176" y="270" font-family="Public Sans, sans-serif" font-size="12" fill="#5B6B72">The Aldgate Hotel · London</text>
-          <rect x="176" y="288" width="94" height="26" rx="13" fill="rgba(70,92,76,0.14)"/>
-          <text x="188" y="305" font-family="Space Mono, monospace" font-size="11" font-weight="700" fill="#465C4C">$16 / hr</text>
-          <circle cx="330" cy="301" r="15" fill="#7B2D26"/>
-          <path d="M325 301h10M331 296l5 5-5 5" stroke="#FBF8F1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </g>
-        <!-- brass key illustration -->
-        <g transform="translate(300 60) rotate(18)">
-          <circle cx="16" cy="16" r="15" fill="none" stroke="#E3C888" stroke-width="3.2"/>
-          <rect x="14" y="30" width="4.4" height="46" fill="#E3C888"/>
-          <rect x="18.4" y="58" width="10" height="5" fill="#E3C888"/>
-          <rect x="18.4" y="68" width="7" height="5" fill="#E3C888"/>
-        </g>
-      </svg>
-    </div>
-  </div>
-
-  <div class="marquee">
-    <div class="marquee-track">
-      <div class="marquee-item">Front Desk</div>
-      <div class="marquee-item">Housekeeping</div>
-      <div class="marquee-item">Food &amp; Beverage</div>
-      <div class="marquee-item">Culinary</div>
-      <div class="marquee-item">Concierge</div>
-      <div class="marquee-item">Maintenance</div>
-      <div class="marquee-item">Spa &amp; Wellness</div>
-      <div class="marquee-item">Management</div>
-      <div class="marquee-item">Front Desk</div>
-      <div class="marquee-item">Housekeeping</div>
-      <div class="marquee-item">Food &amp; Beverage</div>
-      <div class="marquee-item">Culinary</div>
-      <div class="marquee-item">Concierge</div>
-      <div class="marquee-item">Maintenance</div>
-      <div class="marquee-item">Spa &amp; Wellness</div>
-      <div class="marquee-item">Management</div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CATEGORIES ================= -->
-<section id="categories">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">Browse by department</span>
-        <h2>Every role that keeps a hotel running</h2>
-      </div>
-      <p>From the front desk to the boiler room — filter roles by the department you know best, in the city you want to work.</p>
-    </div>
-
-    <div class="cat-grid">
-      <a href="#jobs" class="cat-card" data-filter="Front of House">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 20h18M4 20V9l8-5 8 5v11M9 20v-6h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="1.1" fill="currentColor"/></svg>
-        <h4>Front Desk &amp; Guest Services</h4>
-        <span class="count">312 roles open</span>
-        <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#jobs" class="cat-card" data-filter="Housekeeping">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M6 21c3-1 4-4 4-7l6-9 3 2-9 12c-1 2-2.5 2.6-4 2M4 21l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h4>Housekeeping</h4>
-        <span class="count">268 roles open</span>
-        <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#jobs" class="cat-card" data-filter="F&B">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <h4>Food &amp; Beverage</h4>
-        <span class="count">191 roles open</span>
-        <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#jobs" class="cat-card" data-filter="Kitchen">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M6 21V11a6 6 0 0112 0v10M4 21h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h4>Culinary &amp; Kitchen</h4>
-        <span class="count">147 roles open</span>
-        <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#jobs" class="cat-card" data-filter="Front of House">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 20V10l5-3v13M4 12l5-3M15 20V7l5 3v10M15 10l5 3M9 20v-4h2v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h4>Concierge &amp; Bell Services</h4>
-        <span class="count">88 roles open</span>
-        <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#jobs" class="cat-card" data-filter="Management">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="16" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M9 8V6a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5"/></svg>
-        <h4>Management &amp; Admin</h4>
-        <span class="count">96 roles open</span>
-        <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#jobs" class="cat-card" data-filter="Maintenance">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 005.4-5.4l-2.2 2.2-2-2 2.2-2.2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-        <h4>Maintenance &amp; Engineering</h4>
-        <span class="count">73 roles open</span>
-        <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#jobs" class="cat-card" data-filter="Spa">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 21c4-2.5 6-6 6-9.5C18 7 15 4 12 3 9 4 6 7 6 11.5 6 15 8 18.5 12 21z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-        <h4>Spa &amp; Wellness</h4>
-        <span class="count">41 roles open</span>
-        <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FEATURED JOBS ================= -->
-<section id="jobs" class="jobs-sec">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">Today's arrivals</span>
-        <h2>Featured openings, ready to fill</h2>
-      </div>
-      <p>Every listing here is a live shift. Apply straight from the card — no separate account required to get started.</p>
-    </div>
-
-    <div class="filter-row" id="filterRow">
-      <button class="filter-btn active" data-filter="All">All roles</button>
-      <button class="filter-btn" data-filter="Front of House">Front of House</button>
-      <button class="filter-btn" data-filter="Housekeeping">Housekeeping</button>
-      <button class="filter-btn" data-filter="Kitchen">Kitchen</button>
-      <button class="filter-btn" data-filter="F&B">F&amp;B</button>
-      <button class="filter-btn" data-filter="Maintenance">Maintenance</button>
-    </div>
-
-    <div class="job-grid" id="jobGrid">
-      <!-- job cards injected by JS -->
-    </div>
-
-    <div class="jobs-more">
-      <a href="register.html" class="btn btn-ghost">View all open roles</a>
-    </div>
-  </div>
-</section>
-
-<!-- ================= HOW IT WORKS ================= -->
-<section id="how">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">How it works</span>
-        <h2>From application to first shift</h2>
-      </div>
-      <p>Whichever side of the desk you're on, it takes three steps.</p>
-    </div>
-
-    <div class="how-tabs" role="tablist">
-      <button class="how-tab active" data-tab="seekers" role="tab" aria-selected="true">For job seekers</button>
-      <button class="how-tab" data-tab="hotels" role="tab" aria-selected="false">For hotels</button>
-    </div>
-
-    <div class="how-panel active" id="panel-seekers">
-      <div class="how-step">
-        <div class="num">01</div>
-        <h4>Build your profile in minutes</h4>
-        <p>Add your experience, availability and the roles you're after — no cover letter required to get matched.</p>
-      </div>
-      <div class="how-step">
-        <div class="num">02</div>
-        <h4>Get matched to nearby shifts</h4>
-        <p>We surface roles at hotels that fit your schedule, your commute and your pay expectations.</p>
-      </div>
-      <div class="how-step">
-        <div class="num">03</div>
-        <h4>Walk in ready to start</h4>
-        <p>Hear back within days, not weeks. Interview, get an offer, and pick your start date.</p>
-      </div>
-    </div>
-
-    <div class="how-panel" id="panel-hotels">
-      <div class="how-step">
-        <div class="num">01</div>
-        <h4>Post the role, set your must-haves</h4>
-        <p>Shift pattern, pay, certifications — tell us what matters and we'll screen for it automatically.</p>
-      </div>
-      <div class="how-step">
-        <div class="num">02</div>
-        <h4>Review matched candidates same day</h4>
-        <p>See ranked, available candidates in your inbox, not a pile of unrelated resumes.</p>
-      </div>
-      <div class="how-step">
-        <div class="num">03</div>
-        <h4>Hire and onboard in one place</h4>
-        <p>Send offers, collect documents and schedule first shifts without leaving Worqden.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= WHY WORQDEN ================= -->
-<section id="why" class="why">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">Why hotels &amp; workers choose us</span>
-        <h2>Built for shift work, not desk jobs</h2>
-      </div>
-      <p>General job boards weren't built for hospitality schedules. We were.</p>
-    </div>
-  </div>
-  <div class="wrap" style="padding-top:0;">
-    <div class="why-grid">
-      <div class="why-item">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/></svg>
-        <h4>92% filled within 2 weeks</h4>
-        <p>Roles posted on Worqden average a hire in under fourteen days.</p>
-      </div>
-      <div class="why-item">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h4>Verified hotels only</h4>
-        <p>Every employer is checked before a listing goes live — no ghost jobs.</p>
-      </div>
-      <div class="why-item">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg>
-        <h4>Shift-first scheduling</h4>
-        <p>Search by shift pattern and availability, not just job title.</p>
-      </div>
-      <div class="why-item">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.5-9.3-9A5.3 5.3 0 0112 6a5.3 5.3 0 019.3 6c-2.3 4.5-9.3 9-9.3 9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-        <h4>No fees for job seekers</h4>
-        <p>Applying and getting matched is, and always will be, free.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= TESTIMONIALS ================= -->
-<section id="testimonials">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow">From the floor and the front office</span>
-        <h2>What people say after the first shift</h2>
-      </div>
-    </div>
-
-    <div class="testi-grid">
-      <div class="testi-card">
-        <svg class="qmark" viewBox="0 0 32 32" fill="none"><path d="M10 8c-3.3 0-6 2.7-6 6v8h8v-8h-4c0-2.2 1.8-4 4-4V8zm14 0c-3.3 0-6 2.7-6 6v8h8v-8h-4c0-2.2 1.8-4 4-4V8z" fill="currentColor"/></svg>
-        <p class="quote">I found my front desk job in three days, no back and forth. Now I actually get to choose my shifts.</p>
-        <div class="testi-person">
-          <div class="avatar" style="background:#7B2D26;">PN</div>
-          <div class="who"><b>Priya N.</b><span>Front Desk Agent</span></div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <svg class="qmark" viewBox="0 0 32 32" fill="none"><path d="M10 8c-3.3 0-6 2.7-6 6v8h8v-8h-4c0-2.2 1.8-4 4-4V8zm14 0c-3.3 0-6 2.7-6 6v8h8v-8h-4c0-2.2 1.8-4 4-4V8z" fill="currentColor"/></svg>
-        <p class="quote">We used to post on four different boards and still came up short. Worqden fills our housekeeping shifts before the week starts.</p>
-        <div class="testi-person">
-          <div class="avatar" style="background:#465C4C;">MD</div>
-          <div class="who"><b>Marcus D.</b><span>GM, Bay &amp; Birch Resort</span></div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <svg class="qmark" viewBox="0 0 32 32" fill="none"><path d="M10 8c-3.3 0-6 2.7-6 6v8h8v-8h-4c0-2.2 1.8-4 4-4V8zm14 0c-3.3 0-6 2.7-6 6v8h8v-8h-4c0-2.2 1.8-4 4-4V8z" fill="currentColor"/></svg>
-        <p class="quote">Every candidate who walked in the door already knew the role. That never used to happen with the old process.</p>
-        <div class="testi-person">
-          <div class="avatar" style="background:#8F7136;">ER</div>
-          <div class="who"><b>Elena R.</b><span>HR Lead, Meridian Grand</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CTA ================= -->
-<section id="hotels">
-  <div class="wrap">
-    <div class="cta-banner">
-      <div class="ring"></div>
-      <div class="ring2"></div>
-      <div>
-        <h3>Hiring for your hotel this season?</h3>
-        <p>Post your first role free and see matched candidates within 24 hours. No contracts, cancel anytime.</p>
-      </div>
-      <div class="cta-actions">
-        <a href="register.html" class="btn btn-brass">Post a job</a>
-        <a href="#" class="btn btn-ghost">Talk to sales</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<footer>
-  <div class="wrap">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <a href="#top" class="logo">
-          <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="20" cy="20" r="19" stroke="#C6A15B" stroke-width="1.5"/>
-            <circle cx="20" cy="16" r="5.4" stroke="#C6A15B" stroke-width="1.6"/>
-            <path d="M20 21.4V29M16.6 25H23.4" stroke="#C6A15B" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-          <span class="logo-block">Worqden<span class="tag">Hotel Hiring</span></span>
+    <!-- Main Navigation Header -->
+    <header class="main-header" id="top">
+        <a href="index.html" class="logo">
+            <svg class="logo-svg-mark" viewBox="0 0 64 64" width="34" height="34" style="flex-shrink:0;">
+                <defs>
+                    <linearGradient id="wqLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#F97316"/>
+                        <stop offset="100%" stop-color="#10B981"/>
+                    </linearGradient>
+                </defs>
+                <rect width="64" height="64" rx="16" fill="#0F172A"/>
+                <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoGrad)" stroke-width="2.5"/>
+                <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="32" cy="18" r="4" fill="#F97316"/>
+            </svg>
+            <span style="font-size: 21px; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF;">Worq<span style="color: #F97316;">Den</span></span>
         </a>
-        <p>The hiring desk for hotels — matching front desk, housekeeping, kitchen and management talent with the properties that need them, shift by shift.</p>
 
-        <div class="guestbook">
-          <span class="eyebrow">Sign the guestbook</span>
-          <p>New roles in your inbox every Monday. No spam, unsubscribe anytime.</p>
-          <form id="newsletterForm">
-            <input type="email" placeholder="you@email.com" required aria-label="Email address">
-            <button type="submit" class="btn btn-brass btn-sm">Subscribe</button>
-          </form>
-          <div class="note" id="newsletterNote"></div>
+        <nav class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#categories">Categories</a>
+            <a href="hotels.html">Browse Hotels</a>
+            <a href="staff.html">Find Workers</a>
+            <a href="admin.html" style="color: #FCD34D;">🛡️ Admin</a>
+        </nav>
+
+        <div class="nav-actions" id="navAuthSection">
+            <a href="login.html" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: #FFFFFF;">Login</a>
+            <a href="register.html" class="btn btn-orange">Sign Up</a>
         </div>
-      </div>
+    </header>
 
-      <div class="foot-col">
-        <h5>Job seekers</h5>
-        <ul>
-          <li><a href="#jobs">Browse jobs</a></li>
-          <li><a href="#">Career advice</a></li>
-          <li><a href="#">Salary guide</a></li>
-          <li><a href="register.html">Create profile</a></li>
-        </ul>
-      </div>
-      <div class="foot-col">
-        <h5>Hotels</h5>
-        <ul>
-          <li><a href="register.html">Post a job</a></li>
-          <li><a href="#">Pricing</a></li>
-          <li><a href="#">Bulk hiring</a></li>
-          <li><a href="#">Success stories</a></li>
-        </ul>
-      </div>
-      <div class="foot-col">
-        <h5>Company</h5>
-        <ul>
-          <li><a href="#">About Worqden</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Press</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div class="foot-col">
-        <h5>Legal</h5>
-        <ul>
-          <li><a href="#">Terms of service</a></li>
-          <li><a href="#">Privacy policy</a></li>
-          <li><a href="#">Accessibility</a></li>
-          <li><a href="#">Cookie settings</a></li>
-        </ul>
-      </div>
-    </div>
+    <!-- Hero Section (Screen 1) -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <!-- Left Hero Content -->
+            <div class="hero-content">
+                <div class="hero-badge" style="background: rgba(249, 115, 22, 0.18); border: 1px solid rgba(249, 115, 22, 0.4); color: #FFEDD5;">
+                    <span>✨ AI-Powered Cooperative Gig Services Platform</span>
+                </div>
+                <h1 class="hero-title">Find the Right People for the Right Work</h1>
+                <p class="hero-subtitle">
+                    WorqDen empowers workers, students, and hospitality organizations with verified, zero-commission, direct two-way hiring for events, restaurants, and luxury hotels across all 786 Indian districts.
+                </p>
+                <div class="hero-actions">
+                    <a href="register.html?role=worker" class="btn btn-orange btn-lg">
+                        <span>Find Gigs & Work</span>
+                        <span>&rarr;</span>
+                    </a>
+                    <a href="register.html?role=hotel" class="btn btn-emerald btn-lg">
+                        <span>Hire Hospitality Staff</span>
+                        <span>🏢</span>
+                    </a>
+                </div>
 
-    <div class="foot-bottom">
-      <div class="copy">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="3.6" stroke="currentColor" stroke-width="1.5"/><path d="M12 12.6V19M9 16h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        © 2026 Worqden. Made for the people who make hotels run.
-      </div>
-      <div class="socials">
-        <a href="#" class="social-btn" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg>
-        </a>
-        <a href="#" class="social-btn" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 10.5V16M8 8v.01M12 16v-3.2c0-1.5 1-2.3 2.2-2.3 1.1 0 1.8.8 1.8 2.3V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </a>
-        <a href="#" class="social-btn" aria-label="X">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="foot-strip">Front desk to housekeeping to the kitchen line — Worqden fills every shift</div>
-</footer>
+                <!-- Dynamic Real Stats Strip -->
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-number" id="statStaffCount" style="color: #34D399;">--</span>
+                        <span class="hero-stat-label">Verified Candidates</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-number" id="statDistrictsCount" style="color: #FB923C;">--</span>
+                        <span class="hero-stat-label">Active Districts</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-number" id="statJobsCount" style="color: #60A5FA;">--</span>
+                        <span class="hero-stat-label">Live Open Jobs</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-number" id="statHiresCount" style="color: #FCD34D;">0%</span>
+                        <span class="hero-stat-label">Commission Cut</span>
+                    </div>
+                </div>
+            </div>
 
-<script>
-(function(){
-  // Mobile nav
-  const burger = document.getElementById('burgerBtn');
-  const panel = document.getElementById('mobilePanel');
-  burger.addEventListener('click', () => {
-    const open = panel.classList.toggle('open');
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    panel.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-  }));
+            <!-- Right Hero Card Showcase -->
+            <div class="hero-card-showcase">
+                <div class="hero-showcase-card">
+                    <div class="hero-card-top">
+                        <div class="hotel-showcase-badge" style="background: #FEF3C7; color: #B45309; border: 1px solid #FCD34D;">
+                            <span>Direct Work Match</span>
+                        </div>
+                        <span class="status-pill status-accepted">Verified Positions</span>
+                    </div>
+                    <div class="hotel-showcase-info" style="padding: 20px 0 10px 0;">
+                        <h3 style="font-size: 20px; font-weight: 700; color: #0F172A;">Two-Way Hospitality Hiring</h3>
+                        <p class="hotel-location" style="margin-top: 4px;">Direct coordination between local talent and properties</p>
+                        <div class="hotel-position-tags" style="margin-top: 14px;">
+                            <span class="pos-tag" style="background: #FFF7ED; color: #EA580C; border: 1px solid #FDBA74;">Culinary & Kitchen</span>
+                            <span class="pos-tag" style="background: #ECFDF5; color: #059669; border: 1px solid #6EE7B7;">Banquet & Service</span>
+                            <span class="pos-tag" style="background: #EFF6FF; color: #2563EB; border: 1px solid #93C5FD;">Events & Logistics</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-avatars-row" style="margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+                        <div class="avatar-text">
+                            <strong>100% Direct & Zero Commission</strong>
+                            <span style="display:block; font-size: 13px; color: var(--text-muted); margin-top: 2px;">Verified Phone OTP • Real District Matching</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  // Job data
-  const jobs = [
-    {room:'204', title:'Front Desk Agent', hotel:'The Aldgate Hotel · London', type:'Full-time', wage:'$16/hr', cat:'Front of House'},
-    {room:'118', title:'Night Auditor', hotel:'Marlowe Inn · Austin', type:'Part-time', wage:'$18/hr', cat:'Front of House'},
-    {room:'331', title:'Housekeeping Supervisor', hotel:'Bay & Birch Resort · San Diego', type:'Full-time', wage:'$19/hr', cat:'Housekeeping'},
-    {room:'142', title:'Room Attendant', hotel:'The Fenwick Hotel · Chicago', type:'Full-time', wage:'$15.50/hr', cat:'Housekeeping'},
-    {room:'509', title:'Line Cook', hotel:'Harbor House Hotel · Portland', type:'Full-time', wage:'$20/hr', cat:'Kitchen'},
-    {room:'276', title:'Restaurant Server', hotel:'The Aldgate Hotel · London', type:'Part-time', wage:'$12/hr + tips', cat:'F&B'},
-    {room:'403', title:'Concierge', hotel:'Meridian Grand · Miami', type:'Full-time', wage:'$17/hr', cat:'Front of House'},
-    {room:'088', title:'Maintenance Technician', hotel:'Bay & Birch Resort · San Diego', type:'Full-time', wage:'$22/hr', cat:'Maintenance'}
-  ];
+    <!-- Continuous Moving Marquee Ticker Section (Screen 1) -->
+    <section class="marquee-ticker-section">
+        <div class="marquee-track">
+            <div class="marquee-content">
+                <span>🚀 FIND WORK</span>
+                <span class="marquee-dot">•</span>
+                <span class="marquee-highlight-green">🏨 HIRE TALENT</span>
+                <span class="marquee-dot">•</span>
+                <span>💰 ZERO COMMISSION</span>
+                <span class="marquee-dot">•</span>
+                <span class="marquee-highlight-orange">⚡ INSTANT SHIFTS</span>
+                <span class="marquee-dot">•</span>
+                <span>⭐ VERIFIED 5-STAR HOTELS</span>
+                <span class="marquee-dot">•</span>
+                <span class="marquee-highlight-green">🎓 STUDENT GIGS</span>
+                <span class="marquee-dot">•</span>
+                <span>🛡️ DIRECT TWO-WAY HIRING</span>
+                <span class="marquee-dot">•</span>
+                <span class="marquee-highlight-orange">📍 786 DISTRICTS</span>
+                <span class="marquee-dot">•</span>
+                <span>✨ WORQDEN COOPERATIVE</span>
+                <span class="marquee-dot">•</span>
+                <span>🔥 WORK SMART</span>
+                <span class="marquee-dot">•</span>
+            </div>
+            <div class="marquee-content" aria-hidden="true">
+                <span>🚀 FIND WORK</span>
+                <span class="marquee-dot">•</span>
+                <span class="marquee-highlight-green">🏨 HIRE TALENT</span>
+                <span class="marquee-dot">•</span>
+                <span>💰 ZERO COMMISSION</span>
+                <span class="marquee-dot">•</span>
+                <span class="marquee-highlight-orange">⚡ INSTANT SHIFTS</span>
+                <span class="marquee-dot">•</span>
+                <span>⭐ VERIFIED 5-STAR HOTELS</span>
+                <span class="marquee-dot">•</span>
+                <span class="marquee-highlight-green">🎓 STUDENT GIGS</span>
+                <span class="marquee-dot">•</span>
+                <span>🛡️ DIRECT TWO-WAY HIRING</span>
+                <span class="marquee-dot">•</span>
+                <span class="marquee-highlight-orange">📍 786 DISTRICTS</span>
+                <span class="marquee-dot">•</span>
+                <span>✨ WORQDEN COOPERATIVE</span>
+                <span class="marquee-dot">•</span>
+                <span>🔥 WORK SMART</span>
+                <span class="marquee-dot">•</span>
+            </div>
+        </div>
+    </section>
 
-  const grid = document.getElementById('jobGrid');
-  grid.innerHTML = jobs.map(j => `
-    <article class="key-card" data-cat="${j.cat}">
-      <div class="grommet"></div>
-      <span class="room">Room No. ${j.room}</span>
-      <h4>${j.title}</h4>
-      <div class="hotel">${j.hotel}</div>
-      <div class="perf"></div>
-      <div class="meta">
-        <span class="pill">${j.type}</span>
-        <span class="pill">${j.cat}</span>
-      </div>
-      <div class="card-foot">
-        <span class="wage">${j.wage}</span>
-        <a href="register.html" class="apply">Apply now
-          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-    </article>
-  `).join('');
+    <!-- How Workudin Works Section (Modern Startup 4-Step Cards) -->
+    <section class="section-container" id="how-it-works">
+        <div class="section-header">
+            <span class="section-badge" style="background: #FFF7ED; color: #EA580C; border: 1px solid #FDBA74;">STREAMLINED 4-STEP WORKFLOW</span>
+            <h2 class="section-title">How WorqDen Works</h2>
+            <p class="section-subtitle">A transparent, cooperative hospitality gig ecosystem connecting talent and employers in 4 simple steps.</p>
+        </div>
 
-  // Filtering
-  document.getElementById('filterRow').addEventListener('click', (e) => {
-    const btn = e.target.closest('.filter-btn');
-    if(!btn) return;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter;
-    document.querySelectorAll('.key-card').forEach(card => {
-      card.classList.toggle('hidden', f !== 'All' && card.dataset.cat !== f);
-    });
-  });
+        <div class="steps-grid">
+            <!-- Step 01 -->
+            <div class="step-card step-card-01">
+                <div>
+                    <div class="step-card-header">
+                        <div class="step-icon-box step-icon-01">📝</div>
+                        <span class="step-num-badge step-num-01">01 — Step</span>
+                    </div>
+                    <h3 class="step-title">Sign Up & Choose Role</h3>
+                    <p class="step-desc">Register in under 60 seconds as a skilled Worker, flexible Student, or Hotel / Event Venue Partner with secure mobile OTP verification.</p>
+                </div>
+                <div class="step-tag">
+                    <span>⚡ 60-Sec Onboarding</span>
+                </div>
+            </div>
 
-  // Category cards jump + set filter
-  document.querySelectorAll('.cat-card').forEach(c => {
-    c.addEventListener('click', (e) => {
-      const f = c.dataset.filter;
-      const target = document.querySelector(`.filter-btn[data-filter="${f}"]`);
-      if(target){
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        target.classList.add('active');
-        document.querySelectorAll('.key-card').forEach(card => {
-          card.classList.toggle('hidden', f !== 'All' && card.dataset.cat !== f);
+            <!-- Step 02 -->
+            <div class="step-card step-card-02">
+                <div>
+                    <div class="step-card-header">
+                        <div class="step-icon-box step-icon-02">👤</div>
+                        <span class="step-num-badge step-num-02">02 — Step</span>
+                    </div>
+                    <h3 class="step-title">Build Your Profile</h3>
+                    <p class="step-desc">Pick from 14 hospitality categories, showcase your skills, upload credentials, and select your district from all 786 Indian districts.</p>
+                </div>
+                <div class="step-tag">
+                    <span>📍 786 Districts Covered</span>
+                </div>
+            </div>
+
+            <!-- Step 03 -->
+            <div class="step-card step-card-03">
+                <div>
+                    <div class="step-card-header">
+                        <div class="step-icon-box step-icon-03">🏨</div>
+                        <span class="step-num-badge step-num-03">03 — Step</span>
+                    </div>
+                    <h3 class="step-title">Find Work or Staff</h3>
+                    <p class="step-desc">Workers browse verified 5-star hotels, luxury resorts, and catering events. Hotels explore pre-screened talent with live availability.</p>
+                </div>
+                <div class="step-tag">
+                    <span>⭐ 5-Star Hotel Partners</span>
+                </div>
+            </div>
+
+            <!-- Step 04 -->
+            <div class="step-card step-card-04">
+                <div>
+                    <div class="step-card-header">
+                        <div class="step-icon-box step-icon-04">🤝</div>
+                        <span class="step-num-badge step-num-04">04 — Step</span>
+                    </div>
+                    <h3 class="step-title">Connect & Get Hired</h3>
+                    <p class="step-desc">Send 1-click work applications, receive instant confirmations via SMS/Email, and work directly with 0% middleman commission deductions.</p>
+                </div>
+                <div class="step-tag">
+                    <span>💰 Zero Agent Commission</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Work Categories Section (Interactive & Functional) -->
+    <section class="section-container bg-subtle" id="categories">
+        <div class="section-header">
+            <span class="section-badge" style="background: #ECFDF5; color: #047857; border: 1px solid #6EE7B7;">EXPLORE POPULAR ROLES</span>
+            <h2 class="section-title">Popular Work Categories</h2>
+            <p class="section-subtitle">Click any category below to discover live gig shifts and explore verified candidate profiles.</p>
+        </div>
+
+        <div class="categories-pill-grid">
+            <!-- 1. Waiter -->
+            <a href="staff.html?category=Hospitality+%26+Hotels" class="category-card">
+                <div>
+                    <div class="category-top-row">
+                        <div class="cat-icon-circle" style="background: #FFF7ED; color: #EA580C;">🍽️</div>
+                        <span class="cat-badge-shifts">🍽️ Food & Beverage</span>
+                    </div>
+                    <div class="category-body">
+                        <h4>Waiter & Server</h4>
+                        <p>Banquet stewards, fine-dining servers, food runners, and captains for luxury events.</p>
+                    </div>
+                </div>
+                <div class="category-footer-link">
+                    <span>Explore Waiters & Venues</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 2. Cook / Chef -->
+            <a href="staff.html?category=Kitchen+%26+Culinary" class="category-card">
+                <div>
+                    <div class="category-top-row">
+                        <div class="cat-icon-circle" style="background: #ECFDF5; color: #059669;">👨‍🍳</div>
+                        <span class="cat-badge-shifts" style="background: #ECFDF5; color: #047857; border-color: #6EE7B7;">👨‍🍳 Culinary Arts</span>
+                    </div>
+                    <div class="category-body">
+                        <h4>Chef & Cook</h4>
+                        <p>Commis chefs, line cooks, tandoor masters, bakery assistants, and sous chefs.</p>
+                    </div>
+                </div>
+                <div class="category-footer-link">
+                    <span>Explore Culinary Roles</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 3. Housekeeping -->
+            <a href="staff.html?category=Housekeeping+%26+Cleaning" class="category-card">
+                <div>
+                    <div class="category-top-row">
+                        <div class="cat-icon-circle" style="background: #EFF6FF; color: #2563EB;">🧹</div>
+                        <span class="cat-badge-shifts" style="background: #EFF6FF; color: #1D4ED8; border-color: #93C5FD;">🧹 Clean & Rooms</span>
+                    </div>
+                    <div class="category-body">
+                        <h4>Housekeeping & Cleaning</h4>
+                        <p>Room attendants, public area cleaners, laundry crew, and banquet turnover staff.</p>
+                    </div>
+                </div>
+                <div class="category-footer-link">
+                    <span>Explore Housekeeping</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 4. Front Desk & Reception -->
+            <a href="staff.html?category=Front+Desk+%26+Reception" class="category-card">
+                <div>
+                    <div class="category-top-row">
+                        <div class="cat-icon-circle" style="background: #FEF3C7; color: #D97706;">🛎️</div>
+                        <span class="cat-badge-shifts" style="background: #FEF3C7; color: #B45309; border-color: #FCD34D;">🛎️ Front Office</span>
+                    </div>
+                    <div class="category-body">
+                        <h4>Front Desk & Reception</h4>
+                        <p>Guest relations executives, night auditors, concierge associates, and bell desk staff.</p>
+                    </div>
+                </div>
+                <div class="category-footer-link">
+                    <span>Explore Front Desk</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 5. Security & Safety -->
+            <a href="staff.html?category=Security+%26+Safety" class="category-card">
+                <div>
+                    <div class="category-top-row">
+                        <div class="cat-icon-circle" style="background: #FEE2E2; color: #DC2626;">🛡️</div>
+                        <span class="cat-badge-shifts" style="background: #FEE2E2; color: #B91C1C; border-color: #FCA5A5;">🛡️ Safety & Guard</span>
+                    </div>
+                    <div class="category-body">
+                        <h4>Security & Bouncers</h4>
+                        <p>Event bouncers, security guards, access control, and VIP protection associates.</p>
+                    </div>
+                </div>
+                <div class="category-footer-link">
+                    <span>Explore Security Roles</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 6. Event Staffing -->
+            <a href="staff.html?category=Event+Staffing" class="category-card">
+                <div>
+                    <div class="category-top-row">
+                        <div class="cat-icon-circle" style="background: #F3E8FF; color: #9333EA;">🎪</div>
+                        <span class="cat-badge-shifts" style="background: #F3E8FF; color: #7E22CE; border-color: #D8B4FE;">🎪 Event Crew</span>
+                    </div>
+                    <div class="category-body">
+                        <h4>Event & Banquet Staff</h4>
+                        <p>Wedding coordinators, setup crew, AV sound techs, and hospitality hostesses.</p>
+                    </div>
+                </div>
+                <div class="category-footer-link">
+                    <span>Explore Event Staff</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 7. Bartender & Mixologist -->
+            <a href="staff.html?category=Bar+%26+Beverage" class="category-card">
+                <div>
+                    <div class="category-top-row">
+                        <div class="cat-icon-circle" style="background: #FFEDD5; color: #C2410C;">🍸</div>
+                        <span class="cat-badge-shifts">🍸 Beverage Craft</span>
+                    </div>
+                    <div class="category-body">
+                        <h4>Bartender & Mixologist</h4>
+                        <p>Cocktail bartenders, poolside mixologists, baristas, and beverage managers.</p>
+                    </div>
+                </div>
+                <div class="category-footer-link">
+                    <span>Explore Bar Staff</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 8. Valet & Driver -->
+            <a href="staff.html?category=Logistics+%26+Drivers" class="category-card">
+                <div>
+                    <div class="category-top-row">
+                        <div class="cat-icon-circle" style="background: #E0F2FE; color: #0284C7;">🚚</div>
+                        <span class="cat-badge-shifts" style="background: #E0F2FE; color: #0369A1; border-color: #BAE6FD;">🚚 Logistics & Valet</span>
+                    </div>
+                    <div class="category-body">
+                        <h4>Valet Driver & Logistics</h4>
+                        <p>Hotel valet drivers, guest shuttle operators, and venue catering logistics.</p>
+                    </div>
+                </div>
+                <div class="category-footer-link">
+                    <span>Explore Logistics Roles</span>
+                    <span>&rarr;</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Real Live Open Shifts & Job Opportunities Section -->
+    <section class="section-container" id="open-jobs">
+        <div class="section-header">
+            <span class="section-badge" style="background: #EFF6FF; color: #2563EB; border: 1px solid #93C5FD;">CURRENT OPENINGS</span>
+            <h2 class="section-title">Live Shifts & Job Postings</h2>
+            <p class="section-subtitle">Real hospitality positions posted by partner hotels and event organizers. Direct hiring with zero middleman deductions.</p>
+        </div>
+
+        <div id="homeJobsContainer" class="hotels-card-grid">
+            <div class="loading-spinner-box">Loading active jobs... ⏳</div>
+        </div>
+
+        <div style="text-align: center; margin-top: 28px;">
+            <a href="hotels.html" class="btn btn-outline btn-lg" style="border-color: var(--primary-blue); color: var(--primary-blue);">
+                <span>Explore All Hotel Partners & Openings &rarr;</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Cooperative Value Proposition Banner -->
+    <section class="cta-banner-section">
+        <div class="cta-banner-card" style="background: linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 50%, #F97316 100%);">
+            <div class="cta-banner-content">
+                <h2 style="color: #FFFFFF;">Ready to Start Your Hospitality Journey?</h2>
+                <p style="color: #EFF6FF;">Join thousands of verified workers, students, and top hotels on India's premier cooperative gig platform.</p>
+            </div>
+            <div class="cta-banner-actions">
+                <a href="register.html" class="btn btn-orange btn-lg">Create Free Account &rarr;</a>
+                <a href="login.html" class="btn btn-outline btn-lg" style="color: #FFFFFF; border-color: rgba(255,255,255,0.4);">Sign In</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">
+                    <svg class="logo-svg-mark" viewBox="0 0 64 64" width="30" height="30">
+                        <defs>
+                            <linearGradient id="wqLogoFoot" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#F97316"/>
+                                <stop offset="100%" stop-color="#10B981"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="64" height="64" rx="16" fill="#0F172A"/>
+                        <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoFoot)" stroke-width="2.5"/>
+                        <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                    </svg>
+                    <span style="font-size: 20px; font-weight: 800; color: #FFFFFF;">Worq<span style="color: #F97316;">Den</span></span>
+                </div>
+                <p style="margin-top: 10px;">Cooperative gig services platform empowering hospitality workers, students, and organizations with fair, transparent hiring.</p>
+                <p style="font-size: 13px; color: #94A3B8; margin-top: 12px;">Smart India Hackathon 2024 • Problem ID: SIH26089</p>
+            </div>
+            <div class="footer-col">
+                <h4>For Candidates</h4>
+                <a href="register.html?role=worker">Find Worker Jobs</a>
+                <a href="register.html?role=student">Student Gigs</a>
+                <a href="hotels.html">Browse Hotels</a>
+                <a href="login.html">Candidate Dashboard</a>
+            </div>
+            <div class="footer-col">
+                <h4>For Organizations</h4>
+                <a href="register.html?role=hotel">Hire Event Staff</a>
+                <a href="staff.html">Search Candidates</a>
+                <a href="hotel-dashboard.html">Venue Dashboard</a>
+                <a href="register.html">Register Property</a>
+            </div>
+            <div class="footer-col">
+                <h4>Platform & Admin</h4>
+                <a href="admin.html" style="color: #FCD34D; font-weight: 700;">🛡️ Admin Portal</a>
+                <a href="login.html">Member Login</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 WorqDen Cooperative Gig Platform. Built by Team WorqDen • Central University of Karnataka.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Check if user is logged in and adjust header actions
+        const user = JSON.parse(localStorage.getItem('worqdenUser') || 'null');
+        if (user) {
+            const navAuth = document.getElementById('navAuthSection');
+            const targetDash = user.userType === 'hotel' ? 'hotel-dashboard.html' : 'dashboard.html';
+            navAuth.innerHTML = `
+                <a href="${targetDash}" class="btn btn-outline" style="color: #FFFFFF; border-color: rgba(255,255,255,0.4);">Dashboard</a>
+                <a href="profile.html" class="btn btn-orange">👤 ${user.name}</a>
+            `;
+        }
+
+        // Fetch Real Live Platform Statistics from MySQL Database
+        async function loadHomeStats() {
+            try {
+                const res = await fetch('/api/stats');
+                if (!res.ok) return;
+                const stats = await res.json();
+
+                const staffEl = document.getElementById('statStaffCount');
+                const distEl = document.getElementById('statDistrictsCount');
+                const jobsEl = document.getElementById('statJobsCount');
+
+                if (staffEl) staffEl.textContent = stats.totalStaff > 0 ? `${stats.totalStaff}+` : '0';
+                if (distEl) distEl.textContent = stats.activeDistricts > 0 ? stats.activeDistricts : 'All 786';
+                if (jobsEl) jobsEl.textContent = stats.totalJobs > 0 ? `${stats.totalJobs} Active` : '0 Active';
+            } catch (err) {
+                console.warn('Could not fetch live platform stats:', err.message);
+            }
+        }
+
+        // Fetch Real Live Jobs from MySQL Database
+        async function loadHomeJobs() {
+            const container = document.getElementById('homeJobsContainer');
+            if (!container) return;
+
+            try {
+                const res = await fetch('/api/jobs');
+                const data = await res.json();
+                const jobs = data.jobs || [];
+
+                if (jobs.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state-card" style="grid-column: 1/-1; text-align: center; padding: 40px 20px;">
+                            <span style="font-size: 42px;">💼</span>
+                            <h3 style="margin-top: 12px; font-size: 18px;">No Open Shifts Posted Right Now</h3>
+                            <p style="color: var(--text-muted); max-width: 480px; margin: 6px auto 16px;">Are you a hotel or banquet hall manager? Register your property in 60 seconds and post open shifts with instant local matching.</p>
+                            <a href="register.html?role=hotel" class="btn btn-emerald btn-sm">🏢 Post a Job as Employer</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = jobs.slice(0, 6).map(job => {
+                    const hotelName = job.hotelName || 'Partner Hotel';
+                    const img = resolveHotelImage(job.hotelImage, hotelName);
+
+                    const targetUrl = user 
+                        ? (user.userType === 'hotel' ? 'hotel-dashboard.html' : 'dashboard.html')
+                        : 'login.html';
+
+                    return `
+                        <div class="hotel-featured-card">
+                            <div class="hotel-card-image-wrap">
+                                <img src="${escapeHtml(img)}" alt="${escapeHtml(hotelName)}" class="hotel-card-image" onerror="this.onerror=null; this.src='hotel-fallback.svg';">
+                                <span class="hotel-type-badge">${escapeHtml(job.category || 'Hospitality')}</span>
+                            </div>
+                            <div class="hotel-card-body">
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap: 8px;">
+                                    <h3 class="hotel-card-name" style="margin-bottom: 2px;">${escapeHtml(job.title)}</h3>
+                                    ${job.salary ? `<span class="pos-tag" style="background:#ECFDF5; color:#047857; font-weight:700; border-color:#6EE7B7; white-space:nowrap;">₹${escapeHtml(job.salary)} ${escapeHtml(job.salaryType || '')}</span>` : ''}
+                                </div>
+                                <p class="hotel-card-location">🏨 ${escapeHtml(hotelName)} • 📍 ${escapeHtml(job.hotelDistrict ? job.hotelDistrict + ', ' : '')}${escapeHtml(job.hotelState || 'India')}</p>
+                                
+                                <div style="margin: 10px 0 14px 0; font-size: 13px; color: var(--text-body);">
+                                    <div><strong>Shift:</strong> ${escapeHtml(job.shift || 'Flexible')} • <strong>Date:</strong> ${escapeHtml(job.workDate || 'Immediate')}</div>
+                                    <div style="margin-top: 4px; color: var(--text-muted); font-size: 12.5px;">${escapeHtml(job.requirements || job.description || 'Punctual & enthusiastic candidates welcome.')}</div>
+                                </div>
+
+                                <div class="hotel-card-actions" style="margin-top: auto;">
+                                    <span style="font-size: 12px; color: var(--text-muted);">👥 ${job.applicantsCount || 0} applied • ${job.vacancies || 1} vacancy</span>
+                                    <a href="${targetUrl}" class="btn btn-orange btn-sm">Apply for Shift &rarr;</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.warn('Could not fetch live jobs:', err.message);
+                container.innerHTML = '<div class="empty-state-card" style="grid-column:1/-1;">Connect to WorqDen local server to view live shifts.</div>';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadHomeStats();
+            loadHomeJobs();
         });
-      }
-    });
-  });
-
-  // How it works tabs
-  document.querySelectorAll('.how-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.how-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
-      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
-      document.querySelectorAll('.how-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
-    });
-  });
-
-  // Hero search -> jump + prefill filter (demo)
-  document.getElementById('heroSearch').addEventListener('submit', (e) => {
-    e.preventDefault();
-    document.getElementById('jobs').scrollIntoView({behavior:'smooth'});
-  });
-
-  // Newsletter fake-submit
-  document.getElementById('newsletterForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    document.getElementById('newsletterNote').textContent = '✓ You are on the list.';
-    e.target.reset();
-  });
-
-  // Count-up stats on scroll
-  const counters = document.querySelectorAll('.hero-stats b');
-  let counted = false;
-  const runCounters = () => {
-    if(counted) return;
-    counted = true;
-    counters.forEach(el => {
-      const target = parseInt(el.dataset.count, 10);
-      const dur = 1200;
-      const start = performance.now();
-      const step = (now) => {
-        const p = Math.min((now - start) / dur, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(eased * target).toLocaleString();
-        if(p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    });
-  };
-  setTimeout(runCounters, 300);
-})();
-</script>
+    </script>
 </body>
 </html>
