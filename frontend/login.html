@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorqDen — Login to Your Account</title>
+    <title>WorqDen — Sign In to Your Account</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
 </head>
 <body class="auth-body">
 
@@ -18,42 +19,69 @@
             <svg class="logo-svg-mark" viewBox="0 0 64 64" width="34" height="34" style="flex-shrink:0;">
                 <defs>
                     <linearGradient id="wqLogoLog" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#F97316"/>
-                        <stop offset="100%" stop-color="#10B981"/>
+                        <stop offset="0%" stop-color="#C59B4B"/>
+                        <stop offset="100%" stop-color="#0F172A"/>
                     </linearGradient>
                 </defs>
-                <rect width="64" height="64" rx="16" fill="#0F172A"/>
-                <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoLog)" stroke-width="2.5"/>
-                <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                <rect width="64" height="64" rx="14" fill="#0B0F17"/>
+                <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="#C59B4B" stroke-width="2"/>
+                <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#F8FAFC" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="32" cy="18" r="3.5" fill="#C59B4B"/>
             </svg>
-            <span style="font-size: 21px; font-weight: 800; color: #FFFFFF;">Worq<span style="color: #F97316;">Den</span></span>
+            <span style="font-size: 20px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.3px;">Worq<span style="color: #C59B4B;">Den</span></span>
         </a>
         <nav class="nav-links">
+            <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+            </button>
             <a href="index.html">Home</a>
-            <a href="admin.html" style="color: #FCD34D;">🛡️ Admin Portal</a>
-            <a href="register.html">Don't have an account? <strong style="color:#60A5FA;">Sign Up</strong></a>
+            <a href="admin.html" style="color: #F8FAFC; display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Admin Console
+            </a>
+            <a href="register.html">Don't have an account? <strong style="color: #C59B4B;">Sign Up</strong></a>
         </nav>
     </header>
 
     <main class="auth-page-container">
-        <!-- Screen 4: Two-Column Login Card Layout -->
+        <!-- Two-Column Login Card Layout -->
         <div class="login-two-column">
             <!-- Left Form Card -->
             <div class="login-form-card">
                 <div class="auth-header-compact">
-                    <span class="auth-tag-badge">WELCOME BACK</span>
-                    <h1 class="auth-heading-h2">Login to WorqDen</h1>
-                    <p class="auth-subtitle">Choose your preferred login method to access your dashboard.</p>
+                    <span class="auth-tag-badge">WORQDEN ACCESS</span>
+                    <h1 class="auth-heading-h2">Sign in to your account</h1>
+                    <p class="auth-subtitle">Select your account role and preferred verification method.</p>
+                </div>
+
+                <!-- Three-Role Account Type Selector -->
+                <div class="role-selector-segment" style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Select Your Account Role</label>
+                    <div class="role-pill-group" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: #F1F5F9; padding: 4px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <button type="button" class="role-pill-btn active" data-role="student" onclick="selectLoginRole('student')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                            <span>Student</span>
+                        </button>
+                        <button type="button" class="role-pill-btn" data-role="staff" onclick="selectLoginRole('staff')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                            <span>Staff</span>
+                        </button>
+                        <button type="button" class="role-pill-btn" data-role="hotel" onclick="selectLoginRole('hotel')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+                            <span>Hotel</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Login Mode Switcher Tabs -->
-                <div class="login-mode-tabs">
+                <div class="login-mode-tabs" style="margin-bottom: 20px;">
                     <button type="button" id="tabPasswordBtn" class="mode-tab-btn active" onclick="switchLoginMode('password')">
-                        <span>🔑 Password</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span>Password</span>
                     </button>
                     <button type="button" id="tabOtpBtn" class="mode-tab-btn" onclick="switchLoginMode('otp')">
-                        <span>📱 Phone OTP</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                        <span>Phone OTP</span>
                     </button>
                 </div>
 
@@ -83,11 +111,12 @@
                     <div id="loginPassSuccess" class="form-success-banner hidden"></div>
 
                     <button type="submit" id="loginPassSubmitBtn" class="btn btn-primary btn-block btn-lg">
-                        <span>Sign In &rarr;</span>
+                        <span>Sign In</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </button>
                 </form>
 
-                <!-- Form 2: Phone OTP 1-Click Login -->
+                <!-- Form 2: Phone OTP Login -->
                 <form id="otpLoginForm" class="hidden" onsubmit="event.preventDefault();">
                     <div class="form-group">
                         <label for="otpLoginPhone">Registered Mobile Number *</label>
@@ -105,7 +134,7 @@
                     <!-- OTP Input Box -->
                     <div id="loginOtpBox" class="otp-verification-box hidden">
                         <div id="loginDevOtpAlert" class="dev-otp-banner hidden">
-                            🔑 <strong>Dev OTP:</strong> <span id="loginDevOtpDisplay">123456</span>
+                            <strong>Dev OTP:</strong> <span id="loginDevOtpDisplay">123456</span>
                         </div>
                         <label for="loginOtpCode" style="font-size: 13px; font-weight: 600;">Enter 6-Digit SMS Code</label>
                         <input type="text" id="loginOtpCode" class="form-input" placeholder="123456" maxlength="6" style="letter-spacing: 4px; font-weight: 700; text-align: center; margin-top: 6px;">
@@ -115,51 +144,58 @@
                     <div id="loginOtpSuccess" class="form-success-banner hidden"></div>
 
                     <button type="button" id="verifyLoginOtpBtn" class="btn btn-primary btn-block btn-lg hidden" onclick="handleVerifyLoginOtp()" style="margin-top: 14px;">
-                        <span>Verify & Sign In &rarr;</span>
+                        <span>Verify & Sign In</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </button>
                 </form>
 
-                <div style="text-align: center; margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                <div style="text-align: center; margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 18px;">
                     <p style="font-size: 13.5px; color: var(--text-muted);">
                         New to WorqDen? <a href="register.html" style="font-weight: 600; color: var(--primary-blue);">Create an account &rarr;</a>
                     </p>
-                    <div style="margin-top: 12px; padding: 8px 12px; background: #F8FAFC; border-radius: var(--radius-md); display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-color);">
+                    <div style="margin-top: 14px; padding: 8px 14px; background: #F8FAFC; border-radius: var(--radius-md); display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--border-color);">
                         <span style="font-size: 12px; color: var(--text-muted);">Platform Administrator?</span>
-                        <a href="admin.html" class="btn btn-outline btn-sm" style="padding: 3px 8px; font-size: 11.5px; font-weight: 700; color: #D97706; border-color: #FCD34D;">🛡️ Admin Portal</a>
+                        <a href="admin.html" class="btn btn-outline btn-sm" style="padding: 4px 10px; font-size: 12px; font-weight: 700; color: #0F172A; border-color: #CBD5E1;">Admin Console</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Promo / Illustration Column (Screen 4) -->
+            <!-- Right Briefing Column -->
             <div class="login-info-card">
                 <div class="info-card-content">
-                    <div class="info-badge">✨ FAST & SECURE</div>
-                    <h2 class="info-card-title">Your Next Opportunity Awaits</h2>
-                    <p class="info-card-desc">Whether you're a skilled worker looking for shifts, an ambitious student seeking flexible income, or a hotel looking for reliable talent — WorqDen powers your journey.</p>
+                    <div class="info-badge">HOTEL STAFF HIRING PLATFORM</div>
+                    <h2 class="info-card-title">Three Roles, Direct Connections</h2>
+                    <p class="info-card-desc">WorqDen brings Students, Hospitality Workers, and Luxury Hotels together on a single verified platform with direct hiring contracts and zero intermediary commission.</p>
 
                     <div class="login-feature-bullets">
                         <div class="login-bullet">
-                            <span class="bullet-icon">⚡</span>
-                            <span>Direct 1-click work applications to 1,200+ partner hotels</span>
+                            <span class="bullet-icon">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            </span>
+                            <span>Direct hiring requests between Students, Staff, and Hotels</span>
                         </div>
                         <div class="login-bullet">
-                            <span class="bullet-icon">🛡️</span>
-                            <span>100% verified phone identities & zero commission cuts</span>
+                            <span class="bullet-icon">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            </span>
+                            <span>OTP-verified identities & live availability scheduler</span>
                         </div>
                         <div class="login-bullet">
-                            <span class="bullet-icon">📍</span>
-                            <span>Comprehensive coverage across all 786 Indian districts</span>
+                            <span class="bullet-icon">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            </span>
+                            <span>Contract audit logs & real-time shift coordination</span>
                         </div>
                     </div>
 
                     <!-- Testimonial Box -->
-                    <div class="info-quote-box" style="margin-top: 36px; background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2);">
-                        <p style="color: #F8FAFC; font-style: italic;">"Found 3 hotel gigs in my first week in Pune! The direct two-way hiring system is amazing."</p>
-                        <div class="quote-author" style="margin-top: 10px;">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&h=80&q=80" alt="Rajesh" class="quote-avatar">
+                    <div class="info-quote-box" style="margin-top: 36px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 16px;">
+                        <p style="color: #F8FAFC; font-size: 13.5px; line-height: 1.6; margin: 0;">"The direct request system between hotels, workers, and student helpers makes staffing weekend banquets straightforward and accountable."</p>
+                        <div class="quote-author" style="margin-top: 12px; display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 34px; height: 34px; border-radius: 50%; background: #C59B4B; color: #0B0F17; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">RK</div>
                             <div>
-                                <strong style="color: #FFFFFF;">Rajesh Kumar</strong>
-                                <span style="color: #93C5FD; font-size: 12px;">Verified Chef • Pune ⭐ 4.9</span>
+                                <strong style="color: #FFFFFF; font-size: 13px; display: block;">Rajesh Kumar</strong>
+                                <span style="color: #94A3B8; font-size: 11.5px;">Executive Banquet Captain • Pune</span>
                             </div>
                         </div>
                     </div>
@@ -169,6 +205,19 @@
     </main>
 
     <script>
+        let selectedRole = 'student';
+
+        function selectLoginRole(role) {
+            selectedRole = role;
+            document.querySelectorAll('.role-pill-btn').forEach(btn => {
+                if (btn.getAttribute('data-role') === role) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
         function switchLoginMode(mode) {
             const passBtn = document.getElementById('tabPasswordBtn');
             const otpBtn = document.getElementById('tabOtpBtn');
@@ -188,6 +237,17 @@
             }
         }
 
+        function routeUserToDashboard(user) {
+            const role = (user && user.userType) ? user.userType.toLowerCase() : selectedRole;
+            if (role === 'hotel') {
+                window.location.href = 'hotel-dashboard.html';
+            } else if (role === 'student') {
+                window.location.href = 'student-dashboard.html';
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
         async function handlePasswordLogin(e) {
             e.preventDefault();
             const identifier = document.getElementById('identifier').value.trim();
@@ -199,33 +259,32 @@
             errBox.classList.add('hidden');
             succBox.classList.add('hidden');
 
-            // Validate format: must be valid email or 10-digit phone
             const cleanedPhone = identifier.replace(/[\s\-()+]/g, '');
             const isPhone = /^\d{10,15}$/.test(cleanedPhone);
             const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(identifier);
 
             if (!isPhone && !isEmail) {
-                errBox.textContent = '⚠️ Please enter a valid email address (e.g. name@example.com) or a 10-digit mobile number.';
+                errBox.textContent = 'Please enter a valid email address (e.g. name@example.com) or a 10-digit mobile number.';
                 errBox.classList.remove('hidden');
                 document.getElementById('identifier').focus();
                 return;
             }
 
             if (password.length < 6) {
-                errBox.textContent = '⚠️ Password must be at least 6 characters.';
+                errBox.textContent = 'Password must be at least 6 characters.';
                 errBox.classList.remove('hidden');
                 document.getElementById('loginPassword').focus();
                 return;
             }
 
             submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Signing In... ⏳';
+            submitBtn.innerHTML = '<span>Signing In...</span>';
 
             try {
                 const res = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ identifier, password })
+                    body: JSON.stringify({ identifier, password, expectedRole: selectedRole })
                 });
                 const data = await res.json();
 
@@ -237,23 +296,19 @@
                     localStorage.setItem('worqdenUser', JSON.stringify(data.user));
 
                     setTimeout(() => {
-                        if (data.user.userType === 'hotel') {
-                            window.location.href = 'hotel-dashboard.html';
-                        } else {
-                            window.location.href = 'dashboard.html';
-                        }
-                    }, 1000);
+                        routeUserToDashboard(data.user);
+                    }, 800);
                 } else {
                     errBox.textContent = data.message || 'Invalid email/phone or password. Please try again.';
                     errBox.classList.remove('hidden');
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Sign In &rarr;';
+                    submitBtn.innerHTML = '<span>Sign In</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
                 }
             } catch (err) {
                 errBox.textContent = 'Connection error. Please try again.';
                 errBox.classList.remove('hidden');
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Sign In &rarr;';
+                submitBtn.innerHTML = '<span>Sign In</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
             }
         }
 
@@ -306,14 +361,14 @@
             const verifyBtn = document.getElementById('verifyLoginOtpBtn');
 
             if (!otp || otp.length !== 6) {
-                alert('Please enter the 6-digit OTP.');
+                alert('Please enter the 6-digit OTP code.');
                 return;
             }
 
             errBox.classList.add('hidden');
             succBox.classList.add('hidden');
             verifyBtn.disabled = true;
-            verifyBtn.innerHTML = 'Verifying... ⏳';
+            verifyBtn.innerHTML = '<span>Verifying...</span>';
 
             try {
                 const res = await fetch('/api/login/phone-otp', {
@@ -331,23 +386,19 @@
                     localStorage.setItem('worqdenUser', JSON.stringify(data.user));
 
                     setTimeout(() => {
-                        if (data.user.userType === 'hotel') {
-                            window.location.href = 'hotel-dashboard.html';
-                        } else {
-                            window.location.href = 'dashboard.html';
-                        }
-                    }, 1000);
+                        routeUserToDashboard(data.user);
+                    }, 800);
                 } else {
                     errBox.textContent = data.message || 'Invalid or expired OTP.';
                     errBox.classList.remove('hidden');
                     verifyBtn.disabled = false;
-                    verifyBtn.innerHTML = 'Verify & Sign In &rarr;';
+                    verifyBtn.innerHTML = '<span>Verify & Sign In</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
                 }
             } catch (err) {
                 errBox.textContent = 'Connection error. Please try again.';
                 errBox.classList.remove('hidden');
                 verifyBtn.disabled = false;
-                verifyBtn.innerHTML = 'Verify & Sign In &rarr;';
+                verifyBtn.innerHTML = '<span>Verify & Sign In</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
             }
         }
     </script>

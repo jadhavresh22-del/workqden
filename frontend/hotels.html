@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
     <script src="data.js"></script>
 </head>
 <body class="dashboard-layout-body">
@@ -78,6 +79,9 @@
                 <input type="text" id="topSearchInput" placeholder="Search hotels, venues, or positions..." onkeyup="filterHotelsLive()">
             </div>
             <div class="topbar-actions">
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+                </button>
                 <a href="requests.html" class="topbar-icon-btn" title="View Requests"><span>🔔</span></a>
                 <a href="profile.html" class="topbar-user-profile">
                     <div class="avatar-circle-sm" id="topbarAvatarBox">
@@ -241,6 +245,55 @@
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOTEL VIEW PROFILE MODAL -->
+    <div id="hotelProfileModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeHotelProfileModal()">
+        <div class="modal-dialog" style="max-width: 540px;">
+            <div class="modal-header">
+                <h3>Hotel Property Profile</h3>
+                <button type="button" class="modal-close-btn" onclick="closeHotelProfileModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex; align-items:center; gap: 16px; margin-bottom: 16px; padding: 14px; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <div id="viewHotelAvatar" style="width: 60px; height: 60px; border-radius: 50%; font-size: 24px; font-weight: 700; background: #1E3A8A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">🏨</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                            <h4 id="viewHotelName" style="margin: 0; font-size: 18px; color: var(--primary-navy); font-weight: 800;">Hotel Name</h4>
+                            <span id="viewHotelTypeTag" class="mini-role-tag" style="background: #EEF2F7; font-size: 11.5px; font-weight: 700;">Luxury Hotel</span>
+                        </div>
+                        <div id="viewHotelLocation" style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">📍 Location</div>
+                    </div>
+                </div>
+
+                <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;">
+                    <div style="display: flex; align-items: flex-start; gap: 8px;">
+                        <span style="font-size: 16px;">🏨</span>
+                        <div>
+                            <strong style="color: #1E40AF; font-size: 13px; display: block; margin-bottom: 2px;">Verified Hospitality Employer</strong>
+                            <p style="margin: 0; font-size: 12px; color: #1E3A8A; line-height: 1.45;">This property hires verified hospitality candidates and flexible student gig assistants with zero commission and direct payment.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <span style="display: block; font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">Open Positions & Shift Needs:</span>
+                    <div id="viewHotelPositionsList" class="positions-pill-row"></div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <span style="display: block; font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">About Property / Venue:</span>
+                    <p id="viewHotelAbout" style="margin: 0; font-size: 13px; color: var(--text-body); background: #F8FAFC; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); line-height: 1.5;">Partner hospitality venue on WorqDen.</p>
+                </div>
+
+                <div class="modal-actions-row">
+                    <button type="button" class="btn btn-outline" onclick="closeHotelProfileModal()">Close</button>
+                    <button type="button" class="btn btn-orange" id="viewHotelApplyBtn">
+                        <span>Send Application 🚀</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -483,8 +536,11 @@
                                 <div class="positions-pill-row">${posTags}</div>
                             </div>
 
-                            <div class="hotel-card-actions">
-                                <button type="button" class="btn btn-orange btn-block" onclick="openSendRequestModal('${hotel.id}')">
+                            <div class="hotel-card-actions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <button type="button" class="btn btn-outline btn-sm" onclick="openHotelProfileModal('${hotel.id}')">
+                                    <span>👁️ View Hotel</span>
+                                </button>
+                                <button type="button" class="btn btn-orange btn-sm" onclick="openSendRequestModal('${hotel.id}')">
                                     <span>Send Application 🚀</span>
                                 </button>
                             </div>
@@ -590,6 +646,49 @@
                 document.getElementById('jobsCountDisplay').textContent = filtered.length;
                 renderJobs(filtered);
             }
+        }
+
+        function openHotelProfileModal(hotelId) {
+            const hotel = allHotelsList.find(h => String(h.id) === String(hotelId));
+            if (!hotel) return;
+
+            const hotelName = hotel.organizationName || hotel.name || 'Partner Hotel';
+            const loc = (hotel.district ? hotel.district + ', ' : '') + (hotel.state || 'India');
+            const hotelTypeBadge = hotel.hotelType || hotel.organizationType || 'Hotel Partner';
+            const positions = Array.isArray(hotel.availablePositions) ? hotel.availablePositions : (typeof hotel.availablePositions === 'string' ? JSON.parse(hotel.availablePositions || '[]') : []);
+            const about = hotel.about || hotel.description || `${hotelName} is a verified hospitality venue and employer on WorqDen offering event, shift, and banquet opportunities.`;
+
+            document.getElementById('viewHotelName').textContent = hotelName;
+            document.getElementById('viewHotelTypeTag').textContent = hotelTypeBadge;
+            document.getElementById('viewHotelLocation').textContent = '📍 ' + loc;
+            document.getElementById('viewHotelAbout').textContent = about;
+
+            const avatarEl = document.getElementById('viewHotelAvatar');
+            const img = resolveHotelImage(hotel.profileImage, hotelName);
+            if (img && img !== 'hotel-fallback.svg') {
+                avatarEl.innerHTML = `<img src="${escapeHtml(img)}" alt="${escapeHtml(hotelName)}" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.innerHTML='🏨'">`;
+            } else {
+                avatarEl.textContent = '🏨';
+            }
+
+            const posContainer = document.getElementById('viewHotelPositionsList');
+            if (positions.length) {
+                posContainer.innerHTML = positions.map(p => `<span class="pos-tag">${escapeHtml(p)}</span>`).join('');
+            } else {
+                posContainer.innerHTML = '<span class="pos-tag">Flexible Hospitality Positions</span>';
+            }
+
+            const applyBtn = document.getElementById('viewHotelApplyBtn');
+            applyBtn.onclick = function() {
+                closeHotelProfileModal();
+                openSendRequestModal(hotel.id);
+            };
+
+            document.getElementById('hotelProfileModal').classList.remove('hidden');
+        }
+
+        function closeHotelProfileModal() {
+            document.getElementById('hotelProfileModal').classList.add('hidden');
         }
 
         function openJobApplyModal(jobId) {

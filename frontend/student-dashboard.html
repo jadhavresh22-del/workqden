@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorqDen — Student Gig & Career Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
+    <script src="data.js"></script>
+</head>
+<body class="dashboard-layout-body">
+
+    <!-- Left Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <a href="student-dashboard.html" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <svg class="logo-svg-mark" viewBox="0 0 64 64" width="30" height="30" style="flex-shrink:0;">
+                    <rect width="64" height="64" rx="14" fill="#0F172A"/>
+                    <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="#C59B4B" stroke-width="2"/>
+                    <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="32" cy="18" r="4" fill="#C59B4B"/>
+                </svg>
+                <span style="font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-dark, #0F172A);">Worq<span style="color: #C59B4B;">Den</span></span>
+            </a>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="student-dashboard.html" class="sidebar-link active">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Student Hub</span>
+            </a>
+            <a href="hotels.html" class="sidebar-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="2" width="18" height="20" rx="2"></rect><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><path d="M10 22v-4h4v4"></path></svg>
+                <span>Find Hotels</span>
+            </a>
+            <a href="staff.html" class="sidebar-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                <span>Find Staff</span>
+            </a>
+            <a href="requests.html" class="sidebar-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <span>Hiring & Requests</span>
+                <span class="sidebar-badge" id="studentPendingBadge" style="display:none;">0</span>
+            </a>
+            <a href="profile.html" class="sidebar-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>My Profile</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-mini-card">
+                <div class="user-avatar-small" id="sidebarAvatar">
+                    <span id="sidebarInitial">S</span>
+                    <img id="sidebarAvatarImg" class="hidden" alt="Student Avatar">
+                </div>
+                <div class="user-mini-info">
+                    <strong id="sidebarUserName">Student</strong>
+                    <span class="mini-role-tag" style="background:#EEF2F6; color:#1E293B;">Student</span>
+                </div>
+            </div>
+            <button type="button" class="btn-logout" onclick="handleLogout()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-main-content">
+        <!-- Topbar -->
+        <header class="dashboard-topbar">
+            <div class="topbar-search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="topSearchInput" placeholder="Search weekend banquets, student shifts, or hotels..." onkeyup="filterStudentGigsLive()">
+            </div>
+            <div class="topbar-actions">
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+                </button>
+                <a href="requests.html" class="topbar-icon-btn" title="View Requests">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                </a>
+                <a href="profile.html" class="topbar-user-profile">
+                    <div class="avatar-circle-sm" id="topbarAvatarBox">
+                        <span id="topbarInitial">S</span>
+                        <img id="topbarAvatarImg" class="hidden" alt="Avatar">
+                    </div>
+                    <span id="topbarName" class="topbar-user-name">Student</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="dashboard-scrollable-body">
+            <!-- Account Status Banner (Pending Review Warning if applicable) -->
+            <div id="accountStatusNotice" class="hidden" style="margin-bottom: 20px; padding: 14px 18px; border-radius: 8px; font-size: 13.5px; line-height: 1.5;"></div>
+
+            <!-- Greeting & Quick Action Banner -->
+            <section class="dashboard-greeting-banner">
+                <div class="greeting-left">
+                    <h1 class="greeting-title">Welcome, <span id="greetingUserName">Student</span></h1>
+                    <p class="greeting-subtitle">Explore student-friendly hospitality shifts, weekend banquet gigs, and connect directly with luxury hotels and verified senior staff.</p>
+                    <div style="margin-top: 8px;">
+                        <span style="display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; color:#047857; background:#ECFDF5; border:1px solid #A7F3D0; padding:4px 10px; border-radius:9999px;">
+                            ✨ Verified Student Profile &bull; Open to Gigs & Direct Offers from both Luxury Hotels and Senior Staff Teams
+                        </span>
+                    </div>
+                </div>
+                <div class="greeting-right" style="display:flex; gap: 10px; align-items:center;">
+                    <a href="hotels.html" class="btn btn-outline" style="background-color: #FFFFFF; border: 1.5px solid #CBD5E1; color: var(--primary-navy); font-weight: 600;">
+                        <span>Browse Hotels 🏨</span>
+                    </a>
+                    <a href="staff.html" class="btn btn-primary" style="background:#C59B4B; border-color:#C59B4B; color:#0F172A; font-weight:600;">
+                        <span>Find Staff & Teams</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Availability & Schedule Widget Card -->
+            <section class="dashboard-card" style="margin-bottom: 24px; padding: 18px 24px; background:#FFFFFF; border: 1px solid var(--border-color); border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                    <div>
+                        <div style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);">Current Availability Mode</div>
+                        <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin: 3px 0 0 0;" id="displayAvailabilityText">Flexible Weekend & Evening Shifts</h3>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <button type="button" class="btn btn-sm btn-outline" onclick="toggleStudentAvailability('Weekend Only')">Weekends</button>
+                        <button type="button" class="btn btn-sm btn-outline" onclick="toggleStudentAvailability('Evenings')">Evenings</button>
+                        <button type="button" class="btn btn-sm btn-outline" onclick="toggleStudentAvailability('Flexible Part-Time')">Flexible</button>
+                        <button type="button" class="btn btn-sm btn-outline" onclick="toggleStudentAvailability('Exam Prep (Unavailable)')" style="color: #94A3B8;">Exam Prep</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Metric Cards (4 KPI Cards in Tabular Numbers) -->
+            <section class="metric-cards-grid" style="margin-bottom: 24px;">
+                <div class="metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Gigs Applied</span>
+                        <div class="metric-icon-box" style="background:#F1F5F9; color:#334155;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </div>
+                    </div>
+                    <div class="metric-number" id="statStudentApplied">0</div>
+                    <div class="metric-change">Applications submitted to hotels & staff</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Under Review</span>
+                        <div class="metric-icon-box" style="background:#FEF3C7; color:#B45309;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="metric-number" id="statStudentPending">0</div>
+                    <div class="metric-change">Awaiting counter-party response</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Confirmed Hires</span>
+                        <div class="metric-icon-box" style="background:#ECFDF5; color:#047857;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="metric-number" id="statStudentAccepted">0</div>
+                    <div class="metric-change positive">Active & completed work opportunities</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Live Vacancies</span>
+                        <div class="metric-icon-box" style="background:#F8FAFC; color:#0F172A;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        </div>
+                    </div>
+                    <div class="metric-number" id="statStudentOpenJobs">0</div>
+                    <div class="metric-change">Verified partner openings near you</div>
+                </div>
+            </section>
+
+            <!-- Student Shift Opportunities Section -->
+            <section class="dashboard-section" style="margin-bottom: 32px;">
+                <div class="section-title-row">
+                    <div>
+                        <h2 class="dash-section-title">Open Student Shifts & Event Gigs</h2>
+                        <p class="dash-section-subtitle">Real-time shift opportunities posted by hotels and event managers. Apply in one click.</p>
+                    </div>
+                    <a href="hotels.html" class="view-all-link">Browse All Shifts &rarr;</a>
+                </div>
+
+                <div id="studentJobsContainer" class="hotels-card-grid">
+                    <div class="loading-spinner-box">Loading shift opportunities...</div>
+                </div>
+            </section>
+
+            <!-- Direct Two-Way Hiring Table (Student Sent & Received Requests) -->
+            <section class="dashboard-section">
+                <div class="section-title-row">
+                    <div>
+                        <h2 class="dash-section-title">My Hiring Requests & Shift Ledger</h2>
+                        <p class="dash-section-subtitle">Review incoming hiring offers from hotels and staff, and monitor your outgoing applications.</p>
+                    </div>
+                    <a href="requests.html" class="view-all-link">Full Request Manager &rarr;</a>
+                </div>
+
+                <div class="recent-requests-table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Party</th>
+                                <th>Role</th>
+                                <th>Position / Gig</th>
+                                <th>Date</th>
+                                <th>Direction</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentRequestsTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                                    Loading your shift ledger...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Application Modal -->
+    <div id="studentApplyModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeStudentApplyModal()">
+        <div class="modal-dialog modal-md">
+            <div class="modal-header">
+                <h3 id="modalJobTitle">Apply for Shift</h3>
+                <button type="button" class="modal-close-btn" onclick="closeStudentApplyModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="studentApplyForm" onsubmit="submitStudentApplication(event)">
+                    <input type="hidden" id="applyJobId">
+                    <input type="hidden" id="applyHotelId">
+
+                    <div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:6px; padding:12px; margin-bottom:14px;">
+                        <div style="font-size:12px; font-weight:600; color:var(--text-muted);">SHIFT DETAILS</div>
+                        <div id="applyJobMeta" style="font-size:13.5px; color:var(--text-dark); margin-top:4px;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="applyNote">Note to Organizer / Hotel (Optional)</label>
+                        <textarea id="applyNote" class="form-input" rows="3" placeholder="Mention your college schedule, previous event experience, or availability..."></textarea>
+                    </div>
+
+                    <div id="applyModalError" class="form-error-banner hidden" style="margin-bottom:12px;"></div>
+
+                    <button type="submit" id="applySubmitBtn" class="btn btn-primary btn-block" style="background:#C59B4B; border-color:#C59B4B; color:#0F172A; font-weight:600;">
+                        <span>Confirm & Send Application &rarr;</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let allJobs = [];
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const rawUser = localStorage.getItem('worqdenUser');
+            const token = localStorage.getItem('worqdenToken');
+
+            if (!rawUser || !token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                currentUser = JSON.parse(rawUser);
+            } catch (e) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Role guard: Ensure student accounts open this dashboard
+            if (currentUser.userType !== 'student') {
+                if (currentUser.userType === 'hotel') {
+                    window.location.href = 'hotel-dashboard.html';
+                    return;
+                } else if (currentUser.userType === 'staff') {
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+            }
+
+            renderStudentHeader();
+            await checkLiveAccountStatus();
+            await loadStudentDashboardData();
+        });
+
+        function renderStudentHeader() {
+            const name = currentUser.name || 'Student';
+            document.getElementById('greetingUserName').textContent = name;
+            document.getElementById('sidebarUserName').textContent = name;
+            document.getElementById('topbarName').textContent = name;
+            document.getElementById('sidebarInitial').textContent = name.charAt(0).toUpperCase();
+            document.getElementById('topbarInitial').textContent = name.charAt(0).toUpperCase();
+
+            if (currentUser.availability) {
+                document.getElementById('displayAvailabilityText').textContent = currentUser.availability;
+            }
+
+            if (currentUser.profileImage) {
+                const sImg = document.getElementById('sidebarAvatarImg');
+                const tImg = document.getElementById('topbarAvatarImg');
+                sImg.src = currentUser.profileImage;
+                sImg.classList.remove('hidden');
+                document.getElementById('sidebarInitial').classList.add('hidden');
+                tImg.src = currentUser.profileImage;
+                tImg.classList.remove('hidden');
+                document.getElementById('topbarInitial').classList.add('hidden');
+            }
+        }
+
+        async function checkLiveAccountStatus() {
+            const token = localStorage.getItem('worqdenToken');
+            try {
+                const res = await fetch(`/api/users/${currentUser.id}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.user) {
+                        currentUser = data.user;
+                        localStorage.setItem('worqdenUser', JSON.stringify(currentUser));
+                    }
+                }
+            } catch (e) {}
+
+            const status = (currentUser.status || 'active').toLowerCase();
+            const banner = document.getElementById('accountStatusNotice');
+
+            if (status === 'pending') {
+                banner.style.background = '#FEF3C7';
+                banner.style.border = '1px solid #FCD34D';
+                banner.style.color = '#92400E';
+                banner.innerHTML = `<strong>Account Under Review:</strong> Your student profile is pending admin approval. You can complete your profile details and browse shift opportunities, but cannot send or accept hiring requests until verified.`;
+                banner.classList.remove('hidden');
+            } else if (status === 'suspended' || status === 'deactivated') {
+                banner.style.background = '#FEE2E2';
+                banner.style.border = '1px solid #FCA5A5';
+                banner.style.color = '#991B1B';
+                banner.innerHTML = `<strong>Account ${status}:</strong> Your access has been restricted by platform administration. Please contact support@worqden.com.`;
+                banner.classList.remove('hidden');
+            }
+        }
+
+        async function loadStudentDashboardData() {
+            const token = localStorage.getItem('worqdenToken');
+
+            // 1. Fetch available jobs
+            try {
+                const jRes = await fetch('/api/jobs?status=active');
+                if (jRes.ok) {
+                    const jData = await jRes.json();
+                    allJobs = jData.jobs || [];
+                    document.getElementById('statStudentOpenJobs').textContent = allJobs.length;
+                    renderStudentJobs(allJobs);
+                }
+            } catch (err) {
+                console.error('Fetch jobs error:', err);
+            }
+
+            // 2. Fetch requests involving this student
+            try {
+                const rRes = await fetch('/api/requests', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (rRes.ok) {
+                    const rData = await rRes.json();
+                    const reqs = rData.requests || [];
+                    renderStudentRequests(reqs);
+                }
+            } catch (err) {
+                console.error('Fetch requests error:', err);
+            }
+        }
+
+        function renderStudentJobs(jobs) {
+            const container = document.getElementById('studentJobsContainer');
+            if (!jobs || jobs.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; padding: 32px; text-align: center; color: var(--text-muted); background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 8px;">No open shift vacancies found at this moment. Check back soon!</div>`;
+                return;
+            }
+
+            container.innerHTML = jobs.map(job => {
+                const safeTitle = escapeHtml(job.title);
+                const safeHotel = escapeHtml(job.hotelName || 'Partner Hotel');
+                const safeLoc = escapeHtml([job.hotelDistrict, job.hotelState].filter(Boolean).join(', ') || 'India');
+                const safePay = escapeHtml(job.salary ? `${job.salary} (${job.salaryType || 'per day'})` : 'Standard Event Pay');
+                const safeShift = escapeHtml(job.shift || 'Full Day');
+                const safeDate = escapeHtml(job.workDate || 'Flexible');
+
+                return `
+                    <div class="hotel-card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px; background:#FFFFFF; border:1px solid var(--border-color); border-radius:8px;">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                                <span style="display:inline-block; font-size:11px; font-weight:700; color:#C59B4B; background:#FBF7EE; padding:3px 8px; border-radius:4px; text-transform:uppercase;">
+                                    ${escapeHtml(job.category || 'Hospitality')}
+                                </span>
+                                <span style="font-size:12px; font-family:monospace; color:var(--text-muted);">${safeDate}</span>
+                            </div>
+                            <h3 style="font-size:16px; font-weight:600; color:var(--text-dark); margin:10px 0 4px 0;">${safeTitle}</h3>
+                            <p style="font-size:13px; color:var(--text-muted); margin:0 0 12px 0;">${safeHotel} &bull; ${safeLoc}</p>
+                            <div style="font-size:13px; color:var(--text-body); margin-bottom:14px;">
+                                <div><strong>Compensation:</strong> ${safePay}</div>
+                                <div><strong>Shift Timing:</strong> ${safeShift}</div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline btn-block" onclick="openStudentApplyModal('${job.id}')" style="margin-top:8px;">
+                            Apply for Shift &rarr;
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderStudentRequests(reqs) {
+            const tbody = document.getElementById('studentRequestsTableBody');
+            let appliedCount = 0;
+            let pendingCount = 0;
+            let acceptedCount = 0;
+
+            reqs.forEach(r => {
+                const st = (r.status || 'pending').toLowerCase();
+                const isSender = String(r.senderId) === String(currentUser.id) || (r.senderType === 'worker' && String(r.workerId) === String(currentUser.id));
+                if (isSender) appliedCount++;
+                if (st === 'pending') pendingCount++;
+                if (st === 'accepted') acceptedCount++;
+            });
+
+            document.getElementById('statStudentApplied').textContent = appliedCount;
+            document.getElementById('statStudentPending').textContent = pendingCount;
+            document.getElementById('statStudentAccepted').textContent = acceptedCount;
+
+            if (pendingCount > 0) {
+                const badge = document.getElementById('studentPendingBadge');
+                badge.textContent = pendingCount;
+                badge.style.display = 'inline-block';
+            }
+
+            if (!reqs || reqs.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:24px; color:var(--text-muted);">No hiring requests or applications yet. Browse shifts above to get started!</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = reqs.map(r => {
+                const st = (r.status || 'pending').toLowerCase();
+                const isSender = String(r.senderId) === String(currentUser.id) || (r.senderType === 'worker' && String(r.workerId) === String(currentUser.id));
+                const otherPartyName = escapeHtml(isSender ? (r.receiverName || r.hotelName || 'Partner') : (r.senderName || r.hotelName || 'Employer'));
+                const otherPartyRole = escapeHtml(isSender ? (r.receiverRole || 'hotel') : (r.senderRole || 'hotel'));
+                const position = escapeHtml(r.position || r.jobTitle || 'Hospitality Associate');
+                const date = escapeHtml(r.date || 'TBD');
+                const directionBadge = isSender ? '<span class="status-badge" style="background:#F1F5F9; color:#475569;">Outgoing</span>' : '<span class="status-badge" style="background:#ECFDF5; color:#065F46;">Incoming Offer</span>';
+
+                let statusBadge = '';
+                if (st === 'accepted') statusBadge = '<span class="status-badge status-accepted">&bull; ACCEPTED</span>';
+                else if (st === 'rejected') statusBadge = '<span class="status-badge status-rejected">&bull; DECLINED</span>';
+                else if (st === 'cancelled') statusBadge = '<span class="status-badge" style="background:#F1F5F9; color:#64748B;">&bull; WITHDRAWN</span>';
+                else statusBadge = '<span class="status-badge status-pending">&bull; PENDING</span>';
+
+                let actionHtml = '&mdash;';
+                if (st === 'pending') {
+                    if (!isSender) {
+                        // Student received an offer
+                        actionHtml = `
+                            <button type="button" class="btn btn-sm btn-primary" onclick="updateReqStatus('${r.id}', 'accepted')" style="padding:4px 8px; font-size:12px; background:#047857; border-color:#047857;">Accept</button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="updateReqStatus('${r.id}', 'rejected')" style="padding:4px 8px; font-size:12px; color:#DC2626;">Decline</button>
+                        `;
+                    } else {
+                        // Student sent an application
+                        actionHtml = `
+                            <button type="button" class="btn btn-sm btn-outline" onclick="updateReqStatus('${r.id}', 'cancelled')" style="padding:4px 8px; font-size:12px;">Withdraw</button>
+                        `;
+                    }
+                }
+
+                return `
+                    <tr>
+                        <td><strong>${otherPartyName}</strong></td>
+                        <td><span style="font-size:12px; text-transform:capitalize; color:var(--text-muted);">${otherPartyRole}</span></td>
+                        <td>${position}</td>
+                        <td style="font-family:monospace; font-size:12.5px;">${date}</td>
+                        <td>${directionBadge}</td>
+                        <td>${statusBadge}</td>
+                        <td><div style="display:flex; gap:6px;">${actionHtml}</div></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openStudentApplyModal(jobId) {
+            const job = allJobs.find(j => String(j.id) === String(jobId));
+            if (!job) return;
+
+            document.getElementById('applyJobId').value = job.id;
+            document.getElementById('applyHotelId').value = job.hotelId;
+            document.getElementById('modalJobTitle').textContent = `Apply for ${job.title}`;
+            document.getElementById('applyJobMeta').textContent = `${job.hotelName} &bull; ${job.salary || 'Standard pay'} &bull; ${job.shift || 'Full Day'}`;
+            document.getElementById('applyModalError').classList.add('hidden');
+            document.getElementById('studentApplyModal').classList.remove('hidden');
+        }
+
+        function closeStudentApplyModal() {
+            document.getElementById('studentApplyModal').classList.add('hidden');
+        }
+
+        async function submitStudentApplication(e) {
+            e.preventDefault();
+            const token = localStorage.getItem('worqdenToken');
+            const jobId = document.getElementById('applyJobId').value;
+            const message = document.getElementById('applyNote').value.trim();
+            const errBox = document.getElementById('applyModalError');
+            const btn = document.getElementById('applySubmitBtn');
+
+            errBox.classList.add('hidden');
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            try {
+                const res = await fetch(`/api/jobs/${jobId}/apply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ message })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    closeStudentApplyModal();
+                    await loadStudentDashboardData();
+                    alert('Application submitted successfully! ✅');
+                } else {
+                    errBox.textContent = data.message || 'Could not submit application.';
+                    errBox.classList.remove('hidden');
+                }
+            } catch (err) {
+                errBox.textContent = 'Connection error. Please try again.';
+                errBox.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Confirm & Send Application →';
+            }
+        }
+
+        async function updateReqStatus(reqId, status) {
+            if (!confirm(`Are you sure you want to mark this request as ${status}?`)) return;
+            const token = localStorage.getItem('worqdenToken');
+
+            try {
+                const res = await fetch(`/api/requests/${reqId}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    await loadStudentDashboardData();
+                } else {
+                    alert(data.message || 'Failed to update request.');
+                }
+            } catch (e) {
+                alert('Connection error.');
+            }
+        }
+
+        async function toggleStudentAvailability(newAvail) {
+            const token = localStorage.getItem('worqdenToken');
+            try {
+                const res = await fetch(`/api/users/${currentUser.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ availability: newAvail })
+                });
+                if (res.ok) {
+                    currentUser.availability = newAvail;
+                    localStorage.setItem('worqdenUser', JSON.stringify(currentUser));
+                    document.getElementById('displayAvailabilityText').textContent = newAvail;
+                }
+            } catch (e) {}
+        }
+
+        function filterStudentGigsLive() {
+            const q = document.getElementById('topSearchInput').value.toLowerCase().trim();
+            if (!q) {
+                renderStudentJobs(allJobs);
+                return;
+            }
+            const filtered = allJobs.filter(j => 
+                (j.title && j.title.toLowerCase().includes(q)) ||
+                (j.category && j.category.toLowerCase().includes(q)) ||
+                (j.hotelName && j.hotelName.toLowerCase().includes(q)) ||
+                (j.hotelDistrict && j.hotelDistrict.toLowerCase().includes(q))
+            );
+            renderStudentJobs(filtered);
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('worqdenToken');
+            localStorage.removeItem('worqdenUser');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

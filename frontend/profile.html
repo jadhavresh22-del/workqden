@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
     <script src="data.js"></script>
 </head>
 <body class="dashboard-layout-body">
@@ -77,6 +78,9 @@
                 <span style="font-weight: 600; font-size: 14px; color: var(--text-dark);">Account Settings & Profile Management</span>
             </div>
             <div class="topbar-actions">
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+                </button>
                 <a href="requests.html" class="topbar-icon-btn" title="View Requests"><span>🔔</span></a>
             </div>
         </header>

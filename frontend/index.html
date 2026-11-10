@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
     <script src="data.js"></script>
 </head>
 <body>
@@ -41,7 +42,10 @@
         </nav>
 
         <div class="nav-actions" id="navAuthSection">
-            <a href="login.html" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: #FFFFFF;">Login</a>
+            <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+            </button>
+            <a href="login.html" class="btn btn-outline btn-login">Login</a>
             <a href="register.html" class="btn btn-orange">Sign Up</a>
         </div>
     </header>
@@ -481,9 +485,13 @@
         const user = JSON.parse(localStorage.getItem('worqdenUser') || 'null');
         if (user) {
             const navAuth = document.getElementById('navAuthSection');
-            const targetDash = user.userType === 'hotel' ? 'hotel-dashboard.html' : 'dashboard.html';
+            const targetDash = user.userType === 'hotel' ? 'hotel-dashboard.html' : (user.userType === 'student' ? 'student-dashboard.html' : 'dashboard.html');
+            const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
             navAuth.innerHTML = `
-                <a href="${targetDash}" class="btn btn-outline" style="color: #FFFFFF; border-color: rgba(255,255,255,0.4);">Dashboard</a>
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <span class="theme-icon">${isDark ? '☀️' : '🌙'}</span><span class="theme-text">${isDark ? 'Light Mode' : 'Dark Mode'}</span>
+                </button>
+                <a href="${targetDash}" class="btn btn-outline btn-login">Dashboard</a>
                 <a href="profile.html" class="btn btn-orange">👤 ${user.name}</a>
             `;
         }

@@ -3,72 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorqDen — Admin Management Portal</title>
+    <title>WorqDen — Administrator Management Console</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
 </head>
 <body class="admin-layout-body">
 
-    <!-- Screen 12: Dark Navy Admin Sidebar -->
+    <!-- Admin Sidebar Navigation -->
     <aside class="admin-sidebar">
         <div class="admin-sidebar-header">
             <div class="admin-brand-box" style="display:flex; align-items:center; gap: 10px;">
-                <svg class="logo-svg-mark" viewBox="0 0 64 64" width="34" height="34" style="flex-shrink:0;">
-                    <defs>
-                        <linearGradient id="wqLogoAdmin" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#F97316"/>
-                            <stop offset="100%" stop-color="#10B981"/>
-                        </linearGradient>
-                    </defs>
-                    <rect width="64" height="64" rx="16" fill="#0F172A"/>
-                    <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoAdmin)" stroke-width="2.5"/>
-                    <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                <svg class="logo-svg-mark" viewBox="0 0 64 64" width="32" height="32" style="flex-shrink:0;">
+                    <rect width="64" height="64" rx="14" fill="#0B0F17"/>
+                    <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="#C59B4B" stroke-width="2"/>
+                    <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#F8FAFC" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="32" cy="18" r="3.5" fill="#C59B4B"/>
                 </svg>
                 <div>
-                    <h3 class="admin-brand-title" style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin: 0;">Worq<span style="color: #F97316;">Den</span></h3>
-                    <span class="admin-badge-sub" style="font-size: 11px; color: #94A3B8; font-weight: 600;">Admin Console</span>
+                    <h3 class="admin-brand-title" style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin: 0; letter-spacing: -0.3px;">Worq<span style="color: #C59B4B;">Den</span></h3>
+                    <span class="admin-badge-sub" style="font-size: 11px; color: #94A3B8; font-weight: 600;">System Console</span>
                 </div>
             </div>
         </div>
 
         <nav class="admin-nav-menu">
-            <button type="button" class="admin-nav-link active" onclick="switchAdminView('all')">
-                <span class="nav-ico">📊</span>
+            <button type="button" class="admin-nav-link active" onclick="switchAdminView('all', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 <span>All Users</span>
             </button>
-            <button type="button" class="admin-nav-link" onclick="switchAdminView('student')">
-                <span class="nav-ico">🎓</span>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('student', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
                 <span>Students</span>
             </button>
-            <button type="button" class="admin-nav-link" onclick="switchAdminView('staff')">
-                <span class="nav-ico">👷</span>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('staff', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                 <span>Staff & Workers</span>
             </button>
-            <button type="button" class="admin-nav-link" onclick="switchAdminView('hotel')">
-                <span class="nav-ico">🏨</span>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('hotel', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
                 <span>Hotels & Venues</span>
             </button>
-            <button type="button" class="admin-nav-link" onclick="switchAdminView('jobs')">
-                <span class="nav-ico">💼</span>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('jobs', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                 <span>Job Postings</span>
             </button>
-            <button type="button" class="admin-nav-link" onclick="switchAdminView('requests')">
-                <span class="nav-ico">📥</span>
+            <button type="button" class="admin-nav-link" onclick="switchAdminView('requests', this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 <span>All Requests</span>
             </button>
         </nav>
 
         <div class="admin-sidebar-footer">
             <a href="index.html" class="admin-nav-link" style="color: #94A3B8;">
-                <span class="nav-ico">🌐</span>
-                <span>View Public Site</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <span>Public Portal</span>
             </a>
             <button type="button" class="btn-logout-admin" onclick="handleAdminLogout()">
-                <span>🚪 Admin Logout</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Admin Logout</span>
             </button>
         </div>
     </aside>
@@ -78,138 +74,159 @@
         <!-- Topbar -->
         <header class="admin-topbar">
             <div>
-                <h1 class="admin-page-heading" id="adminPageHeading">Admin Dashboard — System Overview</h1>
+                <h1 class="admin-page-heading" id="adminPageHeading">System Administration & Moderation</h1>
             </div>
             <div class="admin-topbar-right">
-                <span class="admin-auth-indicator">🟢 Administrator Session (Verified)</span>
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+                </button>
+                <span class="admin-auth-indicator">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10B981; margin-right:6px;"></span>
+                    <span>Admin Session Verified</span>
+                </span>
             </div>
         </header>
 
         <div class="admin-content-scroll">
-            <!-- Screen 12: Admin Metric Cards -->
+            <!-- 6 Tabular Metrics -->
             <section class="admin-metrics-grid">
                 <div class="admin-stat-card">
                     <div class="stat-meta">
-                        <span class="stat-lbl">Total Registered Users</span>
-                        <div class="stat-icon-wrap" style="background:#EFF6FF; color:#2563EB;">👥</div>
+                        <span class="stat-lbl">Registered Accounts</span>
+                        <div class="stat-icon-wrap" style="background:#EFF6FF; color:#2563EB;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                        </div>
                     </div>
-                    <div class="stat-val" id="statTotalUsers">0</div>
-                    <span class="stat-sub">Live in MySQL database</span>
+                    <div class="stat-val" id="statTotalUsers" style="font-variant-numeric: tabular-nums;">0</div>
+                    <span class="stat-sub">Live records in MySQL</span>
                 </div>
 
                 <div class="admin-stat-card">
                     <div class="stat-meta">
                         <span class="stat-lbl">Students</span>
-                        <div class="stat-icon-wrap" style="background:#EFF6FF; color:#3B82F6;">🎓</div>
+                        <div class="stat-icon-wrap" style="background:#EFF6FF; color:#3B82F6;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path></svg>
+                        </div>
                     </div>
-                    <div class="stat-val" id="statStudents">0</div>
+                    <div class="stat-val" id="statStudents" style="font-variant-numeric: tabular-nums;">0</div>
                     <span class="stat-sub">Flexible gig learners</span>
                 </div>
 
                 <div class="admin-stat-card">
                     <div class="stat-meta">
                         <span class="stat-lbl">Staff & Workers</span>
-                        <div class="stat-icon-wrap" style="background:#DCFCE7; color:#10B981;">👷</div>
+                        <div class="stat-icon-wrap" style="background:#DCFCE7; color:#10B981;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect></svg>
+                        </div>
                     </div>
-                    <div class="stat-val" id="statStaff">0</div>
-                    <span class="stat-sub">Hospitality talent</span>
+                    <div class="stat-val" id="statStaff" style="font-variant-numeric: tabular-nums;">0</div>
+                    <span class="stat-sub">Hospitality workers</span>
                 </div>
 
                 <div class="admin-stat-card">
                     <div class="stat-meta">
                         <span class="stat-lbl">Hotels & Venues</span>
-                        <div class="stat-icon-wrap" style="background:#FFF7ED; color:#EA580C;">🏨</div>
+                        <div class="stat-icon-wrap" style="background:#FFF7ED; color:#EA580C;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
+                        </div>
                     </div>
-                    <div class="stat-val" id="statHotels">0</div>
-                    <span class="stat-sub">Partner properties</span>
+                    <div class="stat-val" id="statHotels" style="font-variant-numeric: tabular-nums;">0</div>
+                    <span class="stat-sub">Partner venues</span>
                 </div>
 
                 <div class="admin-stat-card">
                     <div class="stat-meta">
                         <span class="stat-lbl">Active Job Postings</span>
-                        <div class="stat-icon-wrap" style="background:#FEF3C7; color:#D97706;">💼</div>
+                        <div class="stat-icon-wrap" style="background:#FEF3C7; color:#D97706;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect></svg>
+                        </div>
                     </div>
-                    <div class="stat-val" id="statJobs">0</div>
+                    <div class="stat-val" id="statJobs" style="font-variant-numeric: tabular-nums;">0</div>
                     <span class="stat-sub">Live shift vacancies</span>
                 </div>
 
                 <div class="admin-stat-card">
                     <div class="stat-meta">
-                        <span class="stat-lbl">Total Requests</span>
-                        <div class="stat-icon-wrap" style="background:#F1F5F9; color:#475569;">📥</div>
+                        <span class="stat-lbl">Total Contracts</span>
+                        <div class="stat-icon-wrap" style="background:#F1F5F9; color:#475569;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+                        </div>
                     </div>
-                    <div class="stat-val" id="statRequests">0</div>
-                    <span class="stat-sub">Hiring applications</span>
+                    <div class="stat-val" id="statRequests" style="font-variant-numeric: tabular-nums;">0</div>
+                    <span class="stat-sub">Three-way contracts</span>
                 </div>
             </section>
 
-            <!-- Admin Table Controls -->
+            <!-- Table Controls & Tables -->
             <section class="admin-table-section">
                 <div class="admin-table-header-row">
                     <div class="admin-search-box">
-                        <span>🔍</span>
-                        <input type="text" id="adminTableSearch" placeholder="Search by name, email, phone, or location..." onkeyup="filterAdminTableLive()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="adminTableSearch" placeholder="Search by name, email, phone, location, or status..." onkeyup="filterAdminTableLive()">
                     </div>
                     <div class="admin-actions-group">
-                        <button type="button" class="btn btn-outline btn-sm" onclick="loadAdminData()">🔄 Refresh SQL Data</button>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="loadAdminData()">
+                            <span>Sync MySQL</span>
+                        </button>
                     </div>
                 </div>
 
                 <div id="adminActionAlert" class="form-success-banner hidden" style="margin-bottom: 16px;"></div>
 
-                <!-- Users Data Table (Screen 12) -->
+                <!-- Users Table -->
                 <div class="admin-table-container" id="usersTableSection">
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>User Profile</th>
                                 <th>Account Role</th>
-                                <th>Category / Type</th>
+                                <th>Category / Subtype</th>
                                 <th>District & State</th>
-                                <th>Phone (Verified)</th>
-                                <th>Status</th>
-                                <th style="text-align: right;">Actions</th>
+                                <th>Verified Phone</th>
+                                <th>Account Status</th>
+                                <th style="text-align: right;">Moderation Action</th>
                             </tr>
                         </thead>
                         <tbody id="adminUsersTableBody">
                             <tr>
                                 <td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">
-                                    Loading platform users... ⏳
+                                    Loading accounts...
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Requests Data Table (when Requests tab active) -->
+                <!-- Requests Table -->
                 <div class="admin-table-container hidden" id="requestsTableSection">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Employer / Hotel</th>
-                                <th>Candidate</th>
-                                <th>Role</th>
-                                <th>Applied Date</th>
+                                <th>Sender (Role)</th>
+                                <th>Receiver (Role)</th>
+                                <th>Position / Shift</th>
+                                <th>Compensation</th>
+                                <th>Date</th>
                                 <th>Status</th>
-                                <th style="text-align: right;">Action</th>
+                                <th style="text-align: right;">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="adminRequestsTableBody">
                             <tr>
-                                <td colspan="6" style="text-align:center; padding: 24px; color: var(--text-muted);">
-                                    Loading platform requests... ⏳
+                                <td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                                    Loading requests...
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Jobs Data Table (when Jobs tab active) -->
+                <!-- Jobs Table -->
                 <div class="admin-table-container hidden" id="jobsTableSection">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Job Title & Category</th>
+                                <th>Shift Title & Category</th>
                                 <th>Hotel / Venue</th>
                                 <th>Location</th>
                                 <th>Compensation & Shift</th>
@@ -222,7 +239,7 @@
                         <tbody id="adminJobsTableBody">
                             <tr>
                                 <td colspan="8" style="text-align:center; padding: 24px; color: var(--text-muted);">
-                                    Loading job postings... ⏳
+                                    Loading shifts...
                                 </td>
                             </tr>
                         </tbody>
@@ -232,85 +249,20 @@
         </div>
     </main>
 
-    <!-- ==========================================
-         SCREEN 13: DELETE USER CONFIRMATION MODAL
-         ========================================== -->
-    <div id="deleteConfirmModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDeleteModal()">
-        <div class="modal-dialog modal-sm" style="max-width: 440px; text-align: center;">
-            <div class="modal-body" style="padding: 32px 24px;">
-                <div class="delete-icon-circle">
-                    <span>🗑️</span>
-                </div>
-
-                <h3 class="delete-modal-title">Delete Account Permanently?</h3>
-                <p class="delete-modal-subtitle">
-                    Are you sure you want to delete <strong id="deleteTargetUserName">User</strong>? This will permanently erase their record from the MySQL database along with associated shift applications. <strong>This action cannot be undone.</strong>
-                </p>
-
-                <div class="delete-modal-actions" style="margin-top: 24px; display: flex; gap: 12px;">
-                    <button type="button" class="btn btn-outline btn-block" onclick="closeDeleteModal()">
-                        Cancel
-                    </button>
-                    <button type="button" id="confirmDeleteBtn" class="btn btn-danger btn-block" onclick="executeDeleteUser()">
-                        <span>Delete Permanently</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Request Confirmation Modal -->
-    <div id="deleteReqModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDeleteReqModal()">
-        <div class="modal-dialog modal-sm" style="max-width: 440px; text-align: center;">
-            <div class="modal-body" style="padding: 32px 24px;">
-                <div class="delete-icon-circle">
-                    <span>🗑️</span>
-                </div>
-                <h3 class="delete-modal-title">Delete Hiring Request?</h3>
-                <p class="delete-modal-subtitle" id="deleteReqSubtitle">
-                    Permanently remove this hiring application from the database.
-                </p>
-                <div class="delete-modal-actions" style="margin-top: 24px; display: flex; gap: 12px;">
-                    <button type="button" class="btn btn-outline btn-block" onclick="closeDeleteReqModal()">Cancel</button>
-                    <button type="button" id="confirmDeleteReqBtn" class="btn btn-danger btn-block" onclick="executeDeleteRequest()">Delete Request</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Job Confirmation Modal -->
-    <div id="deleteJobModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDeleteJobModal()">
-        <div class="modal-dialog modal-sm" style="max-width: 440px; text-align: center;">
-            <div class="modal-body" style="padding: 32px 24px;">
-                <div class="delete-icon-circle">
-                    <span>🗑️</span>
-                </div>
-                <h3 class="delete-modal-title">Delete Job Posting?</h3>
-                <p class="delete-modal-subtitle" id="deleteJobSubtitle">
-                    Permanently remove this job opening from the MySQL database along with all candidate applications.
-                </p>
-                <div class="delete-modal-actions" style="margin-top: 24px; display: flex; gap: 12px;">
-                    <button type="button" class="btn btn-outline btn-block" onclick="closeDeleteJobModal()">Cancel</button>
-                    <button type="button" id="confirmDeleteJobBtn" class="btn btn-danger btn-block" onclick="executeDeleteJob()">Delete Posting</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Authentication Modal (if session not present) -->
+    <!-- Admin Authentication Modal (Secure, prompt if no token) -->
     <div id="adminAuthModal" class="modal-backdrop hidden">
         <div class="modal-dialog modal-sm" style="max-width: 400px;">
             <div class="modal-header">
-                <h3 style="display:flex; align-items:center; gap: 8px;">🛡️ Administrator Access</h3>
+                <h3>Administrator Authentication</h3>
             </div>
             <div class="modal-body">
-                <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+                <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" autocomplete="off">
                     <div class="form-group">
-                        <label for="adminPassInput">Admin Secret Password</label>
-                        <input type="password" id="adminPassInput" class="form-input" placeholder="Enter password (default: worqden123)" required autofocus>
+                        <label for="adminPassInput">Admin Password</label>
+                        <input type="password" id="adminPassInput" class="form-input" placeholder="Enter admin password" autocomplete="off" required>
                     </div>
                     <div id="adminAuthError" class="form-error-banner hidden"></div>
-                    <button type="submit" class="btn btn-orange btn-block btn-lg" style="margin-top: 10px;">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 10px;">
                         <span>Unlock Admin Console &rarr;</span>
                     </button>
                     <div style="text-align: center; margin-top: 14px;">
@@ -321,27 +273,66 @@
         </div>
     </div>
 
+    <!-- Moderation Modal for Users -->
+    <div id="userModerationModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeModerationModal()">
+        <div class="modal-dialog modal-sm" style="max-width: 440px;">
+            <div class="modal-header">
+                <h3>Account Moderation</h3>
+                <button type="button" class="modal-close-btn" onclick="closeModerationModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:13.5px; line-height:1.5; color:#334155;">
+                    Change status for <strong id="modUserName">User</strong> (<span id="modUserRole" style="text-transform:capitalize;">Role</span>).
+                </p>
+                <div style="margin: 16px 0;">
+                    <label style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Select New Account Status</label>
+                    <select id="modNewStatusSelect" class="form-select" style="margin-top:6px;">
+                        <option value="active">Active (Full access to send & accept hires)</option>
+                        <option value="pending">Pending (Review mode: can edit profile, cannot hire)</option>
+                        <option value="suspended">Suspended (Immediate access lockout)</option>
+                        <option value="deactivated">Deactivated (Account disabled)</option>
+                    </select>
+                </div>
+                <div id="modAlert" class="form-error-banner hidden"></div>
+                <div class="modal-actions-row">
+                    <button type="button" class="btn btn-outline" onclick="closeModerationModal()">Cancel</button>
+                    <button type="button" id="confirmModBtn" class="btn btn-primary" onclick="submitUserStatusChange()">
+                        <span>Apply Status Change &rarr;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let allUsersList = [];
         let allRequestsList = [];
         let allJobsList = [];
         let currentFilter = 'all';
-        let deleteTargetId = null;
-        let deleteTargetReqId = null;
-        let deleteTargetJobId = null;
+        let activeModUserId = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             const adminToken = localStorage.getItem('worqdenAdminToken');
             if (!adminToken) {
                 document.getElementById('adminAuthModal').classList.remove('hidden');
+                const inp = document.getElementById('adminPassInput');
+                if (inp) setTimeout(() => inp.focus(), 50);
             } else {
                 loadAdminData();
             }
         });
 
+        function getAdminHeaders() {
+            const token = localStorage.getItem('worqdenAdminToken') || sessionStorage.getItem('worqdenAdminToken') || '';
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
         async function handleAdminLogin(e) {
             e.preventDefault();
-            const password = document.getElementById('adminPassInput').value;
+            const password = document.getElementById('adminPassInput').value.trim();
             const errBox = document.getElementById('adminAuthError');
             errBox.classList.add('hidden');
 
@@ -355,10 +346,11 @@
 
                 if (res.ok && data.token) {
                     localStorage.setItem('worqdenAdminToken', data.token);
+                    sessionStorage.setItem('worqdenAdminToken', data.token);
                     document.getElementById('adminAuthModal').classList.add('hidden');
                     loadAdminData();
                 } else {
-                    errBox.textContent = data.message || 'Invalid admin password.';
+                    errBox.textContent = data.message || 'Incorrect admin password.';
                     errBox.classList.remove('hidden');
                 }
             } catch (err) {
@@ -368,52 +360,36 @@
         }
 
         async function loadAdminData() {
-            const adminToken = localStorage.getItem('worqdenAdminToken');
-            if (!adminToken) return;
-
             try {
-                // Load users
-                const uRes = await fetch('/api/admin/users', {
-                    headers: { 'Authorization': `Bearer ${adminToken}` }
-                });
-                
+                const [uRes, jRes, rRes] = await Promise.all([
+                    fetch('/api/admin/users', { headers: getAdminHeaders() }),
+                    fetch('/api/admin/jobs', { headers: getAdminHeaders() }),
+                    fetch('/api/admin/requests', { headers: getAdminHeaders() })
+                ]);
+
                 if (uRes.status === 401 || uRes.status === 403) {
                     localStorage.removeItem('worqdenAdminToken');
+                    sessionStorage.removeItem('worqdenAdminToken');
                     document.getElementById('adminAuthModal').classList.remove('hidden');
                     return;
                 }
 
                 const uData = await uRes.json();
-                allUsersList = uData.users || [];
-
-                // Load requests
-                const rRes = await fetch('/api/admin/requests', {
-                    headers: { 'Authorization': `Bearer ${adminToken}` }
-                });
+                const jData = await jRes.json();
                 const rData = await rRes.json();
+
+                allUsersList = uData.users || [];
+                allJobsList = jData.jobs || [];
                 allRequestsList = rData.requests || [];
 
-                // Load jobs
-                const jRes = await fetch('/api/admin/jobs', {
-                    headers: { 'Authorization': `Bearer ${adminToken}` }
-                });
-                const jData = await jRes.json();
-                allJobsList = jData.jobs || [];
-
-                updateMetrics();
-                if (currentFilter === 'jobs') {
-                    renderJobsTable();
-                } else if (currentFilter === 'requests') {
-                    renderRequestsTable();
-                } else {
-                    renderUsersTable();
-                }
+                updateAdminStats();
+                renderAdminTables();
             } catch (err) {
-                console.error('Error loading admin data:', err);
+                console.error('Failed to load admin data:', err);
             }
         }
 
-        function updateMetrics() {
+        function updateAdminStats() {
             const students = allUsersList.filter(u => u.userType === 'student').length;
             const staff = allUsersList.filter(u => u.userType === 'staff').length;
             const hotels = allUsersList.filter(u => u.userType === 'hotel').length;
@@ -426,13 +402,10 @@
             document.getElementById('statRequests').textContent = allRequestsList.length;
         }
 
-        function switchAdminView(view) {
+        function switchAdminView(view, el) {
             currentFilter = view;
-            const navLinks = document.querySelectorAll('.admin-nav-link');
-            navLinks.forEach(l => l.classList.remove('active'));
-            if (event && event.currentTarget) {
-                event.currentTarget.classList.add('active');
-            }
+            document.querySelectorAll('.admin-nav-link').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
 
             const usersSec = document.getElementById('usersTableSection');
             const reqsSec = document.getElementById('requestsTableSection');
@@ -442,73 +415,67 @@
             reqsSec.classList.add('hidden');
             jobsSec.classList.add('hidden');
 
-            if (view === 'requests') {
-                reqsSec.classList.remove('hidden');
-                document.getElementById('adminPageHeading').textContent = 'Admin Console — All Hiring Requests';
-                renderRequestsTable();
-            } else if (view === 'jobs') {
+            if (view === 'jobs') {
                 jobsSec.classList.remove('hidden');
-                document.getElementById('adminPageHeading').textContent = 'Admin Console — All Job Postings & Shift Openings';
-                renderJobsTable();
+                document.getElementById('adminPageHeading').textContent = 'Admin Console — Job Postings & Shift Vacancies';
+            } else if (view === 'requests') {
+                reqsSec.classList.remove('hidden');
+                document.getElementById('adminPageHeading').textContent = 'Admin Console — Three-Way Hiring Requests Ledger';
             } else {
                 usersSec.classList.remove('hidden');
-                const titles = {
-                    'all': 'Admin Dashboard — All Registered Users',
-                    'student': 'Admin Dashboard — Students',
-                    'staff': 'Admin Dashboard — Staff & Workers',
-                    'hotel': 'Admin Dashboard — Hotels & Venues'
-                };
-                document.getElementById('adminPageHeading').textContent = titles[view] || 'Admin Dashboard';
-                renderUsersTable();
+                document.getElementById('adminPageHeading').textContent = `Admin Console — ${view === 'all' ? 'All User Accounts' : view.toUpperCase() + ' Accounts'}`;
             }
+
+            renderAdminTables();
         }
 
-        function renderUsersTable(customList = null) {
-            const tbody = document.getElementById('adminUsersTableBody');
-            let list = customList !== null ? customList : allUsersList;
+        function renderAdminTables() {
+            renderUsersTable();
+            renderRequestsTable();
+            renderJobsTable();
+        }
 
-            if (customList === null && currentFilter !== 'all' && currentFilter !== 'requests' && currentFilter !== 'jobs') {
+        function renderUsersTable() {
+            const tbody = document.getElementById('adminUsersTableBody');
+            let list = allUsersList;
+
+            if (currentFilter !== 'all' && currentFilter !== 'jobs' && currentFilter !== 'requests') {
                 list = list.filter(u => u.userType === currentFilter);
             }
 
             if (list.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">
-                            No users found in this category.
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 28px; color: var(--text-muted);">No accounts found in this category.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = list.map(u => {
-                const roleBadgeClass = u.userType === 'hotel' ? 'badge-hotel' : (u.userType === 'student' ? 'badge-student' : 'badge-staff');
-                const roleLabel = u.userType === 'hotel' ? '🏨 Hotel' : (u.userType === 'student' ? '🎓 Student' : '👷 Staff');
-                const catText = u.userType === 'hotel' ? (u.hotelType || u.organizationType || 'Venue') : (u.subcategory || u.category || 'Worker');
-                const locText = `${u.district || ''}${u.district && u.state ? ', ' : ''}${u.state || 'India'}`;
+                const name = u.organizationName || u.name || 'Unnamed';
+                const role = u.userType || 'User';
+                const status = (u.status || 'active').toLowerCase();
+
+                let statusBadgeStyle = 'background:#ECFDF5; color:#059669;';
+                if (status === 'pending') statusBadgeStyle = 'background:#FFFBEB; color:#D97706;';
+                else if (status === 'suspended') statusBadgeStyle = 'background:#FEF2F2; color:#DC2626;';
+                else if (status === 'deactivated') statusBadgeStyle = 'background:#F1F5F9; color:#64748B;';
 
                 return `
-                    <tr id="user-row-${u.id}">
+                    <tr>
                         <td>
-                            <div style="display:flex; align-items:center; gap: 10px;">
-                                <div class="avatar-circle-sm" style="background: ${u.userType === 'hotel' ? '#FFF7ED' : '#EFF6FF'}; color: ${u.userType === 'hotel' ? '#EA580C' : '#2563EB'};">
-                                    ${u.userType === 'hotel' ? '🏨' : '👤'}
-                                </div>
-                                <div>
-                                    <strong>${u.organizationName || u.name}</strong>
-                                    <div style="font-size: 12px; color: var(--text-muted);">${u.email}</div>
-                                </div>
-                            </div>
+                            <strong>${escapeHtml(name)}</strong>
+                            <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(u.email || '')}</div>
                         </td>
-                        <td><span class="role-badge ${roleBadgeClass}">${roleLabel}</span></td>
-                        <td><strong>${catText}</strong></td>
-                        <td>📍 ${locText}</td>
-                        <td>🛡️ +91 ${u.phone || '-'}</td>
-                        <td><span class="status-pill status-accepted">Active Verified</span></td>
+                        <td><span class="mini-role-tag" style="text-transform:capitalize;">${escapeHtml(role)}</span></td>
+                        <td>${escapeHtml(u.subcategory || u.category || u.organizationType || 'Standard')}</td>
+                        <td>${escapeHtml(u.district ? u.district + ', ' : '')}${escapeHtml(u.state || 'India')}</td>
+                        <td>${u.phone ? `+91 ${escapeHtml(u.phone)}` : '<span style="color:var(--text-muted);">Not provided</span>'}</td>
+                        <td>
+                            <span style="font-size:11.5px; font-weight:700; padding:2px 8px; border-radius:4px; ${statusBadgeStyle}; text-transform:capitalize;">
+                                ${escapeHtml(status)}
+                            </span>
+                        </td>
                         <td style="text-align: right;">
-                            <button type="button" class="btn btn-outline btn-sm" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="openDeleteModal('${u.id}', '${escapeQuotes(u.organizationName || u.name)}')">
-                                <span>🗑️ Delete</span>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="openModerationModal('${u.id}', '${escapeQuotes(name)}', '${u.userType}', '${status}')">
+                                Moderate &rarr;
                             </button>
                         </td>
                     </tr>
@@ -516,288 +483,181 @@
             }).join('');
         }
 
-        function renderRequestsTable(customList = null) {
+        function renderRequestsTable() {
             const tbody = document.getElementById('adminRequestsTableBody');
-            const list = customList !== null ? customList : allRequestsList;
-
-            if (list.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align:center; padding: 24px; color: var(--text-muted);">
-                            No hiring applications found in database.
-                        </td>
-                    </tr>
-                `;
+            if (allRequestsList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 28px; color: var(--text-muted);">No hiring requests recorded.</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = list.map(r => {
-                const statusClass = r.status === 'accepted' ? 'status-accepted' : (r.status === 'rejected' ? 'status-rejected' : (r.status === 'cancelled' || r.status === 'withdrawn' ? 'status-cancelled' : 'status-pending'));
-                const statusText = r.status === 'accepted' ? '🟢 Accepted' : (r.status === 'rejected' ? '🔴 Rejected' : (r.status === 'cancelled' || r.status === 'withdrawn' ? '⚪ Cancelled' : '🟡 Pending'));
-                const dateStr = new Date(r.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+            tbody.innerHTML = allRequestsList.map(r => {
+                const status = (r.status || 'pending').toLowerCase();
+                let statusClass = 'status-pending';
+                if (status === 'accepted') statusClass = 'status-accepted';
+                else if (status === 'rejected') statusClass = 'status-rejected';
+                else if (status === 'cancelled' || status === 'withdrawn') statusClass = 'status-cancelled';
+
+                const dateFormatted = new Date(r.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
                 return `
-                    <tr id="req-row-${r.id}">
-                        <td><strong>${r.hotelName || 'Hotel'}</strong></td>
-                        <td><strong>${r.workerName || 'Worker'}</strong></td>
-                        <td>
-                            <strong>${r.jobTitle || r.position || 'Staff'}</strong>
-                            ${r.salary ? `<div style="font-size: 11px; color: #059669; font-weight: 600;">₹${r.salary} • ${r.shift || 'Shift'}</div>` : ''}
-                        </td>
-                        <td>${dateStr}</td>
-                        <td><span class="status-pill ${statusClass}">${statusText}</span></td>
+                    <tr>
+                        <td><strong>${escapeHtml(r.senderName || r.workerName || 'Sender')}</strong> <span style="font-size:11px; color:var(--text-muted); text-transform:capitalize;">(${escapeHtml(r.senderRole || 'User')})</span></td>
+                        <td><strong>${escapeHtml(r.receiverName || r.hotelName || 'Receiver')}</strong> <span style="font-size:11px; color:var(--text-muted); text-transform:capitalize;">(${escapeHtml(r.receiverRole || 'User')})</span></td>
+                        <td>${escapeHtml(r.jobTitle || r.position || 'Staff Role')}</td>
+                        <td style="color:#059669; font-weight:600; font-variant-numeric:tabular-nums;">${r.salary ? '₹' + escapeHtml(r.salary) : 'Flexible'}</td>
+                        <td>${dateFormatted}</td>
+                        <td><span class="status-pill ${statusClass}">${status}</span></td>
                         <td style="text-align: right;">
-                            <button type="button" class="btn btn-outline btn-sm" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="openDeleteReqModal('${r.id}', '${escapeQuotes(r.hotelName || 'Hotel')}', '${escapeQuotes(r.workerName || 'Worker')}')">
-                                <span>🗑️ Delete</span>
-                            </button>
+                            <button type="button" class="btn btn-outline btn-sm" style="color:#EF4444; border-color:#EF4444;" onclick="deleteAdminRequest('${r.id}')">Delete</button>
                         </td>
                     </tr>
                 `;
             }).join('');
         }
 
-        function renderJobsTable(customList = null) {
+        function renderJobsTable() {
             const tbody = document.getElementById('adminJobsTableBody');
-            const list = customList !== null ? customList : allJobsList;
-
-            if (list.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="8" style="text-align:center; padding: 24px; color: var(--text-muted);">
-                            No job postings found in MySQL database.
-                        </td>
-                    </tr>
-                `;
+            if (allJobsList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 28px; color: var(--text-muted);">No job postings recorded.</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = list.map(j => {
-                const locText = `${j.hotelDistrict ? j.hotelDistrict + ', ' : ''}${j.hotelState || 'India'}`;
-                const applicants = j.applicantsCount || 0;
-
+            tbody.innerHTML = allJobsList.map(j => {
+                const statusClass = j.status === 'active' ? 'status-accepted' : 'status-cancelled';
                 return `
-                    <tr id="job-row-${j.id}">
-                        <td>
-                            <strong>${j.title}</strong>
-                            <div style="font-size: 12px; color: var(--text-muted);">${j.category || 'Hospitality'} ${j.subcategory ? '• ' + j.subcategory : ''}</div>
-                        </td>
-                        <td><strong>${j.hotelName || 'Venue Partner'}</strong></td>
-                        <td>📍 ${locText}</td>
-                        <td>
-                            <strong style="color: #059669;">₹${j.salary || '-'}</strong> ${j.salaryType || ''}
-                            <div style="font-size: 11.5px; color: var(--text-muted);">${j.shift || 'Flexible'} Shift</div>
-                        </td>
+                    <tr>
+                        <td><strong>${escapeHtml(j.title)}</strong> <div style="font-size:11.5px; color:var(--text-muted);">${escapeHtml(j.category)}</div></td>
+                        <td>${escapeHtml(j.hotelName || 'Partner Hotel')}</td>
+                        <td>${escapeHtml(j.hotelDistrict ? j.hotelDistrict + ', ' : '')}${escapeHtml(j.hotelState || 'India')}</td>
+                        <td><span style="color:#059669; font-weight:600; font-variant-numeric:tabular-nums;">₹${escapeHtml(j.salary || '')}</span> <span style="font-size:11.5px; color:var(--text-muted);">${escapeHtml(j.shift || '')}</span></td>
                         <td>${j.workDate || 'Immediate'}</td>
-                        <td>
-                            <strong>${applicants} applied</strong>
-                            <div style="font-size: 11.5px; color: var(--text-muted);">${j.vacancies || 1} vacancy left</div>
-                        </td>
-                        <td><span class="status-pill status-accepted">Active Shift</span></td>
+                        <td style="font-variant-numeric:tabular-nums;">${j.vacancies || 1} vac. • ${j.applicantsCount || 0} apps</td>
+                        <td><span class="status-pill ${statusClass}">${j.status || 'active'}</span></td>
                         <td style="text-align: right;">
-                            <button type="button" class="btn btn-outline btn-sm" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="openDeleteJobModal('${j.id}', '${escapeQuotes(j.title)}', '${escapeQuotes(j.hotelName || 'Venue')}')">
-                                <span>🗑️ Delete</span>
-                            </button>
+                            <button type="button" class="btn btn-outline btn-sm" style="color:#EF4444; border-color:#EF4444;" onclick="deleteAdminJob('${j.id}')">Delete</button>
                         </td>
                     </tr>
                 `;
             }).join('');
         }
 
-        function filterAdminTableLive() {
-            const query = document.getElementById('adminTableSearch').value.toLowerCase().trim();
-
-            if (currentFilter === 'jobs') {
-                if (!query) {
-                    renderJobsTable();
-                    return;
-                }
-                const filtered = allJobsList.filter(j =>
-                    (j.title || '').toLowerCase().includes(query) ||
-                    (j.category || '').toLowerCase().includes(query) ||
-                    (j.hotelName || '').toLowerCase().includes(query) ||
-                    (j.hotelDistrict || '').toLowerCase().includes(query) ||
-                    (j.hotelState || '').toLowerCase().includes(query)
-                );
-                renderJobsTable(filtered);
-            } else if (currentFilter === 'requests') {
-                if (!query) {
-                    renderRequestsTable();
-                    return;
-                }
-                const filtered = allRequestsList.filter(r =>
-                    (r.hotelName || '').toLowerCase().includes(query) ||
-                    (r.workerName || '').toLowerCase().includes(query) ||
-                    (r.position || '').toLowerCase().includes(query) ||
-                    (r.jobTitle || '').toLowerCase().includes(query) ||
-                    (r.status || '').toLowerCase().includes(query)
-                );
-                renderRequestsTable(filtered);
-            } else {
-                if (!query) {
-                    renderUsersTable();
-                    return;
-                }
-                const filtered = allUsersList.filter(u =>
-                    (u.name || '').toLowerCase().includes(query) ||
-                    (u.organizationName || '').toLowerCase().includes(query) ||
-                    (u.email || '').toLowerCase().includes(query) ||
-                    (u.phone || '').toLowerCase().includes(query) ||
-                    (u.district || '').toLowerCase().includes(query) ||
-                    (u.state || '').toLowerCase().includes(query)
-                );
-                renderUsersTable(filtered);
-            }
+        function openModerationModal(id, name, role, currentStatus) {
+            activeModUserId = id;
+            document.getElementById('modUserName').textContent = name;
+            document.getElementById('modUserRole').textContent = role;
+            document.getElementById('modNewStatusSelect').value = currentStatus || 'active';
+            document.getElementById('modAlert').classList.add('hidden');
+            document.getElementById('userModerationModal').classList.remove('hidden');
         }
 
-        function escapeQuotes(str) {
-            return (str || '').replace(/'/g, "\\'");
+        function closeModerationModal() {
+            document.getElementById('userModerationModal').classList.add('hidden');
+            activeModUserId = null;
         }
 
-        // Screen 13: Delete User Handlers
-        function openDeleteModal(userId, userName) {
-            deleteTargetId = userId;
-            document.getElementById('deleteTargetUserName').textContent = userName;
-            document.getElementById('deleteConfirmModal').classList.remove('hidden');
-        }
-
-        function closeDeleteModal() {
-            document.getElementById('deleteConfirmModal').classList.add('hidden');
-            deleteTargetId = null;
-        }
-
-        async function executeDeleteUser() {
-            if (!deleteTargetId) return;
-            const adminToken = localStorage.getItem('worqdenAdminToken');
-            const btn = document.getElementById('confirmDeleteBtn');
-            btn.disabled = true;
-            btn.textContent = 'Deleting from Database... ⏳';
+        async function submitUserStatusChange() {
+            if (!activeModUserId) return;
+            const newStatus = document.getElementById('modNewStatusSelect').value;
+            const errBox = document.getElementById('modAlert');
+            errBox.classList.add('hidden');
 
             try {
-                const res = await fetch(`/api/admin/users/${deleteTargetId}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                const res = await fetch(`/api/admin/users/${activeModUserId}/status`, {
+                    method: 'PATCH',
+                    headers: getAdminHeaders(),
+                    body: JSON.stringify({ status: newStatus })
                 });
                 const data = await res.json();
 
                 if (res.ok) {
-                    allUsersList = allUsersList.filter(u => String(u.id) !== String(deleteTargetId));
-                    updateMetrics();
-                    renderUsersTable();
-                    closeDeleteModal();
-
-                    showAlertBanner(`✓ User record #${deleteTargetId} permanently deleted from MySQL!`);
-                    loadAdminData(); // Sync fresh from DB
+                    closeModerationModal();
+                    loadAdminData();
+                    const alertEl = document.getElementById('adminActionAlert');
+                    alertEl.textContent = `User status updated to ${newStatus.toUpperCase()} successfully.`;
+                    alertEl.classList.remove('hidden');
+                    setTimeout(() => alertEl.classList.add('hidden'), 3500);
                 } else {
-                    alert(data.message || 'Failed to delete user.');
+                    errBox.textContent = data.message || 'Failed to update user status.';
+                    errBox.classList.remove('hidden');
                 }
             } catch (err) {
-                alert('Connection error while attempting to delete.');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Delete Permanently';
+                errBox.textContent = 'Connection error.';
+                errBox.classList.remove('hidden');
             }
         }
 
-        // Delete Request Handlers
-        function openDeleteReqModal(reqId, hotelName, workerName) {
-            deleteTargetReqId = reqId;
-            document.getElementById('deleteReqSubtitle').textContent = `Permanently remove application between ${hotelName} and ${workerName}.`;
-            document.getElementById('deleteReqModal').classList.remove('hidden');
-        }
-
-        function closeDeleteReqModal() {
-            document.getElementById('deleteReqModal').classList.add('hidden');
-            deleteTargetReqId = null;
-        }
-
-        async function executeDeleteRequest() {
-            if (!deleteTargetReqId) return;
-            const adminToken = localStorage.getItem('worqdenAdminToken');
-            const btn = document.getElementById('confirmDeleteReqBtn');
-            btn.disabled = true;
-            btn.textContent = 'Deleting...';
-
+        async function deleteAdminRequest(reqId) {
+            if (!confirm('Are you sure you want to delete this contract record from the audit log?')) return;
             try {
-                const res = await fetch(`/api/admin/requests/${deleteTargetReqId}`, {
+                const res = await fetch(`/api/admin/requests/${reqId}`, {
                     method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                    headers: getAdminHeaders()
                 });
-                const data = await res.json();
-
                 if (res.ok) {
-                    allRequestsList = allRequestsList.filter(r => String(r.id) !== String(deleteTargetReqId));
-                    updateMetrics();
-                    renderRequestsTable();
-                    closeDeleteReqModal();
-                    showAlertBanner(`✓ Hiring request #${deleteTargetReqId} permanently deleted from MySQL!`);
                     loadAdminData();
                 } else {
+                    const data = await res.json();
                     alert(data.message || 'Failed to delete request.');
                 }
             } catch (err) {
                 alert('Connection error.');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Delete Request';
             }
         }
 
-        // Delete Job Handlers
-        function openDeleteJobModal(jobId, jobTitle, hotelName) {
-            deleteTargetJobId = jobId;
-            document.getElementById('deleteJobSubtitle').textContent = `Permanently remove "${jobTitle}" posted by ${hotelName} from MySQL.`;
-            document.getElementById('deleteJobModal').classList.remove('hidden');
-        }
-
-        function closeDeleteJobModal() {
-            document.getElementById('deleteJobModal').classList.add('hidden');
-            deleteTargetJobId = null;
-        }
-
-        async function executeDeleteJob() {
-            if (!deleteTargetJobId) return;
-            const adminToken = localStorage.getItem('worqdenAdminToken');
-            const btn = document.getElementById('confirmDeleteJobBtn');
-            btn.disabled = true;
-            btn.textContent = 'Deleting Job...';
-
+        async function deleteAdminJob(jobId) {
+            if (!confirm('Are you sure you want to delete this job posting? Associated applications will also be closed.')) return;
             try {
-                const res = await fetch(`/api/admin/jobs/${deleteTargetJobId}`, {
+                const res = await fetch(`/api/admin/jobs/${jobId}`, {
                     method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                    headers: getAdminHeaders()
                 });
-                const data = await res.json();
-
                 if (res.ok) {
-                    allJobsList = allJobsList.filter(j => String(j.id) !== String(deleteTargetJobId));
-                    updateMetrics();
-                    renderJobsTable();
-                    closeDeleteJobModal();
-                    showAlertBanner(`✓ Job posting #${deleteTargetJobId} and its applications permanently removed!`);
                     loadAdminData();
                 } else {
+                    const data = await res.json();
                     alert(data.message || 'Failed to delete job posting.');
                 }
             } catch (err) {
-                alert('Connection error while deleting job.');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Delete Posting';
+                alert('Connection error.');
             }
         }
 
-        function showAlertBanner(msg) {
-            const alertBox = document.getElementById('adminActionAlert');
-            alertBox.textContent = msg;
-            alertBox.classList.remove('hidden');
-            setTimeout(() => {
-                alertBox.classList.add('hidden');
-            }, 4000);
+        function filterAdminTableLive() {
+            const q = document.getElementById('adminTableSearch').value.toLowerCase().trim();
+            if (!q) {
+                renderAdminTables();
+                return;
+            }
+            if (currentFilter === 'jobs') {
+                const filtered = allJobsList.filter(j => (j.title || '').toLowerCase().includes(q) || (j.hotelName || '').toLowerCase().includes(q));
+                allJobsList = filtered;
+                renderJobsTable();
+                loadAdminData();
+            } else if (currentFilter === 'requests') {
+                const filtered = allRequestsList.filter(r => (r.senderName || '').toLowerCase().includes(q) || (r.receiverName || '').toLowerCase().includes(q) || (r.position || '').toLowerCase().includes(q));
+                allRequestsList = filtered;
+                renderRequestsTable();
+                loadAdminData();
+            } else {
+                const filtered = allUsersList.filter(u => (u.name || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q) || (u.district || '').toLowerCase().includes(q) || (u.status || '').toLowerCase().includes(q));
+                allUsersList = filtered;
+                renderUsersTable();
+                loadAdminData();
+            }
+        }
+
+        function escapeQuotes(str) {
+            return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         }
 
         function handleAdminLogout() {
             localStorage.removeItem('worqdenAdminToken');
-            location.reload();
+            window.location.href = 'index.html';
         }
     </script>
 </body>

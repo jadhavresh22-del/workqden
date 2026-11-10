@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
     <script src="data.js"></script>
 </head>
 <body class="dashboard-layout-body">
@@ -77,6 +78,9 @@
                 <input type="text" id="topSearchInput" placeholder="Search workers by name, skills, or district..." onkeyup="filterStaffLive()">
             </div>
             <div class="topbar-actions">
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+                </button>
                 <a href="requests.html" class="topbar-icon-btn" title="View Requests"><span>🔔</span></a>
                 <a href="profile.html" class="topbar-user-profile">
                     <div class="avatar-circle-sm" id="topbarAvatarBox">
@@ -176,10 +180,71 @@
                     <div class="modal-actions-row">
                         <button type="button" class="btn btn-outline" onclick="closeDirectHireModal()">Cancel</button>
                         <button type="submit" id="hireSubmitBtn" class="btn btn-primary">
-                            <span>Send Hire Offer 📩</span>
+                            <span>Send Application 📩</span>
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- CANDIDATE VIEW PROFILE MODAL -->
+    <div id="candidateProfileModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeCandidateProfileModal()">
+        <div class="modal-dialog" style="max-width: 540px;">
+            <div class="modal-header">
+                <h3>Candidate Profile</h3>
+                <button type="button" class="modal-close-btn" onclick="closeCandidateProfileModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex; align-items:center; gap: 16px; margin-bottom: 16px; padding: 14px; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <div id="viewProfAvatar" style="width: 60px; height: 60px; border-radius: 50%; font-size: 24px; font-weight: 700; background: #1E3A8A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">👤</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                            <h4 id="viewProfName" style="margin: 0; font-size: 18px; color: var(--primary-navy); font-weight: 800;">Candidate Name</h4>
+                            <span id="viewProfRoleTag" class="mini-role-tag" style="background: #EEF2F7; font-size: 11.5px; font-weight: 700;">Student</span>
+                        </div>
+                        <div id="viewProfLocation" style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">📍 Location</div>
+                    </div>
+                </div>
+
+                <!-- Open to Both Staff and Hotels Info Box -->
+                <div id="viewProfHiringInfoBox" style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;">
+                    <div style="display: flex; align-items: flex-start; gap: 8px;">
+                        <span style="font-size: 16px;">✨</span>
+                        <div>
+                            <strong style="color: #065F46; font-size: 13px; display: block; margin-bottom: 2px;">Available for both Staff & Hotels</strong>
+                            <p style="margin: 0; font-size: 12px; color: #047857; line-height: 1.45;">This candidate accepts direct shift requests, banquet team contracts, and event gig invitations from both luxury hotel managers and verified senior staff teams.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                    <div style="background: #F8FAFC; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <span style="display: block; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Availability Mode</span>
+                        <strong id="viewProfAvailability" style="font-size: 13px; color: #059669;">Available</strong>
+                    </div>
+                    <div style="background: #F8FAFC; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <span style="display: block; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Experience Level</span>
+                        <strong id="viewProfExperience" style="font-size: 13px; color: var(--text-dark);">Flexible</strong>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <span style="display: block; font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">Skills & Competencies:</span>
+                    <div id="viewProfSkillsList" class="positions-pill-row"></div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <span style="display: block; font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">About / Background:</span>
+                    <p id="viewProfAbout" style="margin: 0; font-size: 13px; color: var(--text-body); background: #F8FAFC; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); line-height: 1.5;">No bio provided.</p>
+                </div>
+
+                <div class="modal-actions-row">
+                    <button type="button" class="btn btn-outline" onclick="closeCandidateProfileModal()">Close</button>
+                    <button type="button" class="btn btn-primary" id="viewProfSendReqBtn">
+                        <span>Send Application 📩</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -320,8 +385,9 @@
 
             container.innerHTML = staff.map(st => {
                 const img = resolveCandidateImage(st.profileImage, st.name);
-                const roleBadge = st.subcategory || st.category || 'Hospitality Professional';
-                const exp = st.experience || 'Experienced';
+                const isStudent = st.userType === 'student';
+                const roleBadge = isStudent ? '🎓 Student Gig Assistant' : (st.subcategory || st.category || 'Hospitality Professional');
+                const exp = st.experience || (isStudent ? 'Flexible Learner' : 'Experienced');
                 const avail = st.availability || 'Available now';
 
                 return `
@@ -334,20 +400,76 @@
                             <h3 class="hotel-card-name">${escapeHtml(st.name)}</h3>
                             <p class="hotel-card-location">📍 ${escapeHtml(st.district ? st.district + ', ' : '')}${escapeHtml(st.state || 'India')}</p>
                             
-                            <div style="margin: 10px 0;">
+                            <div style="margin: 8px 0 6px 0;">
                                 <span class="status-pill status-accepted">${escapeHtml(avail)}</span>
                                 <span class="tag-pill" style="margin-left: 6px;">${escapeHtml(exp)}</span>
                             </div>
 
-                            <div class="hotel-card-actions">
-                                <button type="button" class="btn btn-primary btn-block" onclick="openDirectHireModal('${st.id}')">
-                                    <span>Direct Hire &rarr;</span>
+                            <div style="margin: 6px 0 10px 0; font-size: 11.5px; color: #047857; font-weight: 600; display: flex; align-items: center; gap: 5px; background: #ECFDF5; padding: 4px 8px; border-radius: 6px; border: 1px solid #A7F3D0;">
+                                <span>✨</span>
+                                <span>Available for both Staff & Hotels</span>
+                            </div>
+
+                            <div class="hotel-card-actions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+                                <button type="button" class="btn btn-outline btn-sm" onclick="openCandidateProfileModal('${st.id}')">
+                                    <span>👁️ View Profile</span>
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="openDirectHireModal('${st.id}')">
+                                    <span>Send Application 📩</span>
                                 </button>
                             </div>
                         </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        function openCandidateProfileModal(workerId) {
+            const st = allStaffList.find(s => String(s.id) === String(workerId));
+            if (!st) return;
+
+            const candName = st.name || 'Candidate';
+            const isStudent = st.userType === 'student';
+            const candRole = isStudent ? 'Student Gig Assistant' : (st.subcategory || st.category || 'Hospitality Professional');
+            const candImg = resolveCandidateImage(st.profileImage, candName);
+            const loc = `${st.district ? st.district + ', ' : ''}${st.state || 'India'}`;
+            const avail = st.availability || 'Immediate / Flexible';
+            const exp = st.experience || (isStudent ? 'Flexible Learner' : 'Experienced');
+            const about = st.about && st.about.trim() ? st.about : (isStudent ? 'Eager student registered on WorqDen for flexible weekend banquets, catering shifts, and hotel operations.' : 'Verified hospitality candidate ready for shift scheduling.');
+
+            document.getElementById('viewProfName').textContent = candName;
+            document.getElementById('viewProfRoleTag').textContent = isStudent ? '🎓 Student' : '👔 Staff';
+            document.getElementById('viewProfLocation').textContent = '📍 ' + loc;
+            document.getElementById('viewProfAvailability').textContent = avail;
+            document.getElementById('viewProfExperience').textContent = exp;
+            document.getElementById('viewProfAbout').textContent = about;
+
+            const avatarEl = document.getElementById('viewProfAvatar');
+            if (st.profileImage && st.profileImage.trim()) {
+                avatarEl.innerHTML = `<img src="${escapeHtml(st.profileImage)}" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.src='candidate-fallback.svg';">`;
+            } else {
+                avatarEl.textContent = candName.charAt(0).toUpperCase();
+            }
+
+            const skillsContainer = document.getElementById('viewProfSkillsList');
+            const skillsArr = Array.isArray(st.skills) ? st.skills : (typeof st.skills === 'string' ? JSON.parse(st.skills || '[]') : []);
+            if (skillsArr.length) {
+                skillsContainer.innerHTML = skillsArr.map(sk => `<span class="pos-tag">${escapeHtml(sk)}</span>`).join('');
+            } else {
+                skillsContainer.innerHTML = '<span class="pos-tag">Hospitality Support</span><span class="pos-tag">Banquets</span><span class="pos-tag">Customer Care</span>';
+            }
+
+            const sendBtn = document.getElementById('viewProfSendReqBtn');
+            sendBtn.onclick = function() {
+                closeCandidateProfileModal();
+                openDirectHireModal(st.id);
+            };
+
+            document.getElementById('candidateProfileModal').classList.remove('hidden');
+        }
+
+        function closeCandidateProfileModal() {
+            document.getElementById('candidateProfileModal').classList.add('hidden');
         }
 
         function escapeQuotes(str) {
@@ -410,38 +532,49 @@
             submitBtn.innerHTML = 'Sending Offer... ⏳';
 
             try {
+                const token = localStorage.getItem('worqdenToken') || '';
+                const payload = {
+                    receiverId: workerId,
+                    workerId: workerId,
+                    position: position,
+                    message: message,
+                    senderType: currentUser.userType === 'hotel' ? 'hotel' : 'staff'
+                };
+                if (currentUser.userType === 'hotel') {
+                    payload.hotelId = currentUser.id;
+                } else {
+                    payload.staffId = currentUser.id;
+                }
+
                 const res = await fetch('/api/requests', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        workerId: workerId,
-                        hotelId: currentUser.id,
-                        position: position,
-                        message: message,
-                        senderType: 'hotel'
-                    })
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
                 });
                 const data = await res.json();
 
                 if (res.status === 201) {
-                    succBox.textContent = 'Direct hire offer sent successfully! 🎉';
+                    succBox.textContent = 'Application / hiring offer sent successfully! 🎉';
                     succBox.classList.remove('hidden');
                     setTimeout(() => {
                         closeDirectHireModal();
                         submitBtn.disabled = false;
-                        submitBtn.innerHTML = 'Send Hire Offer 📩';
+                        submitBtn.innerHTML = 'Send Application 📩';
                     }, 1400);
                 } else {
                     errBox.textContent = data.message || 'Failed to send offer.';
                     errBox.classList.remove('hidden');
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Send Hire Offer 📩';
+                    submitBtn.innerHTML = 'Send Application 📩';
                 }
             } catch (err) {
                 errBox.textContent = 'Connection error. Please try again.';
                 errBox.classList.remove('hidden');
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Send Hire Offer 📩';
+                submitBtn.innerHTML = 'Send Application 📩';
             }
         }
 

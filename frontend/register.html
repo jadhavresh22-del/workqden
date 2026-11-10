@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
     <script src="data.js"></script>
 </head>
 <body class="auth-body">
@@ -31,6 +32,9 @@
             <span style="font-size: 21px; font-weight: 800; color: #FFFFFF;">Worq<span style="color: #F97316;">Den</span></span>
         </a>
         <nav class="nav-links">
+            <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+            </button>
             <a href="index.html">Home</a>
             <a href="login.html">Already have an account? <strong style="color:#60A5FA;">Login</strong></a>
         </nav>
@@ -700,7 +704,6 @@
                     return;
                 }
 
-                // Strict email regex validation
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
                 if (!emailRegex.test(email)) {
                     alert('Please enter a valid email address (e.g. name@example.com).');
@@ -708,7 +711,6 @@
                     return;
                 }
 
-                // Strict phone validation (10 digits)
                 const cleanedPhone = phone.replace(/[\s\-()+]/g, '');
                 if (!/^\d{10,15}$/.test(cleanedPhone)) {
                     alert('Please enter a valid 10-digit mobile number.');
@@ -758,6 +760,10 @@
 
         function prevStep(step) {
             goToStep(step - 1);
+        }
+
+        function jumpToStep(step) {
+            goToStep(step);
         }
 
         async function handleFinalSubmit() {
@@ -816,12 +822,22 @@
                     setTimeout(() => {
                         if (data.user.userType === 'hotel') {
                             window.location.href = 'hotel-dashboard.html';
+                        } else if (data.user.userType === 'student') {
+                            window.location.href = 'student-dashboard.html';
                         } else {
                             window.location.href = 'dashboard.html';
                         }
                     }, 1200);
                 } else {
-                    errBox.textContent = data.message || 'Registration failed.';
+                    const errorMsg = data.message || 'Registration failed.';
+                    errBox.innerHTML = `
+                        <div>${errorMsg}</div>
+                        <div style="margin-top: 8px;">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="jumpToStep(1)" style="font-size:12px; padding:4px 10px; background:#FFFFFF;">
+                                &larr; Edit Email / Phone in Step 1
+                            </button>
+                        </div>
+                    `;
                     errBox.classList.remove('hidden');
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = 'Complete Registration 🎉';

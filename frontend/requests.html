@@ -3,50 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorqDen — My Requests & Applications</title>
+    <title>WorqDen — Request & Hiring Contract Manager</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
 </head>
 <body class="dashboard-layout-body">
 
     <!-- Left Sidebar Navigation -->
     <aside class="dashboard-sidebar">
         <div class="sidebar-brand">
-            <a href="dashboard.html" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+            <a href="dashboard.html" id="brandHomeLink" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
                 <svg class="logo-svg-mark" viewBox="0 0 64 64" width="30" height="30" style="flex-shrink:0;">
-                    <defs>
-                        <linearGradient id="wqLogoReq" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#F97316"/>
-                            <stop offset="100%" stop-color="#10B981"/>
-                        </linearGradient>
-                    </defs>
-                    <rect width="64" height="64" rx="16" fill="#0F172A"/>
-                    <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoReq)" stroke-width="2.5"/>
+                    <rect width="64" height="64" rx="14" fill="#0F172A"/>
+                    <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="#C59B4B" stroke-width="2"/>
                     <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                    <circle cx="32" cy="18" r="4" fill="#C59B4B"/>
                 </svg>
-                <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--primary-navy, #0F172A);">Worq<span style="color: #F97316;">Den</span></span>
+                <span style="font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-dark, #0F172A);">Worq<span style="color: #C59B4B;">Den</span></span>
             </a>
         </div>
 
         <nav class="sidebar-menu">
             <a href="dashboard.html" id="sidebarDashLink" class="sidebar-link">
-                <span class="sidebar-icon">📊</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                 <span>Dashboard</span>
             </a>
             <a href="hotels.html" id="sidebarBrowseLink" class="sidebar-link">
-                <span class="sidebar-icon">🏨</span>
-                <span>Find Hotels</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="2" width="18" height="20" rx="2"></rect><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><path d="M10 22v-4h4v4"></path></svg>
+                <span id="sidebarBrowseText">Find Hotels</span>
             </a>
             <a href="requests.html" class="sidebar-link active">
-                <span class="sidebar-icon">📥</span>
-                <span>My Requests</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <span>Requests Ledger</span>
             </a>
             <a href="profile.html" class="sidebar-link">
-                <span class="sidebar-icon">👤</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 <span>My Profile</span>
             </a>
         </nav>
@@ -54,7 +49,7 @@
         <div class="sidebar-footer">
             <div class="user-mini-card">
                 <div class="user-avatar-small" id="sidebarAvatar">
-                    <span id="sidebarInitial">👤</span>
+                    <span id="sidebarInitial">U</span>
                     <img id="sidebarAvatarImg" class="hidden" alt="Avatar">
                 </div>
                 <div class="user-mini-info">
@@ -63,23 +58,27 @@
                 </div>
             </div>
             <button type="button" class="btn-logout" onclick="handleLogout()">
-                <span>🚪 Logout</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Logout</span>
             </button>
         </div>
     </aside>
 
     <!-- Main Content Area -->
     <main class="dashboard-main-content">
-        <!-- Top Navigation Header Strip -->
+        <!-- Topbar -->
         <header class="dashboard-topbar">
             <div class="topbar-search">
-                <span style="font-size: 14px;">🔍</span>
-                <input type="text" id="reqSearchInput" placeholder="Filter requests by position, hotel, or status..." onkeyup="filterRequestsLive()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="reqSearchInput" placeholder="Filter requests by position, name, or role..." onkeyup="filterRequestsLive()">
             </div>
             <div class="topbar-actions">
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+                </button>
                 <a href="profile.html" class="topbar-user-profile">
                     <div class="avatar-circle-sm" id="topbarAvatarBox">
-                        <span id="topbarInitial">👤</span>
+                        <span id="topbarInitial">U</span>
                         <img id="topbarAvatarImg" class="hidden" alt="Avatar">
                     </div>
                     <span id="topbarName" class="topbar-user-name">User</span>
@@ -88,110 +87,103 @@
         </header>
 
         <div class="dashboard-scrollable-body">
-            <!-- Screen 7: Header & Filter Tabs -->
+            <!-- Header & Filter Tabs -->
             <section class="requests-header-section">
                 <div>
-                    <h1 class="dash-section-title" style="font-size: 26px;">My Requests & Applications</h1>
-                    <p class="dash-section-subtitle">Track your sent job applications and incoming direct hiring invitations.</p>
+                    <h1 class="dash-section-title" style="font-size: 24px;">Hiring Requests & Contract Ledger</h1>
+                    <p class="dash-section-subtitle">Track three-way hiring contracts between Students, Staff, and Hotel Venues.</p>
                 </div>
 
-                <!-- Tabs (Screen 7) -->
+                <!-- Tabs -->
                 <div class="request-filter-tabs">
-                    <button type="button" class="req-tab-btn active" onclick="switchTab('all')">
-                        <span>All (<span id="countAll">0</span>)</span>
+                    <button type="button" class="req-tab-btn active" onclick="switchTab('all', this)">
+                        <span>All (<span id="countAll" style="font-variant-numeric: tabular-nums;">0</span>)</span>
                     </button>
-                    <button type="button" class="req-tab-btn" onclick="switchTab('pending')">
-                        <span>Pending (<span id="countPending">0</span>)</span>
+                    <button type="button" class="req-tab-btn" onclick="switchTab('pending', this)">
+                        <span>Pending (<span id="countPending" style="font-variant-numeric: tabular-nums;">0</span>)</span>
                     </button>
-                    <button type="button" class="req-tab-btn" onclick="switchTab('accepted')">
-                        <span>Accepted (<span id="countAccepted">0</span>)</span>
+                    <button type="button" class="req-tab-btn" onclick="switchTab('accepted', this)">
+                        <span>Accepted (<span id="countAccepted" style="font-variant-numeric: tabular-nums;">0</span>)</span>
                     </button>
-                    <button type="button" class="req-tab-btn" onclick="switchTab('rejected')">
-                        <span>Rejected (<span id="countRejected">0</span>)</span>
+                    <button type="button" class="req-tab-btn" onclick="switchTab('rejected', this)">
+                        <span>Rejected (<span id="countRejected" style="font-variant-numeric: tabular-nums;">0</span>)</span>
                     </button>
-                    <button type="button" class="req-tab-btn" onclick="switchTab('cancelled')">
-                        <span>Cancelled (<span id="countCancelled">0</span>)</span>
+                    <button type="button" class="req-tab-btn" onclick="switchTab('cancelled', this)">
+                        <span>Cancelled (<span id="countCancelled" style="font-variant-numeric: tabular-nums;">0</span>)</span>
                     </button>
                 </div>
             </section>
 
-            <!-- Screen 7: Requests Grid / List -->
+            <!-- Requests Grid / List -->
             <div id="requestsGridContainer" class="requests-cards-grid">
-                <div class="loading-spinner-box">Loading requests... ⏳</div>
+                <div class="loading-spinner-box">Loading requests ledger...</div>
             </div>
         </div>
     </main>
 
-    <!-- ==========================================
-         SCREEN 11: REQUEST CONFIRMATION / DETAIL MODAL
-         ========================================== -->
+    <!-- Request Detail & Action Modal -->
     <div id="requestDetailModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDetailModal()">
         <div class="modal-dialog">
             <div class="modal-header">
-                <h3>Request Details</h3>
+                <h3>Request Contract Details</h3>
                 <button type="button" class="modal-close-btn" onclick="closeDetailModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <!-- Status Icon Header -->
                 <div class="detail-status-banner" id="modalDetailBanner">
                     <div class="status-icon-circle" id="modalStatusIcon">✓</div>
                     <div>
-                        <h4 id="modalStatusTitle" style="margin: 0; font-size: 18px;">Request Accepted!</h4>
-                        <span id="modalStatusSubtitle" style="font-size: 13px; opacity: 0.9;">Your application has been approved by the employer.</span>
+                        <h4 id="modalStatusTitle" style="margin: 0; font-size: 17px;">Request Status</h4>
+                        <span id="modalStatusSubtitle" style="font-size: 13px; opacity: 0.9;">Hiring contract details</span>
                     </div>
                 </div>
 
-                <!-- Request Info Table -->
                 <div class="detail-info-grid" style="margin: 20px 0;">
                     <div class="detail-info-item">
                         <span class="lbl">Role / Position:</span>
                         <strong id="modalDetailPosition">-</strong>
                     </div>
-                    <div class="detail-info-item" id="modalDetailPayShiftBox" style="display:none;">
+                    <div class="detail-info-item" id="modalDetailPayShiftBox">
                         <span class="lbl">Compensation & Shift:</span>
-                        <strong id="modalDetailPayShift" style="color: #059669;">-</strong>
+                        <strong id="modalDetailPayShift" style="color: #059669; font-variant-numeric: tabular-nums;">-</strong>
                     </div>
                     <div class="detail-info-item">
-                        <span class="lbl">Employer / Hotel:</span>
-                        <strong id="modalDetailHotel">-</strong>
+                        <span class="lbl">Sender:</span>
+                        <span id="modalDetailSender">-</span>
                     </div>
                     <div class="detail-info-item">
-                        <span class="lbl">Candidate:</span>
-                        <span id="modalDetailWorker">-</span>
+                        <span class="lbl">Receiver:</span>
+                        <span id="modalDetailReceiver">-</span>
                     </div>
                     <div class="detail-info-item">
-                        <span class="lbl">Applied Date:</span>
+                        <span class="lbl">Event / Shift Date:</span>
                         <span id="modalDetailDate">-</span>
                     </div>
                 </div>
 
-                <!-- Screen 11: Message Feedback Card -->
                 <div class="hotel-feedback-card" id="modalFeedbackBox">
-                    <label class="feedback-lbl">💬 Message / Instructions</label>
-                    <p id="modalDetailMessage" class="feedback-text">
-                        "We are pleased to inform you that your request has been accepted. Please report to the reception desk on Saturday at 9:00 AM with your ID proof."
-                    </p>
+                    <label class="feedback-lbl">Message & Venue Instructions</label>
+                    <p id="modalDetailMessage" class="feedback-text" style="font-size: 13.5px; line-height: 1.5; color: #334155; margin-top: 6px;">-</p>
                 </div>
 
-                <!-- Hotel Actions (Accept/Reject if pending) -->
-                <div id="hotelActionButtonsRow" class="hidden" style="margin-top: 18px; display: flex; gap: 10px;">
-                    <button type="button" class="btn btn-success btn-block" onclick="updateCurrentModalStatus('accepted')">
-                        <span>✓ Accept Candidate</span>
+                <!-- Receiver Action Buttons (Accept / Decline if pending) -->
+                <div id="receiverActionButtonsRow" class="hidden" style="margin-top: 18px; display: flex; gap: 10px;">
+                    <button type="button" class="btn btn-outline btn-block" style="color:#059669; border-color:#059669;" onclick="updateCurrentModalStatus('accepted')">
+                        <span>Accept Contract</span>
                     </button>
-                    <button type="button" class="btn btn-outline btn-block" style="color: var(--danger-red); border-color: var(--danger-red);" onclick="updateCurrentModalStatus('rejected')">
-                        <span>✕ Reject</span>
+                    <button type="button" class="btn btn-outline btn-block" style="color:#EF4444; border-color:#EF4444;" onclick="updateCurrentModalStatus('rejected')">
+                        <span>Decline</span>
                     </button>
                 </div>
 
-                <!-- Universal Cancel Action (if pending) -->
-                <div id="cancelActionRow" class="hidden" style="margin-top: 12px;">
-                    <button type="button" class="btn btn-danger-soft btn-block" onclick="handleCancelCurrentModal()">
-                        <span>🚫 Cancel / Withdraw Request</span>
+                <!-- Sender Cancel Action (if pending) -->
+                <div id="senderCancelActionRow" class="hidden" style="margin-top: 14px;">
+                    <button type="button" class="btn btn-outline btn-block" style="color:#EF4444; border-color:#EF4444;" onclick="updateCurrentModalStatus('cancelled')">
+                        <span>Withdraw / Cancel Request</span>
                     </button>
                 </div>
 
                 <div class="modal-actions-row" style="margin-top: 16px;">
-                    <button type="button" class="btn btn-outline btn-block" onclick="closeDetailModal()">Close Details</button>
+                    <button type="button" class="btn btn-outline btn-block" onclick="closeDetailModal()">Close</button>
                 </div>
             </div>
         </div>
@@ -201,11 +193,12 @@
         let currentUser = null;
         let allRequestsList = [];
         let activeTab = 'all';
-        let currentModalReqId = null;
+        let currentModalReq = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             currentUser = JSON.parse(localStorage.getItem('worqdenUser') || 'null');
-            if (!currentUser) {
+            const token = localStorage.getItem('worqdenToken');
+            if (!currentUser || !token) {
                 window.location.href = 'login.html';
                 return;
             }
@@ -214,66 +207,72 @@
             loadRequests();
         });
 
+        function getAuthHeaders() {
+            const token = localStorage.getItem('worqdenToken') || '';
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
         function setupUserUI() {
-            document.getElementById('sidebarUserName').textContent = currentUser.organizationName || currentUser.name || 'User';
-            document.getElementById('topbarName').textContent = currentUser.organizationName || currentUser.name || 'User';
+            const name = currentUser.organizationName || currentUser.name || 'User';
+            document.getElementById('sidebarUserName').textContent = name;
+            document.getElementById('topbarName').textContent = name;
 
             const isHotel = currentUser.userType === 'hotel';
-            document.getElementById('sidebarUserRole').textContent = isHotel ? 'Hotel Partner' : (currentUser.subcategory || currentUser.category || 'Worker');
+            const isStudent = currentUser.userType === 'student';
+
+            let roleTag = 'Staff';
+            if (isHotel) roleTag = 'Hotel';
+            if (isStudent) roleTag = 'Student';
+            document.getElementById('sidebarUserRole').textContent = roleTag;
 
             if (isHotel) {
                 document.getElementById('sidebarDashLink').href = 'hotel-dashboard.html';
+                document.getElementById('brandHomeLink').href = 'hotel-dashboard.html';
                 document.getElementById('sidebarBrowseLink').href = 'staff.html';
-                document.getElementById('sidebarBrowseLink').innerHTML = '<span class="sidebar-icon">👥</span><span>Find Staff</span>';
+                document.getElementById('sidebarBrowseText').textContent = 'Browse Talent';
+            } else if (isStudent) {
+                document.getElementById('sidebarDashLink').href = 'student-dashboard.html';
+                document.getElementById('brandHomeLink').href = 'student-dashboard.html';
+                document.getElementById('sidebarBrowseLink').href = 'hotels.html';
+                document.getElementById('sidebarBrowseText').textContent = 'Find Shifts';
+            } else {
+                document.getElementById('sidebarDashLink').href = 'dashboard.html';
+                document.getElementById('brandHomeLink').href = 'dashboard.html';
+                document.getElementById('sidebarBrowseLink').href = 'hotels.html';
+                document.getElementById('sidebarBrowseText').textContent = 'Find Hotels';
             }
 
-            const sImg = document.getElementById('sidebarAvatarImg');
-            const tImg = document.getElementById('topbarAvatarImg');
-            const sInit = document.getElementById('sidebarInitial');
-            const tInit = document.getElementById('topbarInitial');
-            const initChar = ((currentUser.organizationName || currentUser.name || 'U').charAt(0)).toUpperCase();
-
-            sInit.textContent = initChar;
-            tInit.textContent = initChar;
+            const initChar = name.charAt(0).toUpperCase();
+            document.getElementById('sidebarInitial').textContent = initChar;
+            document.getElementById('topbarInitial').textContent = initChar;
 
             if (currentUser.profileImage && currentUser.profileImage.trim()) {
+                const sImg = document.getElementById('sidebarAvatarImg');
+                const tImg = document.getElementById('topbarAvatarImg');
                 sImg.src = currentUser.profileImage;
                 sImg.classList.remove('hidden');
-                sInit.classList.add('hidden');
-                sImg.onerror = function() {
-                    this.classList.add('hidden');
-                    sInit.classList.remove('hidden');
-                };
-
+                document.getElementById('sidebarInitial').classList.add('hidden');
                 tImg.src = currentUser.profileImage;
                 tImg.classList.remove('hidden');
-                tInit.classList.add('hidden');
-                tImg.onerror = function() {
-                    this.classList.add('hidden');
-                    tInit.classList.remove('hidden');
-                };
-            } else {
-                sImg.classList.add('hidden');
-                sInit.classList.remove('hidden');
-                tImg.classList.add('hidden');
-                tInit.classList.remove('hidden');
+                document.getElementById('topbarInitial').classList.add('hidden');
             }
         }
 
         async function loadRequests() {
             const container = document.getElementById('requestsGridContainer');
-            container.innerHTML = '<div class="loading-spinner-box">Loading your requests... ⏳</div>';
+            container.innerHTML = '<div class="loading-spinner-box">Loading requests ledger...</div>';
 
             try {
-                const param = currentUser.userType === 'hotel' ? `hotelId=${currentUser.id}` : `userId=${currentUser.id}`;
-                const res = await fetch(`/api/requests?${param}`);
+                const res = await fetch('/api/requests', { headers: getAuthHeaders() });
                 const data = await res.json();
 
                 allRequestsList = data.requests || [];
                 updateCounts();
                 renderRequests();
 
-                // Check if url has ?id= to open specific modal
                 const urlParams = new URLSearchParams(window.location.search);
                 const reqId = urlParams.get('id');
                 if (reqId) {
@@ -281,7 +280,7 @@
                     if (found) openDetailModal(found);
                 }
             } catch (err) {
-                container.innerHTML = '<div class="empty-state-card">Unable to load requests. Please try again.</div>';
+                container.innerHTML = '<div class="empty-state-card">Unable to load requests. Please refresh.</div>';
             }
         }
 
@@ -298,25 +297,11 @@
             document.getElementById('countCancelled').textContent = cancelled;
         }
 
-        function switchTab(tab) {
+        function switchTab(tab, el) {
             activeTab = tab;
-            const btns = document.querySelectorAll('.req-tab-btn');
-            btns.forEach(b => b.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            document.querySelectorAll('.req-tab-btn').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
             renderRequests();
-        }
-
-        function getStatusDetails(status) {
-            const s = (status || 'pending').toLowerCase();
-            if (s === 'accepted') {
-                return { pillClass: 'status-accepted', text: '🟢 Accepted', label: 'Accepted' };
-            } else if (s === 'rejected') {
-                return { pillClass: 'status-rejected', text: '🔴 Rejected', label: 'Rejected' };
-            } else if (s === 'cancelled' || s === 'withdrawn') {
-                return { pillClass: 'status-cancelled', text: '⚪ Cancelled', label: 'Cancelled' };
-            } else {
-                return { pillClass: 'status-pending', text: '🟡 Pending', label: 'Pending' };
-            }
         }
 
         function renderRequests() {
@@ -334,186 +319,117 @@
             if (list.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state-card" style="grid-column: 1/-1;">
-                        <span style="font-size: 36px;">📥</span>
                         <h3 style="text-transform: capitalize;">No ${activeTab === 'all' ? '' : activeTab} Requests</h3>
-                        <p>No hiring requests found in this category.</p>
+                        <p style="color:var(--text-muted); font-size:13.5px;">No requests found under this category filter.</p>
                     </div>
                 `;
                 return;
             }
 
             container.innerHTML = list.map(req => {
-                const isHotel = currentUser.userType === 'hotel';
-                const otherName = isHotel ? (req.workerName || 'Candidate') : (req.hotelName || 'Hotel Partner');
-                const otherLoc = isHotel ? (req.workerDistrict || req.workerState || 'India') : (req.hotelDistrict || req.hotelState || 'India');
-                const stat = getStatusDetails(req.status);
-                const isPending = req.status === 'pending';
-                const dateStr = new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-                const reqJson = JSON.stringify(req).replace(/"/g, '&quot;');
+                const isCallerSender = String(req.senderId) === String(currentUser.id);
+                const isCallerReceiver = String(req.receiverId) === String(currentUser.id);
+
+                const senderName = req.senderName || req.workerName || 'Applicant';
+                const senderRole = req.senderRole || req.senderType || 'Candidate';
+                const receiverName = req.receiverName || req.hotelName || 'Employer';
+                const receiverRole = req.receiverRole || 'Recipient';
+
+                const directionLabel = isCallerSender ? 'Outgoing' : 'Incoming';
+                const directionStyle = isCallerSender ? 'color:#2563EB; background:#EFF6FF;' : 'color:#D97706; background:#FEF3C7;';
+
+                const status = (req.status || 'pending').toLowerCase();
+                let statusClass = 'status-pending';
+                let statusText = 'Pending';
+                if (status === 'accepted') { statusClass = 'status-accepted'; statusText = 'Accepted'; }
+                else if (status === 'rejected') { statusClass = 'status-rejected'; statusText = 'Rejected'; }
+                else if (status === 'cancelled' || status === 'withdrawn') { statusClass = 'status-cancelled'; statusText = 'Cancelled'; }
+
+                const dateFormatted = new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                const isPending = status === 'pending';
 
                 return `
-                    <div class="request-item-card" id="req-card-${req.id}">
-                        <div class="req-card-header">
-                            <div class="avatar-circle-sm" style="background:#EFF6FF; color:#2563EB;">
-                                ${isHotel ? '👤' : '🏨'}
+                    <div class="card" style="padding:18px; border:1px solid var(--border-color); border-radius:10px; background:#FFFFFF;">
+                        <!-- Top Row: Parties & Roles -->
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                            <div>
+                                <span style="font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; ${directionStyle}">${directionLabel}</span>
+                                <h3 style="margin:6px 0 2px 0; font-size:16px; font-weight:700; color:#0F172A;">${escapeHtml(req.jobTitle || req.position || 'Staff Role')}</h3>
                             </div>
-                            <div class="req-card-title-box">
-                                <h4>${otherName}</h4>
-                                <span class="req-loc">📍 ${otherLoc}</span>
-                            </div>
-                            <span class="status-pill ${stat.pillClass}">${stat.text}</span>
+                            <span class="status-pill ${statusClass}">${statusText}</span>
                         </div>
 
-                        <div class="req-card-body">
-                            <div class="req-role-tag">
-                                Role: <strong>${req.jobTitle || req.position || 'General Staff'}</strong>
-                                ${req.salary ? `<span style="display:inline-block; margin-left:4px; color:#059669; font-weight:700; font-size:12px;">(₹${req.salary} • ${req.shift || 'Shift'})</span>` : ''}
+                        <!-- Sender & Receiver Line -->
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; padding:10px 12px; background:#F8FAFC; border-radius:6px; font-size:12.5px; margin-bottom:14px;">
+                            <div>
+                                <span style="font-size:11px; color:var(--text-muted); display:block;">Sender:</span>
+                                <strong>${escapeHtml(senderName)}</strong>
+                                <span style="font-size:11px; color:var(--text-muted); text-transform:capitalize;"> (${escapeHtml(senderRole)})</span>
                             </div>
-                            <div class="req-date">Applied: ${dateStr}</div>
-                            ${req.message ? `<p class="req-snippet">"${req.message.slice(0, 75)}${req.message.length > 75 ? '...' : ''}"</p>` : ''}
+                            <div>
+                                <span style="font-size:11px; color:var(--text-muted); display:block;">Receiver:</span>
+                                <strong>${escapeHtml(receiverName)}</strong>
+                                <span style="font-size:11px; color:var(--text-muted); text-transform:capitalize;"> (${escapeHtml(receiverRole)})</span>
+                            </div>
                         </div>
 
-                        <div class="req-card-footer" style="display: flex; gap: 8px;">
-                            <button type="button" class="btn btn-outline btn-sm" style="flex: 1;" onclick="openDetailModalFromId('${req.id}')">
-                                <span>View Details &rarr;</span>
-                            </button>
-                            ${isPending ? `
-                                <button type="button" class="btn btn-danger-soft btn-sm" onclick="handleCancelRequest('${req.id}', event)" title="Cancel / Withdraw this request">
-                                    <span>🚫 Cancel</span>
-                                </button>
+                        <!-- Compensation & Date -->
+                        <div style="display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:14px;">
+                            <span><strong>Pay:</strong> <span style="color:#059669; font-weight:700; font-variant-numeric:tabular-nums;">${req.salary ? '₹' + escapeHtml(req.salary) : 'Flexible'}</span></span>
+                            <span style="color:var(--text-muted);">Date: ${dateFormatted}</span>
+                        </div>
+
+                        <!-- Actions -->
+                        <div style="display:flex; gap:8px; justify-content:flex-end; align-items:center;">
+                            ${isPending && isCallerReceiver ? `
+                                <button type="button" class="btn btn-outline btn-sm" style="color:#059669; border-color:#059669;" onclick="handleDirectAction('${req.id}', 'accepted')">Accept</button>
+                                <button type="button" class="btn btn-outline btn-sm" style="color:#EF4444; border-color:#EF4444;" onclick="handleDirectAction('${req.id}', 'rejected')">Decline</button>
                             ` : ''}
+                            ${isPending && isCallerSender ? `
+                                <button type="button" class="btn btn-outline btn-sm" style="color:#EF4444; border-color:#EF4444;" onclick="handleDirectAction('${req.id}', 'cancelled')">Cancel</button>
+                            ` : ''}
+                            <button type="button" class="btn btn-outline btn-sm" onclick="openDetailModalById('${req.id}')">View Details</button>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        function filterRequestsLive() {
-            const query = document.getElementById('reqSearchInput').value.toLowerCase().trim();
-            const container = document.getElementById('requestsGridContainer');
-            if (!query) {
-                renderRequests();
-                return;
-            }
-            const filtered = allRequestsList.filter(r => 
-                (r.hotelName || '').toLowerCase().includes(query) ||
-                (r.workerName || '').toLowerCase().includes(query) ||
-                (r.position || '').toLowerCase().includes(query) ||
-                (r.jobTitle || '').toLowerCase().includes(query) ||
-                (r.status || '').toLowerCase().includes(query)
-            );
-            
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="empty-state-card">No requests matching "${query}".</div>`;
-                return;
-            }
-
-            container.innerHTML = filtered.map(req => {
-                const isHotel = currentUser.userType === 'hotel';
-                const otherName = isHotel ? req.workerName : req.hotelName;
-                const stat = getStatusDetails(req.status);
-                const isPending = req.status === 'pending';
-                const dateStr = new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-
-                return `
-                    <div class="request-item-card" id="req-card-${req.id}">
-                        <div class="req-card-header">
-                            <div class="avatar-circle-sm">${isHotel ? '👤' : '🏨'}</div>
-                            <div class="req-card-title-box">
-                                <h4>${otherName}</h4>
-                            </div>
-                            <span class="status-pill ${stat.pillClass}">${stat.text}</span>
-                        </div>
-                        <div class="req-card-body">
-                            <div class="req-role-tag">
-                                Role: <strong>${req.jobTitle || req.position || 'General Staff'}</strong>
-                                ${req.salary ? `<span style="display:inline-block; margin-left:4px; color:#059669; font-weight:700; font-size:12px;">(₹${req.salary} • ${req.shift || 'Shift'})</span>` : ''}
-                            </div>
-                            <div class="req-date">Applied: ${dateStr}</div>
-                        </div>
-                        <div class="req-card-footer" style="display: flex; gap: 8px;">
-                            <button type="button" class="btn btn-outline btn-sm" style="flex: 1;" onclick="openDetailModalFromId('${req.id}')">
-                                <span>View Details &rarr;</span>
-                            </button>
-                            ${isPending ? `
-                                <button type="button" class="btn btn-danger-soft btn-sm" onclick="handleCancelRequest('${req.id}', event)">
-                                    <span>🚫 Cancel</span>
-                                </button>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function openDetailModalFromId(reqId) {
-            const req = allRequestsList.find(r => String(r.id) === String(reqId));
+        function openDetailModalById(id) {
+            const req = allRequestsList.find(r => String(r.id) === String(id));
             if (req) openDetailModal(req);
         }
 
-        // Screen 11: Detail Confirmation Modal
         function openDetailModal(req) {
-            currentModalReqId = req.id;
-            const banner = document.getElementById('modalDetailBanner');
-            const icon = document.getElementById('modalStatusIcon');
-            const title = document.getElementById('modalStatusTitle');
-            const sub = document.getElementById('modalStatusSubtitle');
-
+            currentModalReq = req;
+            const isCallerSender = String(req.senderId) === String(currentUser.id);
+            const isCallerReceiver = String(req.receiverId) === String(currentUser.id);
             const status = (req.status || 'pending').toLowerCase();
+            const isPending = status === 'pending';
 
-            if (status === 'accepted') {
-                banner.className = 'detail-status-banner status-accepted-banner';
-                icon.textContent = '✓';
-                title.textContent = 'Request Accepted! 🎉';
-                sub.textContent = 'This hiring request has been confirmed by both parties.';
-            } else if (status === 'rejected') {
-                banner.className = 'detail-status-banner status-rejected-banner';
-                icon.textContent = '✕';
-                title.textContent = 'Request Declined';
-                sub.textContent = 'This request is not moving forward at this time.';
-            } else if (status === 'cancelled' || status === 'withdrawn') {
-                banner.className = 'detail-status-banner status-cancelled-banner';
-                icon.textContent = '🚫';
-                title.textContent = 'Request Cancelled';
-                sub.textContent = 'This hiring request was cancelled and is no longer active.';
+            document.getElementById('modalDetailPosition').textContent = req.jobTitle || req.position || 'Staff Role';
+            document.getElementById('modalDetailPayShift').textContent = `${req.salary ? '₹' + req.salary : 'Flexible'} • ${req.shift || 'Flexible Shift'}`;
+            document.getElementById('modalDetailSender').textContent = `${req.senderName || 'Sender'} (${req.senderRole || req.senderType || 'Candidate'})`;
+            document.getElementById('modalDetailReceiver').textContent = `${req.receiverName || 'Receiver'} (${req.receiverRole || 'Recipient'})`;
+            document.getElementById('modalDetailDate').textContent = req.date || new Date(req.createdAt).toLocaleDateString('en-IN');
+            document.getElementById('modalDetailMessage').textContent = req.message || 'No additional instructions provided.';
+
+            document.getElementById('modalStatusTitle').textContent = `Request ${status.toUpperCase()}`;
+            document.getElementById('modalStatusSubtitle').textContent = `Status: ${status}`;
+
+            const receiverActions = document.getElementById('receiverActionButtonsRow');
+            const senderActions = document.getElementById('senderCancelActionRow');
+
+            if (isPending && isCallerReceiver) {
+                receiverActions.classList.remove('hidden');
             } else {
-                banner.className = 'detail-status-banner status-pending-banner';
-                icon.textContent = '⏳';
-                title.textContent = 'Application Pending Review';
-                sub.textContent = 'Waiting for response from the employer.';
+                receiverActions.classList.add('hidden');
             }
 
-            document.getElementById('modalDetailPosition').textContent = req.jobTitle || req.position || 'Hospitality Staff';
-            
-            const payBox = document.getElementById('modalDetailPayShiftBox');
-            if (req.salary || req.shift) {
-                payBox.style.display = 'block';
-                document.getElementById('modalDetailPayShift').textContent = `₹${req.salary || 'Standard'} • ${req.shift || 'Shift'}`;
+            if (isPending && isCallerSender) {
+                senderActions.classList.remove('hidden');
             } else {
-                payBox.style.display = 'none';
-            }
-
-            document.getElementById('modalDetailHotel').textContent = req.hotelName || 'Partner Venue';
-            document.getElementById('modalDetailWorker').textContent = req.workerName || 'Candidate';
-            document.getElementById('modalDetailDate').textContent = new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-
-            const msg = req.message || (status === 'accepted' ? 'We are pleased to inform you that your request has been accepted. Please report to the venue on the scheduled shift.' : (status === 'cancelled' ? 'This request was cancelled by the sender.' : 'No custom message provided.'));
-            document.getElementById('modalDetailMessage').textContent = `"${msg}"`;
-
-            // If hotel and pending, show accept/reject buttons
-            const hotelActions = document.getElementById('hotelActionButtonsRow');
-            if (currentUser.userType === 'hotel' && status === 'pending') {
-                hotelActions.classList.remove('hidden');
-            } else {
-                hotelActions.classList.add('hidden');
-            }
-
-            // If pending, show Cancel Action row
-            const cancelRow = document.getElementById('cancelActionRow');
-            if (status === 'pending') {
-                cancelRow.classList.remove('hidden');
-            } else {
-                cancelRow.classList.add('hidden');
+                senderActions.classList.add('hidden');
             }
 
             document.getElementById('requestDetailModal').classList.remove('hidden');
@@ -521,70 +437,58 @@
 
         function closeDetailModal() {
             document.getElementById('requestDetailModal').classList.add('hidden');
+            currentModalReq = null;
         }
 
         async function updateCurrentModalStatus(newStatus) {
-            if (!currentModalReqId) return;
+            if (!currentModalReq) return;
+            await handleDirectAction(currentModalReq.id, newStatus);
+            closeDetailModal();
+        }
+
+        async function handleDirectAction(reqId, newStatus) {
+            const verb = newStatus === 'cancelled' ? 'withdraw this request' : `mark this request as ${newStatus}`;
+            if (!confirm(`Are you sure you want to ${verb}?`)) return;
+
             try {
-                const res = await fetch(`/api/requests/${currentModalReqId}/status`, {
+                const res = await fetch(`/api/requests/${reqId}/status`, {
                     method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: getAuthHeaders(),
                     body: JSON.stringify({ status: newStatus })
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    alert(`Status updated to ${newStatus.toUpperCase()}! ✅`);
-                    closeDetailModal();
+                    alert(`Request status successfully updated to ${newStatus}.`);
                     loadRequests();
                 } else {
-                    alert(data.message || 'Failed to update.');
+                    alert(data.message || 'Failed to update request.');
                 }
             } catch (err) {
-                alert('Connection error.');
+                alert('Connection error while updating status.');
             }
         }
 
-        async function handleCancelCurrentModal() {
-            if (!currentModalReqId) return;
-            if (!confirm('Are you sure you want to cancel this request? This cannot be undone.')) return;
-
-            try {
-                const res = await fetch(`/api/requests/${currentModalReqId}/cancel`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    alert('Request has been cancelled successfully! 🚫');
-                    closeDetailModal();
-                    loadRequests();
-                } else {
-                    alert(data.message || 'Failed to cancel request.');
-                }
-            } catch (err) {
-                alert('Connection error while cancelling request.');
+        function filterRequestsLive() {
+            const q = document.getElementById('reqSearchInput').value.toLowerCase().trim();
+            if (!q) {
+                renderRequests();
+                return;
             }
+            const filtered = allRequestsList.filter(r => 
+                (r.senderName || '').toLowerCase().includes(q) ||
+                (r.receiverName || '').toLowerCase().includes(q) ||
+                (r.position || '').toLowerCase().includes(q) ||
+                (r.jobTitle || '').toLowerCase().includes(q) ||
+                (r.status || '').toLowerCase().includes(q)
+            );
+            allRequestsList = filtered;
+            renderRequests();
+            allRequestsList = JSON.parse(JSON.stringify(allRequestsList)); // reset on reload
         }
 
-        async function handleCancelRequest(reqId, event) {
-            if (event) event.stopPropagation();
-            if (!confirm('Are you sure you want to cancel / withdraw this hiring request?')) return;
-
-            try {
-                const res = await fetch(`/api/requests/${reqId}/cancel`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    alert('Request cancelled successfully! 🚫');
-                    loadRequests();
-                } else {
-                    alert(data.message || 'Failed to cancel request.');
-                }
-            } catch (err) {
-                alert('Connection error while cancelling request.');
-            }
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         }
 
         function handleLogout() {

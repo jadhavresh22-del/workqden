@@ -3,52 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorqDen — Candidate Dashboard</title>
+    <title>WorqDen — Staff Member Dashboard</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
     <script src="data.js"></script>
 </head>
 <body class="dashboard-layout-body">
 
-    <!-- Screen 5: Left Sidebar Navigation -->
+    <!-- Left Sidebar Navigation -->
     <aside class="dashboard-sidebar">
         <div class="sidebar-brand">
             <a href="dashboard.html" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
                 <svg class="logo-svg-mark" viewBox="0 0 64 64" width="30" height="30" style="flex-shrink:0;">
-                    <defs>
-                        <linearGradient id="wqLogoDash" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#F97316"/>
-                            <stop offset="100%" stop-color="#10B981"/>
-                        </linearGradient>
-                    </defs>
-                    <rect width="64" height="64" rx="16" fill="#0F172A"/>
-                    <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#wqLogoDash)" stroke-width="2.5"/>
+                    <rect width="64" height="64" rx="14" fill="#0F172A"/>
+                    <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="#C59B4B" stroke-width="2"/>
                     <path d="M16 22 L24 44 L32 28 L40 44 L48 22" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="32" cy="18" r="4" fill="#F97316"/>
+                    <circle cx="32" cy="18" r="4" fill="#C59B4B"/>
                 </svg>
-                <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--primary-navy, #0F172A);">Worq<span style="color: #F97316;">Den</span></span>
+                <span style="font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-dark, #0F172A);">Worq<span style="color: #C59B4B;">Den</span></span>
             </a>
         </div>
 
         <nav class="sidebar-menu">
             <a href="dashboard.html" class="sidebar-link active">
-                <span class="sidebar-icon">📊</span>
-                <span>Dashboard</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <span>Staff Hub</span>
             </a>
             <a href="hotels.html" class="sidebar-link">
-                <span class="sidebar-icon">🏨</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="2" width="18" height="20" rx="2"></rect><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><path d="M10 22v-4h4v4"></path></svg>
                 <span>Find Hotels</span>
             </a>
+            <a href="staff.html" class="sidebar-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                <span>Hire Talent</span>
+            </a>
             <a href="requests.html" class="sidebar-link">
-                <span class="sidebar-icon">📥</span>
-                <span>My Requests</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <span>Hiring & Requests</span>
                 <span class="sidebar-badge" id="pendingRequestsCountBadge" style="display:none;">0</span>
             </a>
             <a href="profile.html" class="sidebar-link">
-                <span class="sidebar-icon">👤</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 <span>My Profile</span>
             </a>
         </nav>
@@ -56,97 +55,125 @@
         <div class="sidebar-footer">
             <div class="user-mini-card">
                 <div class="user-avatar-small" id="sidebarAvatar">
-                    <span id="sidebarInitial">👤</span>
-                    <img id="sidebarAvatarImg" class="hidden" alt="User Avatar">
+                    <span id="sidebarInitial">W</span>
+                    <img id="sidebarAvatarImg" class="hidden" alt="Staff Avatar">
                 </div>
                 <div class="user-mini-info">
-                    <strong id="sidebarUserName">Candidate</strong>
-                    <span id="sidebarUserRole" class="mini-role-tag">Worker</span>
+                    <strong id="sidebarUserName">Staff Member</strong>
+                    <span id="sidebarUserRole" class="mini-role-tag" style="background:#F1F5F9; color:#0F172A;">Staff</span>
                 </div>
             </div>
             <button type="button" class="btn-logout" onclick="handleLogout()">
-                <span>🚪 Logout</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Logout</span>
             </button>
         </div>
     </aside>
 
     <!-- Main Content Area -->
     <main class="dashboard-main-content">
-        <!-- Top Navigation Header Strip -->
+        <!-- Topbar -->
         <header class="dashboard-topbar">
             <div class="topbar-search">
-                <span style="font-size: 14px;">🔍</span>
-                <input type="text" id="topSearchInput" placeholder="Search hotels, venues, or positions..." onkeyup="filterHotelsLive()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="topSearchInput" placeholder="Search shifts, partner hotels, or student assistants..." onkeyup="filterStaffDashboardLive()">
             </div>
             <div class="topbar-actions">
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <span class="theme-icon">🌙</span><span class="theme-text">Dark Mode</span>
+                </button>
                 <a href="requests.html" class="topbar-icon-btn" title="View Requests">
-                    <span>🔔</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                 </a>
                 <a href="profile.html" class="topbar-user-profile">
                     <div class="avatar-circle-sm" id="topbarAvatarBox">
-                        <span id="topbarInitial">👤</span>
+                        <span id="topbarInitial">W</span>
                         <img id="topbarAvatarImg" class="hidden" alt="Avatar">
                     </div>
-                    <span id="topbarName" class="topbar-user-name">User</span>
+                    <span id="topbarName" class="topbar-user-name">Staff</span>
                 </a>
             </div>
         </header>
 
         <div class="dashboard-scrollable-body">
-            <!-- Screen 5: Top Greeting Banner -->
+            <!-- Account Status Banner -->
+            <div id="accountStatusNotice" class="hidden" style="margin-bottom: 20px; padding: 14px 18px; border-radius: 8px; font-size: 13.5px; line-height: 1.5;"></div>
+
+            <!-- Greeting Banner -->
             <section class="dashboard-greeting-banner">
                 <div class="greeting-left">
-                    <h1 class="greeting-title">Hello, <span id="greetingUserName">User</span> 👋</h1>
-                    <p class="greeting-subtitle">Find the best opportunities for your future. Connect directly with verified hotels and event venues.</p>
+                    <h1 class="greeting-title">Welcome back, <span id="greetingUserName">Worker</span></h1>
+                    <p class="greeting-subtitle">Find premium hotel shifts, send direct availability requests, or hire student helpers for banquet events.</p>
                 </div>
-                <div class="greeting-right">
-                    <div class="quick-status-pill">
-                        <span>🟢 Profile Status: <strong>Active & Verified</strong></span>
+                <div class="greeting-right" style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+                    <div class="quick-status-pill" id="profileStatusBadge">
+                        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10B981; margin-right:6px;"></span>
+                        <span>Status: <strong id="profileStatusText">Active & Verified</strong></span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--text-muted);">
+                        <span>Availability:</span>
+                        <select id="staffQuickAvailability" class="form-select" style="padding:4px 8px; font-size:12px; height:32px; width:auto;" onchange="updateStaffAvailability(this.value)">
+                            <option value="Immediate">Available Immediate</option>
+                            <option value="Weekend Shifts">Weekend Shifts</option>
+                            <option value="Evening Shifts">Evening Shifts</option>
+                            <option value="Busy">Currently Engaged</option>
+                        </select>
                     </div>
                 </div>
             </section>
 
-            <!-- Candidate Live KPI Metric Cards -->
+            <!-- 4 Tabular Metric Cards -->
             <section class="metric-cards-grid" style="margin-bottom: 24px;">
                 <div class="metric-card">
                     <div class="metric-card-top">
-                        <span class="metric-title">Applications Sent</span>
-                        <div class="metric-icon-box" style="background: #EFF6FF; color: #2563EB;">📤</div>
+                        <span class="metric-title">Outbound Requests</span>
+                        <div class="metric-icon-box" style="background: #EFF6FF; color: #2563EB;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </div>
                     </div>
-                    <div class="metric-number" id="candStatTotalApps">0</div>
-                    <div class="metric-change">Total submitted requests</div>
+                    <div class="metric-number" id="candStatTotalApps" style="font-variant-numeric: tabular-nums;">0</div>
+                    <div class="metric-change">Applications to Hotels & Students</div>
                 </div>
+
                 <div class="metric-card">
                     <div class="metric-card-top">
-                        <span class="metric-title">Under Review</span>
-                        <div class="metric-icon-box" style="background: #FEF3C7; color: #D97706;">⏳</div>
+                        <span class="metric-title">Inbound Requests</span>
+                        <div class="metric-icon-box" style="background: #FEF3C7; color: #D97706;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </div>
                     </div>
-                    <div class="metric-number" id="candStatPendingApps">0</div>
-                    <div class="metric-change">Awaiting hotel response</div>
+                    <div class="metric-number" id="candStatInboundReqs" style="font-variant-numeric: tabular-nums;">0</div>
+                    <div class="metric-change" style="color:#D97706;">Direct offers from Hotels & Peers</div>
                 </div>
+
                 <div class="metric-card">
                     <div class="metric-card-top">
-                        <span class="metric-title">Accepted Hires</span>
-                        <div class="metric-icon-box" style="background: #ECFDF5; color: #059669;">🎉</div>
+                        <span class="metric-title">Confirmed Shifts</span>
+                        <div class="metric-icon-box" style="background: #ECFDF5; color: #059669;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                     </div>
-                    <div class="metric-number" id="candStatAcceptedApps">0</div>
-                    <div class="metric-change positive">Confirmed opportunities</div>
+                    <div class="metric-number" id="candStatAcceptedApps" style="font-variant-numeric: tabular-nums;">0</div>
+                    <div class="metric-change positive">Active accepted contracts</div>
                 </div>
+
                 <div class="metric-card">
                     <div class="metric-card-top">
                         <span class="metric-title">Open Shift Gigs</span>
-                        <div class="metric-icon-box" style="background: #FFF7ED; color: #EA580C;">💼</div>
+                        <div class="metric-icon-box" style="background: #FFF7ED; color: #C59B4B;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        </div>
                     </div>
-                    <div class="metric-number" id="candStatOpenJobs">0</div>
+                    <div class="metric-number" id="candStatOpenJobs" style="font-variant-numeric: tabular-nums;">0</div>
                     <div class="metric-change">Live vacancies ready to apply</div>
                 </div>
             </section>
 
-            <!-- Screen 5: Open Hospitality Jobs & Shifts -->
+            <!-- Section 1: Open Hotel Jobs & Shifts -->
             <section class="dashboard-section" style="margin-bottom: 32px;">
                 <div class="section-title-row">
                     <div>
-                        <h2 class="dash-section-title">Open Hospitality Jobs & Shift Gigs ⚡</h2>
+                        <h2 class="dash-section-title">Open Hospitality Jobs & Shift Openings</h2>
                         <p class="dash-section-subtitle">Real-time vacancies posted by verified hotel and venue partners. Apply in 1 click.</p>
                     </div>
                     <a href="hotels.html" class="view-all-link">Browse All Shifts &rarr;</a>
@@ -157,88 +184,63 @@
                 </div>
             </section>
 
-            <!-- Screen 5: Hotel Filter & Search Bar -->
-            <section class="filter-bar-card">
-                <div class="filter-bar-header">
-                    <h3>Find Available Hotels & Partner Properties</h3>
-                    <p>Filter by state, district, and hotel category to find matching properties near you.</p>
+            <!-- Section 2: Student Banquet Assistants & Helpers Directory (Peer Hiring: Staff -> Student) -->
+            <section class="dashboard-section" style="margin-bottom: 32px;">
+                <div class="section-title-row">
+                    <div>
+                        <div style="display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; color:#C59B4B; text-transform:uppercase; letter-spacing:0.5px;">Peer Hiring Network</div>
+                        <h2 class="dash-section-title">Available Student Banquet Assistants</h2>
+                        <p class="dash-section-subtitle">Hire verified student helpers for banquet setup, table service assistance, and busy event rushes.</p>
+                    </div>
+                    <a href="staff.html" class="view-all-link">View All Candidates &rarr;</a>
                 </div>
-                <div class="filter-controls-row">
-                    <div class="filter-group">
-                        <label for="filterState">State</label>
-                        <select id="filterState" class="form-select" onchange="onStateFilterChange()">
-                            <option value="">All States</option>
-                        </select>
-                    </div>
 
-                    <div class="filter-group">
-                        <label for="filterDistrict">District</label>
-                        <select id="filterDistrict" class="form-select">
-                            <option value="">All Districts</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-group">
-                        <label for="filterHotelType">Hotel Type</label>
-                        <select id="filterHotelType" class="form-select">
-                            <option value="">All Types</option>
-                            <option value="Luxury Hotel">Luxury 5-Star</option>
-                            <option value="Resort">Resort & Spa</option>
-                            <option value="Business Hotel">Business Hotel</option>
-                            <option value="Boutique Hotel">Boutique Hotel</option>
-                            <option value="Event Banquet">Event & Banquet</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-action-btn-col">
-                        <button type="button" class="btn btn-primary" onclick="searchHotels()" style="height: 42px; width: 100%;">
-                            <span>Search</span>
-                        </button>
-                    </div>
+                <div id="studentHelpersContainer" class="hotels-card-grid">
+                    <div class="loading-spinner-box">Loading available student assistants...</div>
                 </div>
             </section>
 
-            <!-- Screen 5: Featured Hotels Grid -->
-            <section class="dashboard-section">
+            <!-- Section 3: Featured Partner Hotels -->
+            <section class="dashboard-section" style="margin-bottom: 32px;">
                 <div class="section-title-row">
                     <div>
                         <h2 class="dash-section-title">Featured Partner Hotels & Venues</h2>
-                        <p class="dash-section-subtitle">Verified hospitality partners actively looking for staff and students.</p>
+                        <p class="dash-section-subtitle">Verified hospitality partners actively hiring staff members.</p>
                     </div>
                     <a href="hotels.html" class="view-all-link">Browse All Hotels &rarr;</a>
                 </div>
 
                 <div id="hotelsGridContainer" class="hotels-card-grid">
-                    <!-- Dynamic hotel cards rendered via JS -->
                     <div class="loading-spinner-box">Loading available hotels...</div>
                 </div>
             </section>
 
-            <!-- Screen 10: Recent Requests Status Overview -->
+            <!-- Section 4: Recent Requests & Inbound Ledger -->
             <section class="dashboard-section" style="margin-top: 36px;">
                 <div class="section-title-row">
                     <div>
-                        <h2 class="dash-section-title">Your Recent Applications</h2>
-                        <p class="dash-section-subtitle">Track the status of hiring requests and applications you have sent.</p>
+                        <h2 class="dash-section-title">Hiring Requests & Shift Contracts</h2>
+                        <p class="dash-section-subtitle">Track sent applications and incoming direct hiring requests from hotels and peer members.</p>
                     </div>
-                    <a href="requests.html" class="view-all-link">View Full Request Manager &rarr;</a>
+                    <a href="requests.html" class="view-all-link">Full Request Manager &rarr;</a>
                 </div>
 
                 <div class="recent-requests-table-wrapper">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Hotel / Venue</th>
+                                <th>Party & Role</th>
+                                <th>Direction</th>
                                 <th>Position / Shift</th>
-                                <th>Location</th>
-                                <th>Applied Date</th>
+                                <th>Compensation</th>
+                                <th>Date</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th style="text-align: right;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="recentRequestsTableBody">
                             <tr>
-                                <td colspan="6" style="text-align:center; padding: 24px; color: var(--text-muted);">
+                                <td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">
                                     Loading your applications...
                                 </td>
                             </tr>
@@ -249,9 +251,7 @@
         </div>
     </main>
 
-    <!-- ==========================================
-         SCREEN 6: SEND REQUEST MODAL POPUP
-         ========================================== -->
+    <!-- Modal 1: Send Request / Apply to Hotel -->
     <div id="sendRequestModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeSendRequestModal()">
         <div class="modal-dialog modal-lg">
             <div class="modal-header">
@@ -260,30 +260,18 @@
             </div>
             <div class="modal-body">
                 <div class="modal-two-column">
-                    <!-- Left: Hotel Preview Card -->
                     <div class="modal-hotel-preview">
-                        <img id="modalHotelImg" src="" alt="Hotel" class="modal-hotel-thumbnail">
+                        <img id="modalHotelImg" src="hotel-fallback.svg" alt="Hotel" class="modal-hotel-thumbnail">
                         <h4 id="modalHotelName" class="modal-hotel-title">Hotel Property</h4>
-                        <p id="modalHotelLocation" class="modal-hotel-loc">📍 Location</p>
+                        <p id="modalHotelLocation" class="modal-hotel-loc">Location</p>
 
-                        <!-- Dedicated Shift / Job Box if applying to a specific job -->
-                        <div id="modalJobDetailBox" style="display:none; background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 8px; padding: 12px; margin-top: 14px; text-align: left;">
-                            <div style="font-size: 11px; font-weight: 700; color: #1D4ED8; text-transform: uppercase; letter-spacing: 0.5px;">Applying for Shift Opening</div>
+                        <div id="modalJobDetailBox" style="display:none; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-top: 14px; text-align: left;">
+                            <div style="font-size: 11px; font-weight: 700; color: #C59B4B; text-transform: uppercase; letter-spacing: 0.5px;">Applying for Shift Opening</div>
                             <h4 id="modalJobTitleDisplay" style="margin: 4px 0 6px 0; color: #0F172A; font-size: 15px; font-weight: 700;">Job Title</h4>
-                            <div id="modalJobMetaDisplay" style="font-size: 12.5px; color: #334155; line-height: 1.5;"></div>
-                        </div>
-
-                        <div id="modalHotelRolesBox" style="margin-top: 14px;">
-                            <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Available Roles</label>
-                            <div id="modalAvailablePositionsTags" class="positions-pill-row" style="margin-top: 6px;">
-                                <span class="tag-pill">Waiter</span>
-                                <span class="tag-pill">Housekeeping</span>
-                                <span class="tag-pill">Chef</span>
-                            </div>
+                            <div id="modalJobMetaDisplay" style="font-size: 12px; color: var(--text-muted); line-height: 1.5;"></div>
                         </div>
                     </div>
 
-                    <!-- Right: Application Form -->
                     <div class="modal-form-col">
                         <form id="sendReqForm" onsubmit="submitSendRequest(event)">
                             <input type="hidden" id="modalHotelId">
@@ -302,6 +290,7 @@
                                     <option value="Receptionist">Front Desk Receptionist</option>
                                     <option value="Bartender">Bartender</option>
                                     <option value="Security">Security Guard</option>
+                                    <option value="Banquet Captain">Banquet Captain</option>
                                     <option value="Event Staff">Event Staff</option>
                                 </select>
                             </div>
@@ -318,7 +307,7 @@
 
                             <div class="form-group">
                                 <label for="modalMessageText">Message to Hotel / Employer (Optional)</label>
-                                <textarea id="modalMessageText" class="form-textarea" rows="3" placeholder="Describe your experience, certifications, or why you're a great fit for this role..."></textarea>
+                                <textarea id="modalMessageText" class="form-textarea" rows="3" placeholder="Highlight your hospitality experience, shift preferences, or specialties..."></textarea>
                             </div>
 
                             <div id="modalErrorMsg" class="form-error-banner hidden"></div>
@@ -327,7 +316,7 @@
                             <div class="modal-actions-row">
                                 <button type="button" class="btn btn-outline" onclick="closeSendRequestModal()">Cancel</button>
                                 <button type="submit" id="modalSubmitBtn" class="btn btn-primary">
-                                    <span>Submit Application 🚀</span>
+                                    <span>Submit Application &rarr;</span>
                                 </button>
                             </div>
                         </form>
@@ -337,244 +326,281 @@
         </div>
     </div>
 
+    <!-- Modal 2: Hire Student Assistant (Peer Hiring: Staff -> Student) -->
+    <div id="hireStudentModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeHireStudentModal()">
+        <div class="modal-dialog modal-md">
+            <div class="modal-header">
+                <h3>Hire Student Assistant</h3>
+                <button type="button" class="modal-close-btn" onclick="closeHireStudentModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+                    Send a direct paid hiring request to <strong id="hireStudentTargetName">Student</strong> for shift assistance, catering setup, or table service.
+                </p>
+                <form id="hireStudentForm" onsubmit="submitHireStudentRequest(event)">
+                    <input type="hidden" id="hireStudentId">
+
+                    <div class="form-group">
+                        <label for="hireStudentRole">Assistance Role / Position *</label>
+                        <select id="hireStudentRole" class="form-select" required>
+                            <option value="Banquet Assistant">Banquet Assistant (Table service & setup)</option>
+                            <option value="Kitchen Helper">Kitchen Helper (Prep & clearing)</option>
+                            <option value="Event Runner">Event Runner & Logistics Helper</option>
+                            <option value="Buffet Attendant">Buffet Attendant</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hireStudentDate">Shift Date *</label>
+                            <input type="date" id="hireStudentDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hireStudentShift">Shift Time *</label>
+                            <select id="hireStudentShift" class="form-select" required>
+                                <option value="Evening (5 PM - 11 PM)">Evening (5 PM - 11 PM)</option>
+                                <option value="Morning (7 AM - 3 PM)">Morning (7 AM - 3 PM)</option>
+                                <option value="Night (8 PM - 4 AM)">Night (8 PM - 4 AM)</option>
+                                <option value="Weekend Rush (4 Hours)">Weekend Rush (4 Hours)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hireStudentRate">Offered Compensation (₹) *</label>
+                        <input type="text" id="hireStudentRate" class="form-input" placeholder="e.g. ₹600 per shift" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hireStudentMessage">Event Location & Instructions</label>
+                        <textarea id="hireStudentMessage" class="form-textarea" rows="2" placeholder="e.g. Banquet Hall B, Grand Hotel. Black trousers & shoes required. Reporting 15 mins prior."></textarea>
+                    </div>
+
+                    <div id="hireStudentError" class="form-error-banner hidden"></div>
+                    <div id="hireStudentSuccess" class="form-success-banner hidden"></div>
+
+                    <div class="modal-actions-row">
+                        <button type="button" class="btn btn-outline" onclick="closeHireStudentModal()">Cancel</button>
+                        <button type="submit" id="hireStudentSubmitBtn" class="btn btn-primary">
+                            <span>Send Application 📩</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Student View Profile Modal -->
+    <div id="studentProfileModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeStudentProfileModal()">
+        <div class="modal-dialog" style="max-width: 540px;">
+            <div class="modal-header">
+                <h3>Student Profile</h3>
+                <button type="button" class="modal-close-btn" onclick="closeStudentProfileModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex; align-items:center; gap: 16px; margin-bottom: 16px; padding: 14px; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <div id="viewStudentAvatar" style="width: 60px; height: 60px; border-radius: 50%; font-size: 24px; font-weight: 700; background: #1E3A8A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">👤</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                            <h4 id="viewStudentName" style="margin: 0; font-size: 18px; color: var(--primary-navy); font-weight: 800;">Student Name</h4>
+                            <span class="mini-role-tag" style="background: #EEF2F7; font-size: 11.5px; font-weight: 700;">🎓 Student</span>
+                        </div>
+                        <div id="viewStudentLocation" style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">📍 Location</div>
+                    </div>
+                </div>
+
+                <!-- Open to Both Staff and Hotels Info Box -->
+                <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;">
+                    <div style="display: flex; align-items: flex-start; gap: 8px;">
+                        <span style="font-size: 16px;">✨</span>
+                        <div>
+                            <strong style="color: #065F46; font-size: 13px; display: block; margin-bottom: 2px;">Available for both Staff & Hotels</strong>
+                            <p style="margin: 0; font-size: 12px; color: #047857; line-height: 1.45;">This student assistant accepts direct shift requests, banquet team contracts, and event gig invitations from both senior staff members and luxury hotel partners.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                    <div style="background: #F8FAFC; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <span style="display: block; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Availability Mode</span>
+                        <strong id="viewStudentAvailability" style="font-size: 13px; color: #059669;">Available</strong>
+                    </div>
+                    <div style="background: #F8FAFC; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <span style="display: block; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Experience Level</span>
+                        <strong id="viewStudentExperience" style="font-size: 13px; color: var(--text-dark);">Flexible Learner</strong>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <span style="display: block; font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">Skills & Competencies:</span>
+                    <div id="viewStudentSkillsList" class="positions-pill-row"></div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <span style="display: block; font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">About / Background:</span>
+                    <p id="viewStudentAbout" style="margin: 0; font-size: 13px; color: var(--text-body); background: #F8FAFC; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); line-height: 1.5;">Eager student ready for hospitality tasks.</p>
+                </div>
+
+                <div class="modal-actions-row">
+                    <button type="button" class="btn btn-outline" onclick="closeStudentProfileModal()">Close</button>
+                    <button type="button" class="btn btn-primary" id="viewStudentSendReqBtn">
+                        <span>Send Application 📩</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let currentUser = null;
         let allHotelsList = [];
         let allJobsList = [];
+        let allStudentsList = [];
         let appliedJobIds = new Set();
 
         window.addEventListener('DOMContentLoaded', async () => {
             currentUser = JSON.parse(localStorage.getItem('worqdenUser') || 'null');
-            if (!currentUser) {
+            const token = localStorage.getItem('worqdenToken');
+
+            if (!currentUser || !token) {
                 window.location.href = 'login.html';
                 return;
             }
 
-            // Redirect hotel owners to hotel-dashboard
+            if (currentUser.userType === 'student') {
+                window.location.href = 'student-dashboard.html';
+                return;
+            }
             if (currentUser.userType === 'hotel') {
                 window.location.href = 'hotel-dashboard.html';
                 return;
             }
 
-            setupUserUI();
-            initFilterData();
+            setupStaffUI();
+            checkAccountStatusNotice();
+            loadRecentRequests();
             loadHotels();
-            loadRecentRequests(); // This will also call loadCandidateJobs() with updated applied status
+            loadStudentHelpers();
 
-            // Sync latest user profile from DB to ensure image is up to date
-            try {
-                const uRes = await fetch(`/api/users/${currentUser.id}`);
-                const uData = await uRes.json();
-                if (uData.user) {
-                    currentUser = uData.user;
-                    localStorage.setItem('worqdenUser', JSON.stringify(uData.user));
-                    setupUserUI();
-                }
-            } catch (err) {}
+            // Set default date for assistant hire
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const dateInput = document.getElementById('hireStudentDate');
+            if (dateInput) {
+                dateInput.min = new Date().toISOString().split('T')[0];
+                dateInput.value = tomorrow.toISOString().split('T')[0];
+            }
         });
 
-        function setupUserUI() {
-            document.getElementById('greetingUserName').textContent = currentUser.name || 'Candidate';
-            document.getElementById('sidebarUserName').textContent = currentUser.name || 'Candidate';
-            document.getElementById('topbarName').textContent = currentUser.name || 'Candidate';
-            document.getElementById('sidebarUserRole').textContent = currentUser.subcategory || currentUser.category || (currentUser.userType === 'student' ? 'Student' : 'Worker');
+        function getAuthHeaders() {
+            const token = localStorage.getItem('worqdenToken') || '';
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
 
-            const sImg = document.getElementById('sidebarAvatarImg');
-            const tImg = document.getElementById('topbarAvatarImg');
-            const sInit = document.getElementById('sidebarInitial');
-            const tInit = document.getElementById('topbarInitial');
-            const initChar = (currentUser.name || 'U').charAt(0).toUpperCase();
+        function setupStaffUI() {
+            const name = currentUser.name || 'Staff Member';
+            document.getElementById('greetingUserName').textContent = name;
+            document.getElementById('sidebarUserName').textContent = name;
+            document.getElementById('topbarName').textContent = name;
 
-            sInit.textContent = initChar;
-            tInit.textContent = initChar;
+            const initChar = name.charAt(0).toUpperCase();
+            document.getElementById('sidebarInitial').textContent = initChar;
+            document.getElementById('topbarInitial').textContent = initChar;
+
+            const userRoleDisplay = currentUser.subcategory || currentUser.category || 'Hospitality Staff';
+            document.getElementById('sidebarUserRole').textContent = userRoleDisplay;
 
             if (currentUser.profileImage && currentUser.profileImage.trim()) {
+                const sImg = document.getElementById('sidebarAvatarImg');
+                const tImg = document.getElementById('topbarAvatarImg');
                 sImg.src = currentUser.profileImage;
                 sImg.classList.remove('hidden');
-                sInit.classList.add('hidden');
-                sImg.onerror = function() {
-                    this.classList.add('hidden');
-                    sInit.classList.remove('hidden');
-                };
-
+                document.getElementById('sidebarInitial').classList.add('hidden');
                 tImg.src = currentUser.profileImage;
                 tImg.classList.remove('hidden');
-                tInit.classList.add('hidden');
-                tImg.onerror = function() {
-                    this.classList.add('hidden');
-                    tInit.classList.remove('hidden');
-                };
-            } else {
-                sImg.classList.add('hidden');
-                sInit.classList.remove('hidden');
-                tImg.classList.add('hidden');
-                tInit.classList.remove('hidden');
+                document.getElementById('topbarInitial').classList.add('hidden');
+            }
+
+            if (currentUser.availability) {
+                const availSelect = document.getElementById('staffQuickAvailability');
+                if (availSelect) availSelect.value = currentUser.availability;
             }
         }
 
-        function initFilterData() {
-            const stateSelect = document.getElementById('filterState');
-            if (stateSelect && typeof WORQDEN_DATA !== 'undefined') {
-                WORQDEN_DATA.states.forEach(st => {
-                    const opt = document.createElement('option');
-                    opt.value = st;
-                    opt.textContent = st;
-                    stateSelect.appendChild(opt);
+        function checkAccountStatusNotice() {
+            const status = (currentUser.status || 'active').toLowerCase();
+            const noticeBox = document.getElementById('accountStatusNotice');
+            const statusText = document.getElementById('profileStatusText');
+
+            if (status === 'pending') {
+                statusText.textContent = 'Pending Admin Approval';
+                statusText.style.color = '#D97706';
+                noticeBox.style.background = '#FFFBEB';
+                noticeBox.style.border = '1px solid #FDE68A';
+                noticeBox.style.color = '#92400E';
+                noticeBox.innerHTML = `<strong>Profile Under Review:</strong> Your account is currently pending administrator verification. You can view open shifts and edit your profile, but cannot send hiring requests or accept job offers until verified.`;
+                noticeBox.classList.remove('hidden');
+            } else if (status === 'suspended' || status === 'deactivated') {
+                noticeBox.style.background = '#FEF2F2';
+                noticeBox.style.border = '1px solid #FECACA';
+                noticeBox.style.color = '#991B1B';
+                noticeBox.innerHTML = `<strong>Account Restricted:</strong> Your account has been ${status}. Contact platform administration for assistance.`;
+                noticeBox.classList.remove('hidden');
+            }
+        }
+
+        async function updateStaffAvailability(val) {
+            try {
+                const res = await fetch('/api/profile', {
+                    method: 'PUT',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ email: currentUser.email, availability: val })
                 });
-            }
-        }
-
-        function onStateFilterChange() {
-            const st = document.getElementById('filterState').value;
-            const distSelect = document.getElementById('filterDistrict');
-            distSelect.innerHTML = '<option value="">All Districts</option>';
-
-            if (!st || typeof WORQDEN_DATA === 'undefined') return;
-            const dists = WORQDEN_DATA.districts[st] || [];
-            dists.forEach(d => {
-                const opt = document.createElement('option');
-                opt.value = d;
-                opt.textContent = d;
-                distSelect.appendChild(opt);
-            });
-        }
-
-        // Fetch Live Shifts / Jobs from MySQL
-        async function loadCandidateJobs() {
-            const container = document.getElementById('candidateJobsContainer');
-            if (!container) return;
-
-            try {
-                const res = await fetch('/api/jobs');
-                const data = await res.json();
-                const jobs = data.jobs || [];
-                allJobsList = jobs;
-
-                // Update open shift KPI card
-                const kpiJobsEl = document.getElementById('candStatOpenJobs');
-                if (kpiJobsEl) kpiJobsEl.textContent = jobs.length;
-
-                if (jobs.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state-card" style="grid-column: 1/-1; text-align: center; padding: 36px 20px;">
-                            <span style="font-size: 38px;">💼</span>
-                            <h3 style="margin-top: 10px; font-size: 17px;">No Open Shifts Available Right Now</h3>
-                            <p style="color: var(--text-muted); max-width: 460px; margin: 4px auto 12px;">Hotels post new shifts daily. Check back soon or browse verified partner properties below to send an open application.</p>
-                        </div>
-                    `;
-                    return;
+                if (res.ok) {
+                    currentUser.availability = val;
+                    localStorage.setItem('worqdenUser', JSON.stringify(currentUser));
                 }
-
-                container.innerHTML = jobs.map(job => {
-                    const hotelName = job.hotelName || 'Partner Hotel';
-                    const img = resolveHotelImage(job.hotelImage, hotelName);
-                    const isAlreadyApplied = appliedJobIds.has(String(job.id));
-
-                    return `
-                        <div class="hotel-featured-card">
-                            <div class="hotel-card-image-wrap">
-                                <img src="${escapeHtml(img)}" alt="${escapeHtml(hotelName)}" class="hotel-card-image" onerror="this.onerror=null; this.src='hotel-fallback.svg';">
-                                <span class="hotel-type-badge">${escapeHtml(job.category || 'Hospitality')}</span>
-                            </div>
-                            <div class="hotel-card-body">
-                                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap: 8px;">
-                                    <h3 class="hotel-card-name" style="margin-bottom: 2px;">${escapeHtml(job.title)}</h3>
-                                    ${job.salary ? `<span class="pos-tag" style="background:#ECFDF5; color:#047857; font-weight:700; border-color:#6EE7B7; white-space:nowrap;">₹${escapeHtml(job.salary)} ${escapeHtml(job.salaryType || '')}</span>` : ''}
-                                </div>
-                                <p class="hotel-card-location">🏨 ${escapeHtml(hotelName)} • 📍 ${escapeHtml(job.hotelDistrict ? job.hotelDistrict + ', ' : '')}${escapeHtml(job.hotelState || 'India')}</p>
-                                
-                                <div style="margin: 10px 0 14px 0; font-size: 13px; color: var(--text-body);">
-                                    <div><strong>Shift:</strong> ${escapeHtml(job.shift || 'Flexible')} • <strong>Date:</strong> ${escapeHtml(job.workDate || 'Immediate')}</div>
-                                    <div style="margin-top: 4px; color: var(--text-muted); font-size: 12.5px;">${escapeHtml(job.requirements || job.description || 'Punctual & enthusiastic candidates welcome.')}</div>
-                                </div>
-
-                                <div class="hotel-card-actions" style="margin-top: auto; display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-size: 12px; color: var(--text-muted);">👥 ${job.applicantsCount || 0} applied • ${job.vacancies || 1} vacancy</span>
-                                    ${isAlreadyApplied ? `
-                                        <button type="button" class="btn btn-sm" style="background: #ECFDF5; color: #047857; border: 1.5px solid #6EE7B7; font-weight: 700; cursor: default;" disabled>
-                                            ✓ Applied
-                                        </button>
-                                    ` : `
-                                        <button type="button" class="btn btn-orange btn-sm" onclick="openJobApplyModal('${job.id}')">
-                                            <span>Apply for Shift 🚀</span>
-                                        </button>
-                                    `}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            } catch (err) {
-                console.warn('Could not load candidate jobs:', err);
-                container.innerHTML = '<div class="empty-state-card" style="grid-column:1/-1;">Unable to load open shifts.</div>';
-            }
+            } catch (err) {}
         }
 
-        async function loadHotels(state = '', district = '', type = '', search = '') {
+        async function loadHotels() {
             const container = document.getElementById('hotelsGridContainer');
-            container.innerHTML = '<div class="loading-spinner-box">Finding matching hotels... ⏳</div>';
-
             try {
-                let url = `/api/hotels?`;
-                const params = new URLSearchParams();
-                if (state) params.append('state', state);
-                if (district) params.append('district', district);
-                if (search) params.append('search', search);
-
-                const res = await fetch(`/api/hotels?${params.toString()}`);
+                const res = await fetch('/api/hotels');
                 const data = await res.json();
-
-                let hotels = data.hotels || [];
-                if (type) {
-                    hotels = hotels.filter(h => (h.hotelType || '').toLowerCase().includes(type.toLowerCase()));
-                }
-
-                allHotelsList = hotels;
-                renderHotels(hotels);
+                allHotelsList = data.hotels || [];
+                renderHotels(allHotelsList.slice(0, 4));
             } catch (err) {
-                container.innerHTML = '<div class="empty-state-card">Unable to load hotels. Please check connection.</div>';
+                container.innerHTML = '<div class="empty-state-card">Unable to load hotels.</div>';
             }
         }
 
         function renderHotels(hotels) {
             const container = document.getElementById('hotelsGridContainer');
-            if (!hotels || hotels.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state-card" style="grid-column: 1/-1;">
-                        <span style="font-size: 36px;">🏨</span>
-                        <h3>No Hotels Found</h3>
-                        <p>Try broadening your district or hotel type filter to view more properties.</p>
-                    </div>
-                `;
+            if (!hotels.length) {
+                container.innerHTML = '<div class="empty-state-card" style="grid-column:1/-1;">No partner hotels currently available in this filter.</div>';
                 return;
             }
-
-            container.innerHTML = hotels.map(hotel => {
-                const hotelName = hotel.organizationName || hotel.name || 'Partner Hotel';
-                const img = resolveHotelImage(hotel.profileImage, hotelName);
-                const positions = Array.isArray(hotel.availablePositions) ? hotel.availablePositions : (typeof hotel.availablePositions === 'string' ? JSON.parse(hotel.availablePositions || '[]') : []);
-                const posTags = positions.length ? positions.slice(0, 3).map(p => `<span class="pos-tag">${escapeHtml(p)}</span>`).join('') : '<span class="pos-tag">Flexible Positions</span>';
-                const hotelTypeBadge = hotel.hotelType || hotel.organizationType || 'Hotel Partner';
-
+            container.innerHTML = hotels.map(h => {
+                const name = h.organizationName || h.name || 'Partner Hotel';
+                const img = h.profileImage || 'hotel-fallback.svg';
+                const loc = `${h.district ? h.district + ', ' : ''}${h.state || 'India'}`;
                 return `
                     <div class="hotel-featured-card">
                         <div class="hotel-card-image-wrap">
-                            <img src="${escapeHtml(img)}" alt="${escapeHtml(hotelName)}" class="hotel-card-image" onerror="this.onerror=null; this.src='hotel-fallback.svg';">
-                            <span class="hotel-type-badge">${escapeHtml(hotelTypeBadge)}</span>
+                            <img src="${escapeHtml(img)}" alt="${escapeHtml(name)}" class="hotel-card-image" onerror="this.onerror=null; this.src='hotel-fallback.svg';">
+                            <span class="hotel-type-badge">${escapeHtml(h.organizationType || 'Hotel')}</span>
                         </div>
                         <div class="hotel-card-body">
-                            <h3 class="hotel-card-name">${escapeHtml(hotelName)}</h3>
-                            <p class="hotel-card-location">📍 ${escapeHtml(hotel.district ? hotel.district + ', ' : '')}${escapeHtml(hotel.state || 'India')}</p>
-                            
-                            <div class="hotel-positions-needed">
-                                <label>Open Positions:</label>
-                                <div class="positions-pill-row">${posTags}</div>
-                            </div>
-
-                            <div class="hotel-card-actions">
-                                <a href="hotels.html" class="btn btn-outline btn-sm">Browse</a>
-                                <button type="button" class="btn btn-orange btn-sm" onclick="openSendRequestModal('${hotel.id}')">
-                                    <span>Send Request 🚀</span>
+                            <h3 class="hotel-card-name">${escapeHtml(name)}</h3>
+                            <p class="hotel-card-location">${escapeHtml(loc)}</p>
+                            <div class="hotel-card-actions" style="margin-top: 14px;">
+                                <a href="hotels.html" class="btn btn-outline btn-sm">Details</a>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="openSendRequestModal('${h.id}', '${escapeQuotes(name)}', '${escapeQuotes(loc)}', '${escapeQuotes(img)}')">
+                                    <span>Apply &rarr;</span>
                                 </button>
                             </div>
                         </div>
@@ -583,106 +609,182 @@
             }).join('');
         }
 
-        function escapeQuotes(str) {
-            return (str || '').replace(/'/g, "\\'");
+        async function loadStudentHelpers() {
+            const container = document.getElementById('studentHelpersContainer');
+            try {
+                const res = await fetch('/api/students');
+                const data = await res.json();
+                allStudentsList = data.students || data.staff || [];
+                renderStudentHelpers(allStudentsList.slice(0, 4));
+            } catch (err) {
+                container.innerHTML = '<div class="empty-state-card">Unable to load student assistants.</div>';
+            }
         }
 
-        function searchHotels() {
-            const st = document.getElementById('filterState').value;
-            const dt = document.getElementById('filterDistrict').value;
-            const tp = document.getElementById('filterHotelType').value;
-            loadHotels(st, dt, tp);
+        function renderStudentHelpers(students) {
+            const container = document.getElementById('studentHelpersContainer');
+            if (!students.length) {
+                container.innerHTML = '<div class="empty-state-card" style="grid-column:1/-1;">No student assistants currently registered in your area.</div>';
+                return;
+            }
+            container.innerHTML = students.map(s => {
+                const name = s.name || 'Student Candidate';
+                const skills = Array.isArray(s.skills) ? s.skills.slice(0, 3).map(sk => `<span class="pos-tag">${escapeHtml(sk)}</span>`).join('') : '<span class="pos-tag">Flexible Support</span>';
+                const avail = s.availability || 'Weekend Shifts';
+                return `
+                    <div class="card" style="padding:16px; border:1px solid var(--border-color); border-radius:10px; background:#FFFFFF;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div style="display:flex; gap:10px; align-items:center;">
+                                <div class="avatar-circle-sm" style="width:40px; height:40px; font-weight:700; background:#F1F5F9; color:#0F172A;">
+                                    ${escapeHtml(name.charAt(0).toUpperCase())}
+                                </div>
+                                <div>
+                                    <h4 style="margin:0; font-size:15px; color:#0F172A;">${escapeHtml(name)}</h4>
+                                    <span style="font-size:12px; color:var(--text-muted);">${escapeHtml(s.district ? s.district + ', ' : '')}${escapeHtml(s.state || 'India')}</span>
+                                </div>
+                            </div>
+                            <span class="mini-role-tag" style="background:#F8FAFC; border:1px solid var(--border-color); font-size:11px;">🎓 Student</span>
+                        </div>
+                        <div style="margin:10px 0 8px 0;">
+                            <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">Skills & Availability:</div>
+                            <div class="positions-pill-row">${skills}</div>
+                            <div style="margin-top:6px; font-size:12px; color:#059669; font-weight:600;">${escapeHtml(avail)}</div>
+                            <div style="margin-top:6px; font-size:11.5px; color:#047857; font-weight:600; display:flex; align-items:center; gap:4px; background:#ECFDF5; padding:3px 8px; border-radius:6px; border:1px solid #A7F3D0;">
+                                <span>✨</span>
+                                <span>Available for both Staff & Hotels</span>
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:10px;">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="openStudentProfileModal('${s.id}')">
+                                <span>👁️ View Profile</span>
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="openHireStudentModal('${s.id}', '${escapeQuotes(name)}')">
+                                <span>Send Application 📩</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        function filterHotelsLive() {
-            const query = document.getElementById('topSearchInput').value.toLowerCase().trim();
-            if (!allHotelsList.length) return;
-            const filtered = allHotelsList.filter(h => 
-                (h.name || '').toLowerCase().includes(query) ||
-                (h.district || '').toLowerCase().includes(query) ||
-                (h.state || '').toLowerCase().includes(query)
-            );
-            renderHotels(filtered);
+        async function loadCandidateJobs() {
+            const container = document.getElementById('candidateJobsContainer');
+            try {
+                const res = await fetch('/api/jobs');
+                const data = await res.json();
+                allJobsList = data.jobs || [];
+
+                document.getElementById('candStatOpenJobs').textContent = allJobsList.length;
+
+                if (allJobsList.length === 0) {
+                    container.innerHTML = '<div class="empty-state-card" style="grid-column:1/-1;">No active hotel shift openings posted right now. Check back soon.</div>';
+                    return;
+                }
+
+                container.innerHTML = allJobsList.slice(0, 4).map(job => {
+                    const isApplied = appliedJobIds.has(String(job.id));
+                    return `
+                        <div class="card" style="padding:16px; border:1px solid var(--border-color); border-radius:10px; background:#FFFFFF;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                <div>
+                                    <span class="pos-tag" style="font-size:11px;">${escapeHtml(job.category || 'Hospitality')}</span>
+                                    <h3 style="margin:6px 0 2px 0; font-size:16px; font-weight:700; color:#0F172A;">${escapeHtml(job.title)}</h3>
+                                    <p style="font-size:12.5px; color:var(--text-muted); margin:0;">${escapeHtml(job.hotelName || 'Partner Hotel')} • ${escapeHtml(job.hotelDistrict || 'Venue')}</p>
+                                </div>
+                            </div>
+                            <div style="margin:12px 0; padding:8px 12px; background:#F8FAFC; border-radius:6px; font-size:12.5px;">
+                                <div style="display:flex; justify-content:space-between;">
+                                    <span><strong>Pay:</strong> <span style="color:#059669; font-weight:700; font-variant-numeric:tabular-nums;">₹${escapeHtml(job.salary || 'Competitive')}</span></span>
+                                    <span><strong>Shift:</strong> ${escapeHtml(job.shift || 'Flexible')}</span>
+                                </div>
+                            </div>
+                            <button type="button" class="btn ${isApplied ? 'btn-outline' : 'btn-primary'} btn-block btn-sm" ${isApplied ? 'disabled' : ''} onclick="openJobApplyModal('${job.id}')">
+                                <span>${isApplied ? '✓ Applied' : 'Apply Now &rarr;'}</span>
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                container.innerHTML = '<div class="empty-state-card">Unable to load shift openings.</div>';
+            }
         }
 
         async function loadRecentRequests() {
             try {
-                const res = await fetch(`/api/requests?userId=${currentUser.id}`);
+                const res = await fetch('/api/requests', { headers: getAuthHeaders() });
                 const data = await res.json();
                 const tbody = document.getElementById('recentRequestsTableBody');
                 const reqs = data.requests || [];
 
-                // Track applied jobs
                 appliedJobIds = new Set(reqs.filter(r => r.jobId).map(r => String(r.jobId)));
 
-                // Calculate & update KPI statistics
-                const totalCount = reqs.length;
-                const pendingCount = reqs.filter(r => r.status === 'pending').length;
-                const acceptedCount = reqs.filter(r => r.status === 'accepted').length;
+                const outbound = reqs.filter(r => String(r.senderId) === String(currentUser.id));
+                const inbound = reqs.filter(r => String(r.receiverId) === String(currentUser.id));
+                const accepted = reqs.filter(r => r.status === 'accepted');
 
-                const totEl = document.getElementById('candStatTotalApps');
-                const pendEl = document.getElementById('candStatPendingApps');
-                const accEl = document.getElementById('candStatAcceptedApps');
-                if (totEl) totEl.textContent = totalCount;
-                if (pendEl) pendEl.textContent = pendingCount;
-                if (accEl) accEl.textContent = acceptedCount;
+                document.getElementById('candStatTotalApps').textContent = outbound.length;
+                document.getElementById('candStatInboundReqs').textContent = inbound.length;
+                document.getElementById('candStatAcceptedApps').textContent = accepted.length;
 
-                // Update badge in sidebar
+                const pendingInbound = inbound.filter(r => r.status === 'pending').length;
                 const badge = document.getElementById('pendingRequestsCountBadge');
                 if (badge) {
-                    if (pendingCount > 0) {
-                        badge.textContent = pendingCount;
+                    if (pendingInbound > 0) {
+                        badge.textContent = pendingInbound;
                         badge.style.display = 'inline-flex';
                     } else {
                         badge.style.display = 'none';
                     }
                 }
 
-                // Render table
                 if (reqs.length === 0) {
                     tbody.innerHTML = `
                         <tr>
-                            <td colspan="6" style="text-align:center; padding: 24px; color: var(--text-muted);">
-                                You haven't sent any work applications yet. Browse the open shifts or hotels above to get started!
+                            <td colspan="7" style="text-align:center; padding: 28px; color: var(--text-muted);">
+                                No applications or hiring requests recorded yet. Browse open shifts or student helpers above!
                             </td>
                         </tr>
                     `;
                 } else {
                     tbody.innerHTML = reqs.slice(0, 6).map(req => {
+                        const isCallerSender = String(req.senderId) === String(currentUser.id);
+                        const isCallerReceiver = String(req.receiverId) === String(currentUser.id);
+                        const otherName = isCallerSender ? (req.receiverName || 'Partner') : (req.senderName || 'Partner');
+                        const otherRole = isCallerSender ? (req.receiverRole || 'Contract') : (req.senderRole || 'Contract');
+                        const directionLabel = isCallerSender ? 'Outgoing' : 'Incoming';
+                        const directionStyle = isCallerSender ? 'color:#2563EB; background:#EFF6FF;' : 'color:#D97706; background:#FEF3C7;';
+
                         const status = (req.status || 'pending').toLowerCase();
                         let statusClass = 'status-pending';
-                        let statusText = '🟡 Pending';
-
-                        if (status === 'accepted') {
-                            statusClass = 'status-accepted';
-                            statusText = '🟢 Accepted';
-                        } else if (status === 'rejected') {
-                            statusClass = 'status-rejected';
-                            statusText = '🔴 Rejected';
-                        } else if (status === 'cancelled' || status === 'withdrawn') {
-                            statusClass = 'status-cancelled';
-                            statusText = '⚪ Cancelled';
-                        }
+                        let statusText = 'Pending';
+                        if (status === 'accepted') { statusClass = 'status-accepted'; statusText = 'Accepted'; }
+                        else if (status === 'rejected') { statusClass = 'status-rejected'; statusText = 'Rejected'; }
+                        else if (status === 'cancelled' || status === 'withdrawn') { statusClass = 'status-cancelled'; statusText = 'Cancelled'; }
 
                         const dateFormatted = new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
                         const isPending = status === 'pending';
 
                         return `
                             <tr>
-                                <td><strong>${req.hotelName || 'Hotel Partner'}</strong></td>
                                 <td>
-                                    <strong>${req.jobTitle || req.position || 'Staff'}</strong>
-                                    ${req.salary ? `<div style="font-size: 11.5px; color: #059669; font-weight: 600; margin-top: 2px;">₹${req.salary} • ${req.shift || 'Shift'}</div>` : ''}
+                                    <strong>${escapeHtml(otherName)}</strong>
+                                    <div style="font-size:11.5px; color:var(--text-muted); text-transform:capitalize;">${escapeHtml(otherRole)}</div>
                                 </td>
-                                <td>${req.hotelDistrict ? req.hotelDistrict + ', ' : ''}${req.hotelState || 'India'}</td>
+                                <td><span style="font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; ${directionStyle}">${directionLabel}</span></td>
+                                <td><strong>${escapeHtml(req.jobTitle || req.position || 'Staff Role')}</strong></td>
+                                <td style="color:#059669; font-weight:600; font-variant-numeric:tabular-nums;">${req.salary ? '₹' + escapeHtml(req.salary) : 'Flexible'}</td>
                                 <td>${dateFormatted}</td>
                                 <td><span class="status-pill ${statusClass}">${statusText}</span></td>
-                                <td>
-                                    <div style="display:flex; gap: 6px; align-items: center;">
-                                        <a href="requests.html?id=${req.id}" class="btn btn-outline btn-sm">View</a>
-                                        ${isPending ? `
-                                            <button type="button" class="btn btn-danger-soft btn-sm" onclick="cancelCandidateRequest('${req.id}')" title="Cancel this application">🚫 Cancel</button>
+                                <td style="text-align: right;">
+                                    <div style="display:inline-flex; gap:6px; align-items:center; justify-content:flex-end;">
+                                        ${isPending && isCallerReceiver ? `
+                                            <button type="button" class="btn btn-outline btn-sm" style="color:#059669; border-color:#059669;" onclick="updateStaffRequestStatus('${req.id}', 'accepted')">Accept</button>
+                                            <button type="button" class="btn btn-outline btn-sm" style="color:#EF4444; border-color:#EF4444;" onclick="updateStaffRequestStatus('${req.id}', 'rejected')">Decline</button>
                                         ` : ''}
+                                        ${isPending && isCallerSender ? `
+                                            <button type="button" class="btn btn-outline btn-sm" style="color:#EF4444; border-color:#EF4444;" onclick="updateStaffRequestStatus('${req.id}', 'cancelled')">Cancel</button>
+                                        ` : ''}
+                                        <a href="requests.html?id=${req.id}" class="btn btn-outline btn-sm">Details</a>
                                     </div>
                                 </td>
                             </tr>
@@ -690,33 +792,34 @@
                     }).join('');
                 }
 
-                // Always load candidate jobs after computing appliedJobIds
                 loadCandidateJobs();
             } catch (err) {
                 console.error(err);
             }
         }
 
-        async function cancelCandidateRequest(reqId) {
-            if (!confirm('Are you sure you want to cancel / withdraw this application?')) return;
+        async function updateStaffRequestStatus(reqId, newStatus) {
+            const verb = newStatus === 'cancelled' ? 'withdraw this request' : `${newStatus} this request`;
+            if (!confirm(`Are you sure you want to ${verb}?`)) return;
+
             try {
-                const res = await fetch(`/api/requests/${reqId}/cancel`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
+                const res = await fetch(`/api/requests/${reqId}/status`, {
+                    method: 'PATCH',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ status: newStatus })
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    alert('Application cancelled successfully! 🚫');
+                    alert(`Request status updated to ${newStatus}.`);
                     loadRecentRequests();
                 } else {
-                    alert(data.message || 'Failed to cancel application.');
+                    alert(data.message || 'Failed to update request.');
                 }
             } catch (err) {
-                alert('Connection error while cancelling application.');
+                alert('Connection error while updating status.');
             }
         }
 
-        // Apply specifically to a Job / Shift Opening
         function openJobApplyModal(jobId) {
             const job = allJobsList.find(j => String(j.id) === String(jobId));
             if (!job) return;
@@ -730,52 +833,23 @@
 
             const hotelName = job.hotelName || 'Partner Hotel';
             document.getElementById('modalHotelName').textContent = hotelName;
-            document.getElementById('modalHotelLocation').textContent = '📍 ' + (job.hotelDistrict ? job.hotelDistrict + ', ' : '') + (job.hotelState || 'India');
-            
-            const modalImg = document.getElementById('modalHotelImg');
-            modalImg.src = resolveHotelImage(job.hotelImage, hotelName);
-            modalImg.onerror = function() { this.onerror = null; this.src = 'hotel-fallback.svg'; };
+            document.getElementById('modalHotelLocation').textContent = (job.hotelDistrict ? job.hotelDistrict + ', ' : '') + (job.hotelState || 'India');
+            document.getElementById('modalHotelImg').src = job.hotelImage || 'hotel-fallback.svg';
 
-            // Show Job Box
             const jobBox = document.getElementById('modalJobDetailBox');
             jobBox.style.display = 'block';
             document.getElementById('modalJobTitleDisplay').textContent = job.title;
             document.getElementById('modalJobMetaDisplay').innerHTML = `
                 <div><strong>Category:</strong> ${escapeHtml(job.category)} • <strong>Shift:</strong> ${escapeHtml(job.shift || 'Flexible')}</div>
-                <div><strong>Pay:</strong> ₹${escapeHtml(job.salary || 'Competitive')} ${escapeHtml(job.salaryType || '')} • <strong>Date:</strong> ${escapeHtml(job.workDate || 'Immediate')}</div>
+                <div><strong>Pay:</strong> ₹${escapeHtml(job.salary || 'Competitive')} • <strong>Date:</strong> ${escapeHtml(job.workDate || 'Immediate')}</div>
             `;
-            document.getElementById('modalHotelRolesBox').style.display = 'none';
-
-            // Select matching position
-            const posSelect = document.getElementById('modalPositionSelect');
-            let matched = false;
-            for (let opt of posSelect.options) {
-                if (opt.value.toLowerCase() === (job.category || '').toLowerCase() || opt.value.toLowerCase() === (job.subcategory || '').toLowerCase()) {
-                    opt.selected = true;
-                    matched = true;
-                    break;
-                }
-            }
-            if (!matched) {
-                const opt = document.createElement('option');
-                opt.value = job.title;
-                opt.textContent = job.title;
-                opt.selected = true;
-                posSelect.appendChild(opt);
-            }
 
             document.getElementById('modalErrorMsg').classList.add('hidden');
             document.getElementById('modalSuccessMsg').classList.add('hidden');
             document.getElementById('sendRequestModal').classList.remove('hidden');
         }
 
-        // Send General Request to Hotel (Screen 6)
         function openSendRequestModal(hotelId, hotelName, hotelLoc, hotelImg) {
-            let hotel = allHotelsList.find(h => String(h.id) === String(hotelId));
-            const name = hotel ? (hotel.organizationName || hotel.name) : (hotelName || 'Partner Hotel');
-            const loc = hotel ? ((hotel.district ? hotel.district + ', ' : '') + (hotel.state || 'India')) : (hotelLoc || 'India');
-            const img = hotel ? resolveHotelImage(hotel.profileImage, name) : (hotelImg || resolveHotelImage('', name));
-
             document.getElementById('modalHeadingTitle').textContent = 'Send Work Application';
             document.getElementById('modalHotelId').value = hotelId;
             document.getElementById('modalJobId').value = '';
@@ -783,34 +857,10 @@
             document.getElementById('modalJobSalary').value = '';
             document.getElementById('modalJobShift').value = '';
 
-            document.getElementById('modalHotelName').textContent = name;
-            document.getElementById('modalHotelLocation').textContent = '📍 ' + loc;
-            const modalImg = document.getElementById('modalHotelImg');
-            modalImg.src = img;
-            modalImg.onerror = function() { this.onerror = null; this.src = 'hotel-fallback.svg'; };
-            
-            // Hide Job Box, show Hotel Roles Box
+            document.getElementById('modalHotelName').textContent = hotelName || 'Partner Hotel';
+            document.getElementById('modalHotelLocation').textContent = hotelLoc || 'India';
+            document.getElementById('modalHotelImg').src = hotelImg || 'hotel-fallback.svg';
             document.getElementById('modalJobDetailBox').style.display = 'none';
-            document.getElementById('modalHotelRolesBox').style.display = 'block';
-
-            // Set candidate's own position by default
-            const userSub = currentUser.subcategory || currentUser.category || 'Waiter';
-            const posSelect = document.getElementById('modalPositionSelect');
-            let matched = false;
-            for (let opt of posSelect.options) {
-                if (opt.value.toLowerCase() === userSub.toLowerCase()) {
-                    opt.selected = true;
-                    matched = true;
-                    break;
-                }
-            }
-            if (!matched && userSub) {
-                const newOpt = document.createElement('option');
-                newOpt.value = userSub;
-                newOpt.textContent = userSub;
-                newOpt.selected = true;
-                posSelect.appendChild(newOpt);
-            }
 
             document.getElementById('modalErrorMsg').classList.add('hidden');
             document.getElementById('modalSuccessMsg').classList.add('hidden');
@@ -830,6 +880,7 @@
             const shift = document.getElementById('modalJobShift').value;
             const position = document.getElementById('modalPositionSelect').value;
             const message = document.getElementById('modalMessageText').value.trim();
+
             const errBox = document.getElementById('modalErrorMsg');
             const succBox = document.getElementById('modalSuccessMsg');
             const submitBtn = document.getElementById('modalSubmitBtn');
@@ -837,57 +888,175 @@
             errBox.classList.add('hidden');
             succBox.classList.add('hidden');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Submitting Application... ⏳';
 
             try {
                 const payload = {
-                    workerId: currentUser.id,
-                    hotelId: hotelId,
+                    receiverId: hotelId,
                     position: position,
                     message: message,
-                    senderType: 'worker'
+                    jobId: jobId || undefined,
+                    jobTitle: jobTitle || undefined,
+                    salary: salary || undefined,
+                    shift: shift || undefined
                 };
-
-                if (jobId) {
-                    payload.jobId = jobId;
-                    payload.jobTitle = jobTitle;
-                    payload.salary = salary;
-                    payload.shift = shift;
-                }
 
                 const res = await fetch('/api/requests', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: getAuthHeaders(),
                     body: JSON.stringify(payload)
                 });
                 const data = await res.json();
 
                 if (res.status === 201) {
-                    succBox.textContent = 'Application submitted successfully! 🎉';
+                    succBox.textContent = 'Application submitted successfully! Redirecting...';
                     succBox.classList.remove('hidden');
                     loadRecentRequests();
                     setTimeout(() => {
                         closeSendRequestModal();
                         submitBtn.disabled = false;
-                        submitBtn.innerHTML = 'Submit Application 🚀';
-                    }, 1300);
-                } else if (res.status === 409) {
-                    errBox.textContent = data.message || 'You have already applied for this opening.';
-                    errBox.classList.remove('hidden');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Submit Application 🚀';
+                    }, 1200);
                 } else {
                     errBox.textContent = data.message || 'Failed to submit application.';
                     errBox.classList.remove('hidden');
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Submit Application 🚀';
                 }
             } catch (err) {
                 errBox.textContent = 'Connection error. Please try again.';
                 errBox.classList.remove('hidden');
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Submit Application 🚀';
             }
+        }
+
+        function openHireStudentModal(studentId, studentName) {
+            document.getElementById('hireStudentId').value = studentId;
+            document.getElementById('hireStudentTargetName').textContent = studentName;
+            document.getElementById('hireStudentError').classList.add('hidden');
+            document.getElementById('hireStudentSuccess').classList.add('hidden');
+            document.getElementById('hireStudentModal').classList.remove('hidden');
+        }
+
+        function closeHireStudentModal() {
+            document.getElementById('hireStudentModal').classList.add('hidden');
+        }
+
+        function openStudentProfileModal(studentId) {
+            const s = allStudentsList.find(cand => String(cand.id) === String(studentId));
+            if (!s) return;
+
+            const candName = s.name || 'Student Candidate';
+            const loc = `${s.district ? s.district + ', ' : ''}${s.state || 'India'}`;
+            const avail = s.availability || 'Weekend & Evening Shifts';
+            const exp = s.experience || 'Flexible Learner';
+            const about = s.about && s.about.trim() ? s.about : 'Eager student registered on WorqDen for flexible banquet, catering, and event assistance.';
+
+            document.getElementById('viewStudentName').textContent = candName;
+            document.getElementById('viewStudentLocation').textContent = '📍 ' + loc;
+            document.getElementById('viewStudentAvailability').textContent = avail;
+            document.getElementById('viewStudentExperience').textContent = exp;
+            document.getElementById('viewStudentAbout').textContent = about;
+
+            const avatarEl = document.getElementById('viewStudentAvatar');
+            if (s.profileImage && s.profileImage.trim()) {
+                avatarEl.innerHTML = `<img src="${escapeHtml(s.profileImage)}" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.src='candidate-fallback.svg';">`;
+            } else {
+                avatarEl.textContent = candName.charAt(0).toUpperCase();
+            }
+
+            const skillsContainer = document.getElementById('viewStudentSkillsList');
+            const skillsArr = Array.isArray(s.skills) ? s.skills : (typeof s.skills === 'string' ? JSON.parse(s.skills || '[]') : []);
+            if (skillsArr.length) {
+                skillsContainer.innerHTML = skillsArr.map(sk => `<span class="pos-tag">${escapeHtml(sk)}</span>`).join('');
+            } else {
+                skillsContainer.innerHTML = '<span class="pos-tag">Banquet Support</span><span class="pos-tag">Table Service</span><span class="pos-tag">Setup & Clearing</span>';
+            }
+
+            const sendBtn = document.getElementById('viewStudentSendReqBtn');
+            sendBtn.onclick = function() {
+                closeStudentProfileModal();
+                openHireStudentModal(s.id, candName);
+            };
+
+            document.getElementById('studentProfileModal').classList.remove('hidden');
+        }
+
+        function closeStudentProfileModal() {
+            document.getElementById('studentProfileModal').classList.add('hidden');
+        }
+
+        async function submitHireStudentRequest(e) {
+            e.preventDefault();
+            const studentId = document.getElementById('hireStudentId').value;
+            const position = document.getElementById('hireStudentRole').value;
+            const date = document.getElementById('hireStudentDate').value;
+            const shift = document.getElementById('hireStudentShift').value;
+            const salary = document.getElementById('hireStudentRate').value;
+            const message = document.getElementById('hireStudentMessage').value.trim();
+
+            const errBox = document.getElementById('hireStudentError');
+            const succBox = document.getElementById('hireStudentSuccess');
+            const submitBtn = document.getElementById('hireStudentSubmitBtn');
+
+            errBox.classList.add('hidden');
+            succBox.classList.add('hidden');
+            submitBtn.disabled = true;
+
+            try {
+                const payload = {
+                    receiverId: studentId,
+                    position: position,
+                    date: date,
+                    shift: shift,
+                    salary: salary,
+                    message: message
+                };
+
+                const res = await fetch('/api/requests', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (res.status === 201) {
+                    succBox.textContent = 'Hiring request sent successfully!';
+                    succBox.classList.remove('hidden');
+                    loadRecentRequests();
+                    setTimeout(() => {
+                        closeHireStudentModal();
+                        submitBtn.disabled = false;
+                    }, 1200);
+                } else {
+                    errBox.textContent = data.message || 'Failed to send request.';
+                    errBox.classList.remove('hidden');
+                    submitBtn.disabled = false;
+                }
+            } catch (err) {
+                errBox.textContent = 'Connection error. Please try again.';
+                errBox.classList.remove('hidden');
+                submitBtn.disabled = false;
+            }
+        }
+
+        function filterStaffDashboardLive() {
+            const q = document.getElementById('topSearchInput').value.toLowerCase().trim();
+            if (!q) {
+                renderHotels(allHotelsList.slice(0, 4));
+                renderStudentHelpers(allStudentsList.slice(0, 4));
+                return;
+            }
+            const filteredHotels = allHotelsList.filter(h => (h.name || '').toLowerCase().includes(q) || (h.district || '').toLowerCase().includes(q));
+            renderHotels(filteredHotels);
+            const filteredStudents = allStudentsList.filter(s => (s.name || '').toLowerCase().includes(q) || (s.skills && JSON.stringify(s.skills).toLowerCase().includes(q)));
+            renderStudentHelpers(filteredStudents);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        function escapeQuotes(str) {
+            return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
         }
 
         function handleLogout() {
